@@ -1,6 +1,8 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +17,14 @@ public class Configuracion extends AppCompatActivity {
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_configuracion);
-        toolbar.setBackgroundColor((Color.parseColor("#ffffff")));
+        toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setTitle("Configuración");
+            final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+            flechaAtras.setColorFilter(getResources().getColor(R.color.blanco), PorterDuff.Mode.SRC_ATOP);
+            getSupportActionBar().setHomeAsUpIndicator(flechaAtras);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
