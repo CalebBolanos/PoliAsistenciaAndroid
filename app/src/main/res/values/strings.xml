@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">PoliAsistenciaAndroid</string>
+    <string name="tituloLogin">PoliAsistencia</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="title_activity_inicio_alumno">InicioAlumno</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_prueba">prueba</string>
+    <string name="navegacion_inicio">Inicio</string>
+    <string name="navegacion_horario">Horario</string>
+    <string name="navegacion_estadisticas">Estadísticas</string>
+    <string name="navegacion_notificaciones">Notificaciones</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="configuracion">Configuración</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_configuracion">Configuracion</string>
+
+</resources>
