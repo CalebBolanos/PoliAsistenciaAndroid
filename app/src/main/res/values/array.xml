@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_info">
+        <item>Nombre Completo</item>
+        <item>Boleta</item>
+        <item>Fecha de Nacimiento</item>
+        <item>Correo Electrónico</item>
+        <item>Contraseña</item>
+    </string-array>
+</resources>

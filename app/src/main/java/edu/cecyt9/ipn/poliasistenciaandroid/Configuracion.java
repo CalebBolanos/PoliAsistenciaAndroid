@@ -7,14 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class Configuracion extends AppCompatActivity {
 
+    ListView lista;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_configuracion);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
@@ -28,6 +30,10 @@ public class Configuracion extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        lista = findViewById(R.id.listview_info);
+        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.array_info, android.R.layout.simple_list_item_1);
+        lista.setAdapter(adaptador);
 
     }
 
