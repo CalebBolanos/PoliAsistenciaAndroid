@@ -1,4 +1,4 @@
-package edu.cecyt9.ipn.poliasistenciaandroid;
+package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
 public class Configuracion extends AppCompatActivity {
 

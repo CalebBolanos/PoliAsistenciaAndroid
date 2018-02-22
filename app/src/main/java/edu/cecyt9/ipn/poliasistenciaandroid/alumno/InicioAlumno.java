@@ -1,4 +1,4 @@
-package edu.cecyt9.ipn.poliasistenciaandroid;
+package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -13,6 +13,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.Configuracion;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentEstadisticasAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentHorarioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentInicioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentNotificacionesAlumno;
 
 public class InicioAlumno extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentInicioAlumno.OnFragmentInteractionListener,
