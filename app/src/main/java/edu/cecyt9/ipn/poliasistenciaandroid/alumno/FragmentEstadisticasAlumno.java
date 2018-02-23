@@ -7,6 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
@@ -24,6 +30,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ListView listaMeses;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +73,26 @@ public class FragmentEstadisticasAlumno extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
+
+        View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
+        listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
+
+        ArrayList<String> arrayMeses = new ArrayList<>();
+        for(int i = 1; i<=12; i++){
+            arrayMeses.add("Mes" + i);
+        }
+
+        ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayMeses);
+        listaMeses.setAdapter(adaptador);
+        setListViewHeightBasedOnChildren(listaMeses);
+        listaMeses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+        return vistaEstadisticas;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,5 +132,26 @@ public class FragmentEstadisticasAlumno extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

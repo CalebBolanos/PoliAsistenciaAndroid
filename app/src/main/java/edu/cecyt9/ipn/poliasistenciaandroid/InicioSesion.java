@@ -42,16 +42,19 @@ public class InicioSesion extends AppCompatActivity {
                     Intent inicioAlumno = new Intent(this, InicioAlumno.class);
                     inicioAlumno.putExtra("usuario", usr);
                     startActivity(inicioAlumno);
+                    finish();
                     break;
                 case "profesor":
                     Intent inicioProfesor = new Intent(this, InicioAlumno.class);
                     inicioProfesor.putExtra("usuario", usr);
                     startActivity(inicioProfesor);
+                    finish();
                     break;
                 case "jefe":
                     Intent inicioJefe = new Intent(this, InicioAlumno.class);
                     inicioJefe.putExtra("usuario", usr);
                     startActivity(inicioJefe);
+                    finish();
                     break;
                 default:
                     mensaje.setText("Usario o contraseña incorrecta");
