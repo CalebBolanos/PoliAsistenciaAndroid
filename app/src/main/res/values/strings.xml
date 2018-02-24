@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PoliAsistenciaAndroid</string>
+    <string name="app_name">PoliAsistencia</string>
     <string name="tituloLogin">PoliAsistencia</string>
     <string name="contrasena">Contraseña</string>
     <string name="title_activity_inicio_alumno">InicioAlumno</string>
