@@ -19,25 +19,74 @@
 
 
             <TableLayout
-                android:id="@+id/tabla_horario_alumno"
+                android:id="@+id/tablelayout_horario_alumno"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                >
 
                 <TableRow
-                    android:id="@+id/columna_horario_uno_alumno"
+                    android:id="@+id/tablerow_titulo_horario_alumno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark">
+                    android:weightSum="1"
+                    android:elevation="2dp">
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/txt_horario_alumno_horas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Prueba xd"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:gravity="center"
+                        android:layout_weight="0.19"
+                        android:padding="3dip"
+                        android:text="@string/hora" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_lunes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.16"
+                        android:padding="3dip"
+                        android:text="@string/lunes" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_martes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.16"
+                        android:padding="3dip"
+                        android:text="@string/martes" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_miercoles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.16"
+                        android:padding="3dip"
+                        android:text="@string/miercoles" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_jueves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.16"
+                        android:padding="3dip"
+                        android:text="@string/jueves" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_viernes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.16"
+                        android:padding="3dip"
+                        android:text="@string/viernes" />
 
                 </TableRow>
 
