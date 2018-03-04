@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/color_gradiente"
-    android:theme="@style/Transparente"
+    android:background="@color/blanco"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion">
 
     <android.support.constraint.ConstraintLayout
@@ -27,8 +26,8 @@
             android:layout_marginBottom="7dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Poli"
-            android:textColor="@android:color/background_light"
+            android:text="@string/poli"
+            android:textColor="@color/azul"
             android:textSize="60sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,68 +37,57 @@
             android:id="@+id/tit_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asistencia"
+            android:text="@string/asistencia"
             android:textAllCaps="false"
-            android:textColor="@android:color/background_light"
+            android:textColor="@color/azulMas"
             android:textSize="65sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/tit_1"
             app:layout_constraintStart_toEndOf="@+id/tit_1" />
     </android.support.constraint.ConstraintLayout>
 
-
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="350dp"
+        android:id="@+id/txtInputLayout_usuario"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="44dp"
-        android:theme="@style/login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <EditText
-            android:id="@+id/usuario"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:foregroundTint="@android:color/background_light"
-            android:hint="Usuario"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/background_light"
-            android:textColorHighlight="@android:color/background_light"
-            android:textColorHint="@android:color/background_light"
-            android:textColorLink="@android:color/background_light"
-            android:theme="@style/login"
-            tools:layout_editor_absoluteX="86dp"
-            tools:layout_editor_absoluteY="297dp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="350dp"
-        android:layout_height="54dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:theme="@style/login"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+        >
 
         <EditText
-            android:id="@+id/contrasena"
+            android:id="@+id/txt_usuario"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:hint="@string/contrasena"
-            android:inputType="textPassword"
-            android:textColor="@android:color/background_light"
-            android:theme="@style/login"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="386dp" />
+            android:layout_height="50dp"
+            android:hint="@string/usuario"
+            android:textSize="18sp"
+            android:theme="@style/azul" />
     </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtInputLayout_contrasena"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_usuario"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+        <EditText
+            android:id="@+id/txt_contrasena"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/contrasena"
+            android:theme="@style/azul"/>
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button
         android:id="@+id/ingresar"
@@ -108,14 +96,15 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:onClick="iniciarSesion"
-        android:text="Ingresar"
-        android:textColor="@color/colorPrimaryDark"
-        android:theme="@style/StyleBotonLogin"
+        android:text="@string/ingresar"
+        android:textColor="@color/blanco"
+        android:background="@drawable/color_gradiente"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_contrasena" />
 
     <TextView
         android:id="@+id/mensaje"
@@ -123,10 +112,10 @@
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/ingresar" />
 
 
 </android.support.constraint.ConstraintLayout>

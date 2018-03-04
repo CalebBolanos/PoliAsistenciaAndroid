@@ -2,6 +2,8 @@ package edu.cecyt9.ipn.poliasistenciaandroid;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +22,8 @@ public class InicioSesion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
-        usuario = findViewById(R.id.usuario);
-        contrasena = findViewById(R.id.contrasena);
+        usuario = findViewById(R.id.txt_usuario);
+        contrasena = findViewById(R.id.txt_contrasena);
         ingresar = findViewById(R.id.ingresar);
         mensaje = findViewById(R.id.mensaje);
         Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
@@ -29,6 +31,11 @@ public class InicioSesion extends AppCompatActivity {
         TextView titulo2 = findViewById(R.id.tit_2);
         titulo.setTypeface(calibri);
         titulo2.setTypeface(calibri, Typeface.BOLD);
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            //getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.blanco));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.blanco));
+        }
     }
 
     public void iniciarSesion(View view) {

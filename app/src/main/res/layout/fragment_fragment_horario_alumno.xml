@@ -243,7 +243,919 @@
 
                 </TableRow>
 
+                <TableRow
+                    android:id="@+id/tablerow_9_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_9_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v9"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_10_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_10_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v10"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_11_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_11_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v11"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_12_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_12_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v12"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_13_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_13_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v13"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_14_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_14_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v14"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_15_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_15_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v15"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_16_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_16_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v16"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_17_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_17_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v17"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_18_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_18_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v18"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_19_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_19_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v19"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_20_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_20_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v20"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tablerow_21_horario_alumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_hora21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.19"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="@string/_21_00" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_l21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_m21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_mi21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_j21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_horario_alumno_v21"
+                        android:layout_height="70dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="0.16"
+                        android:background="@color/blanco"
+                        android:gravity="center"
+                        android:padding="3dip"
+                        android:text="" />
+
+
+                </TableRow>
+
             </TableLayout>
+
+
         </android.support.constraint.ConstraintLayout>
 
 

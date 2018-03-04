@@ -6,4 +6,6 @@
     <color name="blanco">#ffffff</color>
     <color name="negro">#000000</color>
     <color name="gris">#cacaca</color>
+    <color name="azul">#00b0ff</color>
+    <color name="azulMas">#0091ea</color>
 </resources>
