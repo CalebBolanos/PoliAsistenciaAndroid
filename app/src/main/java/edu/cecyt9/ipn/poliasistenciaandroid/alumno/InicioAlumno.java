@@ -48,6 +48,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         final Drawable drwmenu = getResources().getDrawable(R.drawable.ic_menu_black_24dp);
         drwmenu.setColorFilter(getResources().getColor(R.color.blanco), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHideOnContentScrollEnabled(false);
         toolbarInicio.setNavigationIcon(drwmenu);
 
 
