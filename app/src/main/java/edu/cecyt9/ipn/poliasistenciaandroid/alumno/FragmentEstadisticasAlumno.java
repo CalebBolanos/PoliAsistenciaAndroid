@@ -1,6 +1,7 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
 
 /**
@@ -89,6 +91,16 @@ public class FragmentEstadisticasAlumno extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String seleccionado = listaMeses.getItemAtPosition(i).toString();
+                switch (seleccionado){
+                    case "":
+
+                        break;
+                    default:
+                        Intent graficas = new Intent(getActivity(), AsistenciaPorMesAlumno.class);
+                        startActivity(graficas);
+                        break;
+                }
 
             }
         });
