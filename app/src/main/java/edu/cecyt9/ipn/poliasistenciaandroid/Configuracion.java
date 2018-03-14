@@ -46,8 +46,8 @@ public class Configuracion extends AppCompatActivity {
                 String seleccionado = adapterView.getItemAtPosition(i).toString();
                 switch (seleccionado){
                     case "Cambiar correo electrónico":
-                        //Intent correo = new Intent(this, CambiarCorreo.class);
-                        //startActivity(correo);
+                        Intent cambioCorreo = new Intent(Configuracion.this, CambiarCorreo.class);
+                        startActivity(cambioCorreo);
                         break;
                     case "Cambiar contraseña":
                         Intent cambioContrasena = new Intent(Configuracion.this, CambiarContrasena.class);

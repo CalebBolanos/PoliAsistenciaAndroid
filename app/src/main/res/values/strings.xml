@@ -50,5 +50,7 @@
     <string name="contrasena_actual">Contraseña actual</string>
     <string name="cambiar_contrasena">Cambiar Contraseña</string>
     <string name="vuelve_a_escribir_tu_nueva_contrasena">Vuelve a escribir tu nueva Contraseña</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="correo_electonico">Correo Electónico</string>
 
 </resources>

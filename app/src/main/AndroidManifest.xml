@@ -20,7 +20,8 @@
             android:name=".alumno.InicioAlumno"
             android:label="@string/title_activity_inicio_alumno" />
         <activity android:name=".Configuracion" />
-        <activity android:name=".CambiarContrasena"></activity>
+        <activity android:name=".CambiarContrasena" />
+        <activity android:name=".CambiarCorreo"></activity>
     </application>
 
 </manifest>
