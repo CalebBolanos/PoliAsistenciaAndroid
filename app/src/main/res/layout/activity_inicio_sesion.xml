@@ -52,12 +52,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="52dp"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <EditText
             android:id="@+id/txt_usuario"
@@ -87,6 +86,7 @@
             android:layout_height="50dp"
             android:hint="@string/contrasena"
             android:singleLine="true"
+            android:inputType="textPassword"
             android:theme="@style/azul" />
     </android.support.design.widget.TextInputLayout>
 

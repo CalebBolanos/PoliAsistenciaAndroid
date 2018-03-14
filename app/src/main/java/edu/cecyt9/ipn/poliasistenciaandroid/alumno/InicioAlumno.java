@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
+import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
 
@@ -50,6 +52,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHideOnContentScrollEnabled(false);
         toolbarInicio.setNavigationIcon(drwmenu);
+        getSupportActionBar().setHideOnContentScrollEnabled(false);
 
 
         inicio = new FragmentInicioAlumno();
@@ -110,7 +113,9 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
             Intent configuracion = new Intent(this, Configuracion.class);
             startActivity(configuracion);
         } else if (id == R.id.cerrarsesion) {
-
+            Intent iniciarSesion = new Intent(this, InicioSesion.class);
+            startActivity(iniciarSesion);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.container);

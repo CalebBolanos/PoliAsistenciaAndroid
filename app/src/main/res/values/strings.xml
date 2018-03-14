@@ -46,5 +46,9 @@
     <string name="poli">Poli</string>
     <string name="asistencia">Asistencia</string>
     <string name="ingresar">Ingresar</string>
+    <string name="nueva_contrasena">Nueva contraseña</string>
+    <string name="contrasena_actual">Contraseña actual</string>
+    <string name="cambiar_contrasena">Cambiar Contraseña</string>
+    <string name="vuelve_a_escribir_tu_nueva_contrasena">Vuelve a escribir tu nueva Contraseña</string>
 
 </resources>
