@@ -27,7 +27,7 @@ public class InicioSesion extends AppCompatActivity {
         ingresar = findViewById(R.id.ingresar);
         mensaje = findViewById(R.id.mensaje);
         Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
-        TextView titulo = (TextView)findViewById(R.id.tit_1);
+        TextView titulo = findViewById(R.id.tit_1);
         TextView titulo2 = findViewById(R.id.tit_2);
         titulo.setTypeface(calibri);
         titulo2.setTypeface(calibri, Typeface.BOLD);
@@ -64,7 +64,7 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
                 default:
-                    mensaje.setText("Usario o contraseña incorrecta");
+                    mensaje.setText("Usuario o contraseña incorrecta");
                     break;
 
             }

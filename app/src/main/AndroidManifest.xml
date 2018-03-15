@@ -25,7 +25,8 @@
         <activity android:name=".CambiarContrasena" />
         <activity android:name=".CambiarCorreo" />
         <activity android:name=".WebViewNotificaciones" />
-        <activity android:name=".alumno.AsistenciaPorMesAlumno"></activity>
+        <activity android:name=".alumno.AsistenciaPorMesAlumno" />
+        <activity android:name=".profesor.InicioProfesor"></activity>
     </application>
 
 </manifest>
