@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -50,6 +51,10 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
 
         BarData valoresGrafica = new BarData(asistencia);
         graficaBarra.setData(valoresGrafica);
+        graficaBarra.setFitBars(true);
+        graficaBarra.setDrawValueAboveBar(true);
+        graficaBarra.getXAxis().setEnabled(false);
+        graficaBarra.animateY(2000, Easing.EasingOption.EaseOutBack);
 
 
 
