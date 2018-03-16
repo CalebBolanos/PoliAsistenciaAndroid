@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,8 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
         valoresAsistencia.add(new BarEntry(0f, 5f));
         valoresAsistencia.add(new BarEntry(1f, 7f));
         BarDataSet asistencia = new BarDataSet(valoresAsistencia, "Días");
+        int color = R.color.azul;
+        asistencia.setColors(ColorTemplate.COLORFUL_COLORS);
 
         ArrayList<String> titulos = new ArrayList<>();
         titulos.add("Asistido");
@@ -54,7 +58,8 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
         graficaBarra.setFitBars(true);
         graficaBarra.setDrawValueAboveBar(true);
         graficaBarra.getXAxis().setEnabled(false);
-        graficaBarra.animateY(2000, Easing.EasingOption.EaseOutBack);
+        graficaBarra.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        graficaBarra.getDescription().setText("");
 
 
 
