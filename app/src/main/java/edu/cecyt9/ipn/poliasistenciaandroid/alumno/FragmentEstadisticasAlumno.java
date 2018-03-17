@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import java.util.ArrayList;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
@@ -33,6 +35,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ListView listaMeses;
+    LineChart graficaGeneral;
 
     // TODO: Rename and change types of parameters
     private String mParam1;

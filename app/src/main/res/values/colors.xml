@@ -8,4 +8,6 @@
     <color name="gris">#cacaca</color>
     <color name="azul">#00b0ff</color>
     <color name="azulMas">#0091ea</color>
+    <color name="azulGrafica">#00b0cc</color>
+    <color name="rojoGrafica">#ff0000</color>
 </resources>

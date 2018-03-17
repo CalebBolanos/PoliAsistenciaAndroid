@@ -1,9 +1,9 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +14,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,25 +40,7 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        graficaBarra = findViewById(R.id.grafica_barra_asistencia_mes_alumno);
-        List<BarEntry> valoresAsistencia = new ArrayList<>();
-        valoresAsistencia.add(new BarEntry(0f, 5f));
-        valoresAsistencia.add(new BarEntry(1f, 7f));
-        BarDataSet asistencia = new BarDataSet(valoresAsistencia, "Días");
-        int color = R.color.azul;
-        asistencia.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        ArrayList<String> titulos = new ArrayList<>();
-        titulos.add("Asistido");
-        titulos.add("No Asistidos");
-
-        BarData valoresGrafica = new BarData(asistencia);
-        graficaBarra.setData(valoresGrafica);
-        graficaBarra.setFitBars(true);
-        graficaBarra.setDrawValueAboveBar(true);
-        graficaBarra.getXAxis().setEnabled(false);
-        graficaBarra.animateY(1500, Easing.EasingOption.EaseInOutExpo);
-        graficaBarra.getDescription().setText("");
+        crearGrafica();
 
 
 
@@ -71,5 +52,26 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void crearGrafica(){
+        graficaBarra = findViewById(R.id.grafica_barra_asistencia_mes_alumno);
+        List<BarEntry> valoresAsistencia = new ArrayList<>();
+        valoresAsistencia.add(new BarEntry(0f, 4f, "Asistido"));
+        valoresAsistencia.add(new BarEntry(1f, 4f, "Faltado"));
+        BarDataSet asistencia = new BarDataSet(valoresAsistencia, "Días");
+        ArrayList<Integer> colores = new ArrayList<Integer>();
+        colores.add(ContextCompat.getColor(this, R.color.azul));
+        colores.add(ContextCompat.getColor(this, R.color.rojoGrafica));
+        asistencia.setColors(colores);
+
+        BarData valoresGrafica = new BarData(asistencia);
+        graficaBarra.setData(valoresGrafica);
+        graficaBarra.setFitBars(true);
+        graficaBarra.setDrawValueAboveBar(true);
+        graficaBarra.getXAxis().setEnabled(false);
+        graficaBarra.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        graficaBarra.getDescription().setText("");
+        graficaBarra.setTouchEnabled(false);
     }
 }
