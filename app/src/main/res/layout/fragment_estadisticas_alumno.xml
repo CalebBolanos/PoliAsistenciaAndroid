@@ -37,7 +37,7 @@
                     android:layout_height="match_parent">
 
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/grafica_linechart_asistencia_ndividual"
+                        android:id="@+id/grafica_linechart_asistencia_individual"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 

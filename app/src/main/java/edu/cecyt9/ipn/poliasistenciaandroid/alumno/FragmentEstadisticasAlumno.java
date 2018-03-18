@@ -14,8 +14,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
@@ -81,6 +86,22 @@ public class FragmentEstadisticasAlumno extends Fragment {
 
         View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
         listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
+        graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
+
+        String meses[] = new String[3];
+        meses[0] = "Enero";
+        meses[1] = "Febrero";
+        meses[2] = "Marzo";
+
+
+        ArrayList<Entry> dias = new ArrayList<>();
+        dias.add(new Entry(0f, 0f));
+        dias.add(new Entry(1f, 1f));
+        dias.add(new Entry(2f, 0f));
+
+        LineDataSet datos = new LineDataSet(dias, "Dias");
+
+        graficaGeneral.setData(new LineData(datos));
 
         ArrayList<String> arrayMeses = new ArrayList<>();
         for(int i = 1; i<=12; i++){
