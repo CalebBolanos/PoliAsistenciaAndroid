@@ -4,9 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
@@ -30,6 +39,8 @@ public class FragmentInicioAlumno extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    LineChart grafica;
 
     public FragmentInicioAlumno() {
         // Required empty public constructor
@@ -66,7 +77,10 @@ public class FragmentInicioAlumno extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
+        View vistaInicio = inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
+        grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
+        generarGrafica();
+        return vistaInicio;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,5 +120,34 @@ public class FragmentInicioAlumno extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void generarGrafica(){
+        ArrayList<String> meses = new ArrayList<>();
+        meses.add("Meses");
+        meses.add("Enero");
+        meses.add("Febrero");
+        meses.add("Marzo");
+
+
+        ArrayList<Entry> dias = new ArrayList<>();
+        dias.add(new Entry(0f, 0f));
+        dias.add(new Entry(1f, 0f));
+        dias.add(new Entry(2f, 1f));
+        dias.add(new Entry(3f, 0f));
+
+        LineDataSet datos = new LineDataSet(dias, "Dias");
+        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setDrawFilled(true);
+        datos.setLineWidth(3f);
+        datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleRadius(5f);
+        LineData todo = new LineData(datos);
+        grafica.setData(todo);
+        grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        grafica.setTouchEnabled(false);
+        grafica.getXAxis().setEnabled(false);
     }
 }

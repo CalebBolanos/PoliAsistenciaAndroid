@@ -64,7 +64,8 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
         colores[0] = ContextCompat.getColor(this, R.color.azul);
         colores[1] = ContextCompat.getColor(this, R.color.rojoGrafica);
         asistencia.setColors(colores, 150);
-        asistencia.setFormLineWidth(5f);
+        asistencia.setBarBorderWidth(3f);
+        asistencia.setBarBorderColor(Color.WHITE);
 
         BarData valoresGrafica = new BarData(asistencia);
         graficaBarra.setData(valoresGrafica);

@@ -90,34 +90,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
         View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
         listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
-
-        ArrayList<String> meses = new ArrayList<>();
-        meses.add("Meses");
-        meses.add("Enero");
-        meses.add("Febrero");
-        meses.add("Marzo");
-
-
-        ArrayList<Entry> dias = new ArrayList<>();
-        dias.add(new Entry(0f, 0f));
-        dias.add(new Entry(1f, 0f));
-        dias.add(new Entry(2f, 1f));
-        dias.add(new Entry(3f, 0f));
-
-        LineDataSet datos = new LineDataSet(dias, "Dias");
-        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setDrawFilled(true);
-        datos.setLineWidth(3f);
-        datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setCircleRadius(5f);
-        LineData todo = new LineData(datos);
-        graficaGeneral.setData(todo);
-        graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
-        graficaGeneral.setTouchEnabled(false);
-        graficaGeneral.getXAxis().setEnabled(false);
-
+        generarGrafica();
         ArrayList<String> arrayMeses = new ArrayList<>();
         for(int i = 1; i<=12; i++){
             arrayMeses.add("Mes" + i);
@@ -204,5 +177,34 @@ public class FragmentEstadisticasAlumno extends Fragment {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    public void generarGrafica(){
+        ArrayList<String> meses = new ArrayList<>();
+        meses.add("Meses");
+        meses.add("Enero");
+        meses.add("Febrero");
+        meses.add("Marzo");
+
+
+        ArrayList<Entry> dias = new ArrayList<>();
+        dias.add(new Entry(0f, 0f));
+        dias.add(new Entry(1f, 0f));
+        dias.add(new Entry(2f, 1f));
+        dias.add(new Entry(3f, 0f));
+
+        LineDataSet datos = new LineDataSet(dias, "Dias");
+        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setDrawFilled(true);
+        datos.setLineWidth(3f);
+        datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleRadius(5f);
+        LineData todo = new LineData(datos);
+        graficaGeneral.setData(todo);
+        graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        graficaGeneral.setTouchEnabled(false);
+        graficaGeneral.getXAxis().setEnabled(false);
     }
 }
