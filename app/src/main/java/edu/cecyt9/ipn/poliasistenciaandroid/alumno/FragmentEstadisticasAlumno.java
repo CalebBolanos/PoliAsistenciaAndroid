@@ -2,9 +2,11 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -88,20 +91,32 @@ public class FragmentEstadisticasAlumno extends Fragment {
         listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
 
-        String meses[] = new String[3];
-        meses[0] = "Enero";
-        meses[1] = "Febrero";
-        meses[2] = "Marzo";
+        ArrayList<String> meses = new ArrayList<>();
+        meses.add("Meses");
+        meses.add("Enero");
+        meses.add("Febrero");
+        meses.add("Marzo");
 
 
         ArrayList<Entry> dias = new ArrayList<>();
         dias.add(new Entry(0f, 0f));
-        dias.add(new Entry(1f, 1f));
-        dias.add(new Entry(2f, 0f));
+        dias.add(new Entry(1f, 0f));
+        dias.add(new Entry(2f, 1f));
+        dias.add(new Entry(3f, 0f));
 
         LineDataSet datos = new LineDataSet(dias, "Dias");
-
-        graficaGeneral.setData(new LineData(datos));
+        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setDrawFilled(true);
+        datos.setLineWidth(3f);
+        datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
+        datos.setCircleRadius(5f);
+        LineData todo = new LineData(datos);
+        graficaGeneral.setData(todo);
+        graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        graficaGeneral.setTouchEnabled(false);
+        graficaGeneral.getXAxis().setEnabled(false);
 
         ArrayList<String> arrayMeses = new ArrayList<>();
         for(int i = 1; i<=12; i++){

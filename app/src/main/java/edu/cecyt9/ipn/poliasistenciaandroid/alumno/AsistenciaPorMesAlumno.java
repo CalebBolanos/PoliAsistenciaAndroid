@@ -60,10 +60,11 @@ public class AsistenciaPorMesAlumno extends AppCompatActivity {
         valoresAsistencia.add(new BarEntry(0f, 4f, "Asistido"));
         valoresAsistencia.add(new BarEntry(1f, 4f, "Faltado"));
         BarDataSet asistencia = new BarDataSet(valoresAsistencia, "Días");
-        ArrayList<Integer> colores = new ArrayList<Integer>();
-        colores.add(ContextCompat.getColor(this, R.color.azul));
-        colores.add(ContextCompat.getColor(this, R.color.rojoGrafica));
-        asistencia.setColors(colores);
+        int colores[] = new int[2];
+        colores[0] = ContextCompat.getColor(this, R.color.azul);
+        colores[1] = ContextCompat.getColor(this, R.color.rojoGrafica);
+        asistencia.setColors(colores, 150);
+        asistencia.setFormLineWidth(5f);
 
         BarData valoresGrafica = new BarData(asistencia);
         graficaBarra.setData(valoresGrafica);
