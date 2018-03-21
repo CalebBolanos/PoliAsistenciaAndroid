@@ -80,7 +80,11 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out);
             switch (item.getItemId()) {
                 case R.id.navigation_inicio:
                     transaccion.replace(R.id.contenedorFragment, inicio);
