@@ -149,5 +149,6 @@ public class FragmentInicioAlumno extends Fragment {
         grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         grafica.setTouchEnabled(false);
         grafica.getXAxis().setEnabled(false);
+        grafica.getDescription().setText("");
     }
 }

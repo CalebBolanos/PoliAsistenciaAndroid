@@ -30,7 +30,7 @@ public class WebViewNotificaciones extends AppCompatActivity {
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setTitle("Notificacion");
-            final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+            final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_close_black_24dp);
             getSupportActionBar().setHomeAsUpIndicator(flechaAtras);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);

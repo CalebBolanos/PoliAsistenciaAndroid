@@ -206,5 +206,6 @@ public class FragmentEstadisticasAlumno extends Fragment {
         graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         graficaGeneral.setTouchEnabled(false);
         graficaGeneral.getXAxis().setEnabled(false);
+        graficaGeneral.getDescription().setText("");
     }
 }
