@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 public class InicioSesion extends AppCompatActivity {
     EditText usuario, contrasena;
@@ -52,7 +53,7 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
                 case "profesor":
-                    Intent inicioProfesor = new Intent(this, InicioAlumno.class);
+                    Intent inicioProfesor = new Intent(this, InicioProfesor.class);
                     inicioProfesor.putExtra("usuario", usr);
                     startActivity(inicioProfesor);
                     finish();

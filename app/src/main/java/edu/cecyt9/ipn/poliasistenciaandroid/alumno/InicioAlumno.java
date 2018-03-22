@@ -28,7 +28,6 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         FragmentEstadisticasAlumno.OnFragmentInteractionListener,
         FragmentNotificacionesAlumno.OnFragmentInteractionListener{
 
-    private TextView mTextMessage;
     private NavigationView navegador;
     FragmentInicioAlumno inicio;
     FragmentHorarioAlumno horario;
