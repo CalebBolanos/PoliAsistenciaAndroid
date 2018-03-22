@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -7,13 +8,21 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+
+import java.io.InputStream;
 
 public class Configuracion extends AppCompatActivity {
 
@@ -60,12 +69,67 @@ public class Configuracion extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.boton_izquierdo, menu);
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            switch (requestCode){
+                case 1:
+                    if(data == null){
+
+                    }
+
+                    //InputStream input = getContex
+                    break;
+            }
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_foto:
+                View boton = findViewById(R.id.action_foto);
+                PopupMenu pop = new PopupMenu(Configuracion.this, boton);
+                pop.getMenuInflater().inflate(R.menu.popup_foto, pop.getMenu());
+                pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.tomar_foto:
+                                Intent camara = new Intent("android.media.action.IMAGE_CAPTURE");
+                                startActivity(camara);
+                                break;
+                            case R.id.escoger:
+                                Intent foto = new Intent(Intent.ACTION_GET_CONTENT);
+                                foto.setType("image/*");
+                                startActivityForResult(Intent.createChooser(foto, "Selecciona una imagen"), 1);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                pop.show();
+            break;
+        }
+
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -88,4 +152,6 @@ public class Configuracion extends AppCompatActivity {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+
+
 }
