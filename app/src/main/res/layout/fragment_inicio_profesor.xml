@@ -2,12 +2,318 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="?attr/actionBarSize"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.profesor.FragmentInicioProfesor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scroll_inicio_profesor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        tools:layout_editor_absoluteY="15dp"
+
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_inicio_profesor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_grafica_profesor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/const_titulo_estadisticas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/txt_estaditica"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/ic_insert_chart_gray_24dp"
+                        android:drawablePadding="5dp"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/navegacion_estadisticas"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txt_tit_est"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Asistencia Individual"
+                        android:textColor="@color/negro"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_estaditica" />
+
+                    <TextView
+                        android:id="@+id/txt_descripcion_estadistica"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Dias asistidos en total:1"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_tit_est" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/grafica_linechart_asistencia_inicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_descripcion_estadistica" />
+
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_horario_profesor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_grafica_profesor">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/const_horario_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_horario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/ic_date_range_gray_24dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/navegacion_horario"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txt_tit_horario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Grupos de hoy"
+                        android:textColor="@color/negro"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_horario" />
+
+                    <TextView
+                        android:id="@+id/txt_descripcion_horario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Descripcion xd"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_tit_horario" />
+
+                    <TableLayout
+                        android:id="@+id/tablelayout_horario_dia"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_descripcion_horario">
+
+                        <TableRow
+                            android:id="@+id/tablerow_titulo_asistencia_profesores"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:id="@+id/txt_asistencia_profesores_grupo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_weight="0.33"
+                                android:background="@color/blanco"
+                                android:gravity="center"
+                                android:padding="3dip"
+                                android:text="Grupo" />
+
+                            <TextView
+                                android:id="@+id/txt_asistencia_profesores_unidad"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_weight="0.33"
+                                android:background="@color/blanco"
+                                android:gravity="center"
+                                android:padding="3dip"
+                                android:text="Unidad de Aprendizaje" />
+
+                            <TextView
+                                android:id="@+id/txt_asistencia_profesores_profesor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                android:layout_weight="0.33"
+                                android:background="@color/blanco"
+                                android:gravity="center"
+                                android:padding="3dip"
+                                android:text="Hora" />
+
+                        </TableRow>
+
+
+                    </TableLayout>
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_configuracion_profesor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_horario_profesor">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/const_configuracion_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_configuracion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/ic_settings_gray_24dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/configuracion"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txt_tit_configuracion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Modifica tus datos"
+                        android:textColor="@color/negro"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_configuracion" />
+
+                    <TextView
+                        android:id="@+id/txt_descripcion_configuracion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="Puedes modificar los datos de tu cuenta entrando a configuración"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_tit_configuracion" />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </ScrollView>
 
 </FrameLayout>

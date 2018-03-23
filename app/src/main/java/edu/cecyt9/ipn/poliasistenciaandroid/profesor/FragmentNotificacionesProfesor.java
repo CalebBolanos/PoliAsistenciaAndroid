@@ -1,14 +1,17 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
 
 /**
@@ -65,8 +68,16 @@ public class FragmentNotificacionesProfesor extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notificaciones, container, false);
+        View vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
+        Button botonImagen = vista.findViewById(R.id.button_imagen);
+        botonImagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent navegador = new Intent(getActivity(), WebViewNotificaciones.class);
+                startActivity(navegador);
+            }
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
