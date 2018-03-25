@@ -11,9 +11,11 @@ import android.view.MenuItem;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,7 @@ public class AsistenciaPorMes extends AppCompatActivity {
         asistencia.setColors(colores, 150);
         asistencia.setBarBorderWidth(3f);
         asistencia.setBarBorderColor(Color.WHITE);
+        final String estatus[] = {"Asistido", "Faltado"};
 
         BarData valoresGrafica = new BarData(asistencia);
         graficaBarra.setData(valoresGrafica);
@@ -75,5 +78,8 @@ public class AsistenciaPorMes extends AppCompatActivity {
         graficaBarra.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         graficaBarra.getDescription().setText("");
         graficaBarra.setTouchEnabled(false);
+        //XAxis valoresx  = graficaBarra.getXAxis();
+        //valoresx.setValueFormatter(new IndexAxisValueFormatter(estatus));
+        //valoresx.setLabelCount(4, true);
     }
 }

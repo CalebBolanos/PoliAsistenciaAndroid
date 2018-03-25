@@ -128,7 +128,6 @@ public class AsistenciaUnidad extends AppCompatActivity {
         ArrayList<ILineDataSet> datasets = new ArrayList<>();
         datasets.add(datosFalta);
         datasets.add(datosAsistido);
-
         XAxis valoresx = graficaUnidad.getXAxis();
         valoresx.setValueFormatter(new IAxisValueFormatter() {
             @Override
@@ -136,11 +135,11 @@ public class AsistenciaUnidad extends AppCompatActivity {
                 return meses.get((int)value);
             }
         });
+        valoresx.setLabelCount(meses.size(),true);
         LineData todo = new LineData(datasets);
         graficaUnidad.setData(todo);
         graficaUnidad.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         graficaUnidad.setTouchEnabled(false);
-        //graficaUnidad.getXAxis().setEnabled(false);
         graficaUnidad.getDescription().setText("");
     }
 

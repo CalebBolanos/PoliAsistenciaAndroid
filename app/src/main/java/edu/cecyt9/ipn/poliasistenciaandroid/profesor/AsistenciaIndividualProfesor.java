@@ -18,11 +18,15 @@ import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaPorMes;
@@ -78,11 +82,11 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
     }
 
     public void generarGrafica(){
-        ArrayList<String> meses = new ArrayList<>();
-        meses.add("Meses");
-        meses.add("Enero");
-        meses.add("Febrero");
-        meses.add("Marzo");
+        final HashMap<Integer, String> meses = new HashMap<>();
+        meses.put(0, "Meses");
+        meses.put(1, "Enero");
+        meses.put(2, "Febrero");
+        meses.put(3, "Marzo");
 
         ArrayList<Entry> dias = new ArrayList<>();
         dias.add(new Entry(0f, 0f));
@@ -99,10 +103,19 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
         datos.setCircleColor(ContextCompat.getColor(this, R.color.azul));
         datos.setCircleRadius(5f);
         LineData todo = new LineData(datos);
+
+        XAxis valoresx = graficaGeneral.getXAxis();
+        valoresx.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return meses.get((int)value);
+            }
+        });
+        valoresx.setLabelCount(meses.size(),true);
+
         graficaGeneral.setData(todo);
         graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         graficaGeneral.setTouchEnabled(false);
-        graficaGeneral.getXAxis().setEnabled(false);
         graficaGeneral.getDescription().setText("");
     }
 
