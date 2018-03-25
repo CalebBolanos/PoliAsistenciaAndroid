@@ -72,6 +72,7 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
             }
         });
         setListViewHeightBasedOnChildren(listaMeses);
+        listaMeses.setFocusable(false);
         generarGrafica();
 
     }
@@ -82,7 +83,6 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
         meses.add("Enero");
         meses.add("Febrero");
         meses.add("Marzo");
-
 
         ArrayList<Entry> dias = new ArrayList<>();
         dias.add(new Entry(0f, 0f));

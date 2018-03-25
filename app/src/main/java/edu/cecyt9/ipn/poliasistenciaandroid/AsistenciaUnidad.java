@@ -18,11 +18,16 @@ import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.AsistenciaIndividualProfesor;
 
@@ -73,38 +78,69 @@ public class AsistenciaUnidad extends AppCompatActivity {
             }
         });
         setListViewHeightBasedOnChildren(listaMeses);
+        listaMeses.setFocusable(false);
         generarGrafica();
 
 
     }
 
     public void generarGrafica(){
-        ArrayList<String> meses = new ArrayList<>();
-        meses.add("Meses");
-        meses.add("Enero");
-        meses.add("Febrero");
-        meses.add("Marzo");
+        final HashMap<Integer, String> meses = new HashMap<>();
+        meses.put(0, "Meses");
+        meses.put(1, "Enero");
+        meses.put(2, "Febrero");
+        meses.put(3, "Marzo");
 
+        //Asistido
 
-        ArrayList<Entry> dias = new ArrayList<>();
-        dias.add(new Entry(0f, 0f));
-        dias.add(new Entry(1f, 0f));
-        dias.add(new Entry(2f, 1f));
-        dias.add(new Entry(3f, 0f));
+        ArrayList<Entry> diasAsistidos = new ArrayList<>();
+        diasAsistidos.add(new Entry(0f, 0f));
+        diasAsistidos.add(new Entry(1f, 0f));
+        diasAsistidos.add(new Entry(2f, 1f));
+        diasAsistidos.add(new Entry(3f, 0f));
 
-        LineDataSet datos = new LineDataSet(dias, "Dias");
-        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        datos.setFillColor(ContextCompat.getColor(this, R.color.azul));
-        datos.setDrawFilled(true);
-        datos.setLineWidth(3f);
-        datos.setColor(ContextCompat.getColor(this, R.color.azul));
-        datos.setCircleColor(ContextCompat.getColor(this, R.color.azul));
-        datos.setCircleRadius(5f);
-        LineData todo = new LineData(datos);
+        LineDataSet datosAsistido = new LineDataSet(diasAsistidos, "Dias Asistidos");
+        datosAsistido.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        datosAsistido.setFillColor(ContextCompat.getColor(this, R.color.azul));
+        datosAsistido.setDrawFilled(true);
+        datosAsistido.setLineWidth(3f);
+        datosAsistido.setColor(ContextCompat.getColor(this, R.color.azul));
+        datosAsistido.setCircleColor(ContextCompat.getColor(this, R.color.azul));
+        datosAsistido.setCircleRadius(5f);
+
+        //faltado
+
+        ArrayList<Entry> diasFaltados = new ArrayList<>();
+        diasFaltados.add(new Entry(0f, 0f));
+        diasFaltados.add(new Entry(1f, 1f));
+        diasFaltados.add(new Entry(2f, 0f));
+        diasFaltados.add(new Entry(3f, 1f));
+
+        LineDataSet datosFalta = new LineDataSet(diasFaltados, "Dias Faltados");
+        datosFalta.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        datosFalta.setFillColor(ContextCompat.getColor(this, R.color.rojoGrafica));
+        datosFalta.setDrawFilled(true);
+        datosFalta.setLineWidth(3f);
+        datosFalta.setColor(ContextCompat.getColor(this, R.color.rojoGrafica));
+        datosFalta.setCircleColor(ContextCompat.getColor(this, R.color.rojoGrafica));
+        datosFalta.setCircleRadius(5f);
+
+        ArrayList<ILineDataSet> datasets = new ArrayList<>();
+        datasets.add(datosFalta);
+        datasets.add(datosAsistido);
+
+        XAxis valoresx = graficaUnidad.getXAxis();
+        valoresx.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return meses.get((int)value);
+            }
+        });
+        LineData todo = new LineData(datasets);
         graficaUnidad.setData(todo);
         graficaUnidad.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         graficaUnidad.setTouchEnabled(false);
-        graficaUnidad.getXAxis().setEnabled(false);
+        //graficaUnidad.getXAxis().setEnabled(false);
         graficaUnidad.getDescription().setText("");
     }
 
