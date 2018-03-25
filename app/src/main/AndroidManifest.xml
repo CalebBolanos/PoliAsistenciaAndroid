@@ -29,10 +29,11 @@
         <activity android:name=".CambiarContrasena" />
         <activity android:name=".CambiarCorreo" />
         <activity android:name=".WebViewNotificaciones" />
-        <activity android:name=".alumno.AsistenciaPorMesAlumno" />
+        <activity android:name=".AsistenciaPorMes" />
         <activity android:name=".profesor.InicioProfesor" />
         <activity android:name=".profesor.AsistenciaIndividualProfesor" />
-        <activity android:name=".profesor.AsistenciaIndividualProfesor"></activity>
+        <activity android:name=".profesor.AsistenciaIndividualProfesor" />
+        <activity android:name=".AsistenciaUnidad"></activity>
     </application>
 
 </manifest>

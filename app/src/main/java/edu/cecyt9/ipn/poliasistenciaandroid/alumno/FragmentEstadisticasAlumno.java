@@ -2,7 +2,6 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,12 +20,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaPorMes;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
-import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
 
 /**
@@ -109,7 +106,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
 
                         break;
                     default:
-                        Intent graficas = new Intent(getActivity(), AsistenciaPorMesAlumno.class);
+                        Intent graficas = new Intent(getActivity(), AsistenciaPorMes.class);
                         startActivity(graficas);
                         break;
                 }

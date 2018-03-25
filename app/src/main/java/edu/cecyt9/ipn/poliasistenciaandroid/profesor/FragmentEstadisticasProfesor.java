@@ -23,8 +23,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaUnidad;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
-import edu.cecyt9.ipn.poliasistenciaandroid.alumno.AsistenciaPorMesAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaPorMes;
 
 
 /**
@@ -107,7 +108,7 @@ public class FragmentEstadisticasProfesor extends Fragment {
 
                         break;
                     default:
-                        Intent graficas = new Intent(getActivity(), AsistenciaPorMesAlumno.class);
+                        Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
                         startActivity(graficas);
                         break;
                 }

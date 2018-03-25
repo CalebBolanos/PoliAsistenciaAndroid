@@ -1,4 +1,4 @@
-package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
+package edu.cecyt9.ipn.poliasistenciaandroid;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
-public class AsistenciaPorMesAlumno extends AppCompatActivity {
+public class AsistenciaPorMes extends AppCompatActivity {
 
     BarChart graficaBarra;
     @Override
