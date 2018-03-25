@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -48,6 +49,7 @@ public class FragmentEstadisticasProfesor extends Fragment {
 
     ListView listaGrupo;
     LineChart graficaGeneral;
+    Button botonProfesor;
 
     public FragmentEstadisticasProfesor() {
         // Required empty public constructor
@@ -86,13 +88,13 @@ public class FragmentEstadisticasProfesor extends Fragment {
         View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_profesor, container, false);
         listaGrupo = vistaEstadisticas.findViewById(R.id.listview_grupos);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
+        botonProfesor = vistaEstadisticas.findViewById(R.id.boton_profesor);
         generarGrafica();
-        ArrayList<String> arrayMeses = new ArrayList<>();
-        for(int i = 1; i<=12; i++){
-            arrayMeses.add("Mes" + i);
+        ArrayList<String> arrayGrupos = new ArrayList<>();
+        for(int i = 1; i<=50; i++){
+            arrayGrupos.add("Grupo " + i);
         }
-
-        ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayMeses);
+        ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayGrupos);
         listaGrupo.setAdapter(adaptador);
         setListViewHeightBasedOnChildren(listaGrupo);
         listaGrupo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,6 +112,13 @@ public class FragmentEstadisticasProfesor extends Fragment {
                         break;
                 }
 
+            }
+        });
+        botonProfesor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent asistencia = new Intent(getActivity(), AsistenciaIndividualProfesor.class);
+                startActivity(asistencia);
             }
         });
         return vistaEstadisticas;
@@ -204,4 +213,5 @@ public class FragmentEstadisticasProfesor extends Fragment {
         graficaGeneral.getXAxis().setEnabled(false);
         graficaGeneral.getDescription().setText("");
     }
+
 }

@@ -17,7 +17,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
@@ -28,7 +30,9 @@
         <activity android:name=".CambiarCorreo" />
         <activity android:name=".WebViewNotificaciones" />
         <activity android:name=".alumno.AsistenciaPorMesAlumno" />
-        <activity android:name=".profesor.InicioProfesor"></activity>
+        <activity android:name=".profesor.InicioProfesor" />
+        <activity android:name=".profesor.AsistenciaIndividualProfesor" />
+        <activity android:name=".profesor.AsistenciaIndividualProfesor"></activity>
     </application>
 
 </manifest>

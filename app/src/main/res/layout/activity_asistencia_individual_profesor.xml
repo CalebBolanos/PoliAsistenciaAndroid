@@ -1,43 +1,75 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.cecyt9.ipn.poliasistenciaandroid.profesor.FragmentEstadisticasProfesor">
+    tools:context="edu.cecyt9.ipn.poliasistenciaandroid.profesor.AsistenciaIndividualProfesor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ScrollView
-        android:id="@+id/scroll_estadisticas_profesor"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout_asistencia_individual_profesor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        tools:layout_editor_absoluteY="15dp">
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_asistencia_individual_profesor"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_asistencia_individual_profesor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_asistencia_individual_profesor">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_estaditicas_profesor"
+            android:id="@+id/constraint_contenedor_asistencia_individual_profesor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_asistencia_individual_profesor"
+                android:id="@+id/cardview_asistencia_profesor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_titulo_estadistica_profesor">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <android.support.constraint.ConstraintLayout
-                    android:id="@+id/constraint_asist_ind_profesor"
+                    android:id="@+id/constraint_asist_ind_prof"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/titulo_asistencia_individual_profesor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Grafica General"
+                        android:textColor="@color/negro"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/grafica_linechart_asistencia_individual"
+                        android:id="@+id/grafica_linechart_asistencia_individual_profesor"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginEnd="8dp"
@@ -45,18 +77,7 @@
                         android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Button
-                        android:id="@+id/boton_profesor"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ver mas"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/grafica_linechart_asistencia_individual" />
+                        app:layout_constraintTop_toBottomOf="@+id/titulo_asistencia_individual_profesor" />
 
 
                 </android.support.constraint.ConstraintLayout>
@@ -65,9 +86,9 @@
 
 
             <ListView
-                android:id="@+id/listview_grupos"
+                android:id="@+id/listview_meses_profesor"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="130dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -76,39 +97,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_visualizar__asistencia_grupo"
+                app:layout_constraintTop_toBottomOf="@+id/txt_visualizar__asistencia_prof"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/txt_titulo_estadistica_profesor"
+                android:id="@+id/txt_visualizar__asistencia_prof"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
-                android:text="Asistencia Individual"
+                android:text="Visualizar Asistencia por Mes"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_visualizar__asistencia_grupo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:text="Grupos"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardview_asistencia_individual_profesor" />
-
-
+                app:layout_constraintTop_toBottomOf="@+id/cardview_asistencia_profesor" />
         </android.support.constraint.ConstraintLayout>
-
-
     </ScrollView>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
+
