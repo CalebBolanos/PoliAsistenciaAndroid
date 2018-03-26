@@ -57,7 +57,7 @@ public class AsistenciaPorMes extends AppCompatActivity {
     }
 
     public void crearGrafica(){
-        graficaBarra = findViewById(R.id.grafica_barra_asistencia_mes_alumno);
+        graficaBarra = findViewById(R.id.grafica_barra_asistencia_mes);
         List<BarEntry> valoresAsistencia = new ArrayList<>();
         valoresAsistencia.add(new BarEntry(0f, 4f, "Asistido"));
         valoresAsistencia.add(new BarEntry(1f, 4f, "Faltado"));
