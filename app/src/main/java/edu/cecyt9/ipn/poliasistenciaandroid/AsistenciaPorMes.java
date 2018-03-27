@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -25,6 +30,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.R;
 public class AsistenciaPorMes extends AppCompatActivity {
 
     BarChart graficaBarra;
+    ListView listaDatosAsistencia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +47,18 @@ public class AsistenciaPorMes extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
         crearGrafica();
 
-
-
+        listaDatosAsistencia = findViewById(R.id.listview_asistencia_individual);
+        datosAsistenciaIndividual dia1 = new datosAsistenciaIndividual("Si", "Martes 27", "10:00", "11:00");
+        datosAsistenciaIndividual dia2 = new datosAsistenciaIndividual("No", "Miercoles 28", "---", "---");
+        ArrayList<datosAsistenciaIndividual> dias = new ArrayList<>();
+        dias.add(dia1);
+        dias.add(dia2);
+        AsistenciaIndividualAdapter adaptador = new AsistenciaIndividualAdapter(this, R.layout.adapter_view_asistencia_individual, dias);
+        listaDatosAsistencia.setAdapter(adaptador);
+        setListViewHeightBasedOnChildren(listaDatosAsistencia);
+        listaDatosAsistencia.setFocusable(false);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,5 +93,26 @@ public class AsistenciaPorMes extends AppCompatActivity {
         //XAxis valoresx  = graficaBarra.getXAxis();
         //valoresx.setValueFormatter(new IndexAxisValueFormatter(estatus));
         //valoresx.setLabelCount(4, true);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

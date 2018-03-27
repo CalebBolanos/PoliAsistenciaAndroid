@@ -105,19 +105,17 @@
 
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tabla"
+            <ListView
+                android:id="@+id/listview_asistencia_individual"
                 android:layout_width="395dp"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardview_grafica_asistencia_mes_alumno">
+                app:layout_constraintTop_toBottomOf="@+id/cardview_grafica_asistencia_mes_alumno" />
 
-
-            </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
