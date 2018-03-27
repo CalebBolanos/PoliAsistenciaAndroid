@@ -68,7 +68,6 @@ public class AsistenciaPorMes extends AppCompatActivity {
         asistencia.setColors(colores, 150);
         asistencia.setBarBorderWidth(3f);
         asistencia.setBarBorderColor(Color.WHITE);
-        final String estatus[] = {"Asistido", "Faltado"};
 
         BarData valoresGrafica = new BarData(asistencia);
         graficaBarra.setData(valoresGrafica);
