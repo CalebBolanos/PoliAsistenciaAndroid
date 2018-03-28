@@ -33,7 +33,8 @@
         <activity android:name=".profesor.InicioProfesor" />
         <activity android:name=".profesor.AsistenciaIndividualProfesor" />
         <activity android:name=".profesor.AsistenciaIndividualProfesor" />
-        <activity android:name=".AsistenciaUnidad"></activity>
+        <activity android:name=".AsistenciaUnidad" />
+        <activity android:name=".AsistenciaUnidadMes"></activity>
     </application>
 
 </manifest>

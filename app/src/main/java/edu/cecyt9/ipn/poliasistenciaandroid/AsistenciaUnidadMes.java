@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -22,18 +23,16 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+public class AsistenciaUnidadMes extends AppCompatActivity {
 
-
-public class AsistenciaPorMes extends AppCompatActivity {
-
-    BarChart graficaBarra;
-    ListView listaDatosAsistencia;
+    BarChart graficaBarraUnidad;
+    ListView datosAsistencia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_asistencia_por_mes_alumno);
+        setContentView(R.layout.activity_asistencia_unidad_mes);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_asistencia_mes_alumno);
+        Toolbar toolbar = findViewById(R.id.toolbar_asistencia_unidad_mes);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
@@ -46,33 +45,23 @@ public class AsistenciaPorMes extends AppCompatActivity {
         }
         crearGrafica();
 
-        listaDatosAsistencia = findViewById(R.id.listview_asistencia_individual);
-        datosAsistenciaIndividual dia1 = new datosAsistenciaIndividual("Asistido", "Día", "Entrada", "Salida");
-        ArrayList<datosAsistenciaIndividual> dias = new ArrayList<>();
-        dias.add(dia1);
-
-        //Aqui le agregamos el ws
-        for (int i=1; i<=31; i++){
-            datosAsistenciaIndividual diax = new datosAsistenciaIndividual("Si", "Marzo "+ i, "Entrada", "Salida");
-            dias.add(diax);
-            diax = null;
+        datosAsistencia = findViewById(R.id.listview_asistencia_unidad_mes);
+        DatosAsistenciaUnidadMes titulo = new DatosAsistenciaUnidadMes("Boleta", "Nombre", "Dias Asistidos", "Dias Faltados");
+        ArrayList<DatosAsistenciaUnidadMes> datos = new ArrayList<>();
+        datos.add(titulo);
+        for (int i = 0; i <40 ; i++) {
+            DatosAsistenciaUnidadMes filax = new DatosAsistenciaUnidadMes("201609006"+i, "Nombre", ""+i, ""+i);
+            datos.add(filax);
+            filax = null;
         }
-        AsistenciaIndividualAdapter adaptador = new AsistenciaIndividualAdapter(this, R.layout.adapter_view_asistencia_individual, dias);
-        listaDatosAsistencia.setAdapter(adaptador);
-        setListViewHeightBasedOnChildren(listaDatosAsistencia);
-        listaDatosAsistencia.setFocusable(false);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
+        AsistenciaUnidadMesAdapter adaptador = new AsistenciaUnidadMesAdapter(this, R.layout.adapter_view_asistencia_unidad_mes, datos);
+        datosAsistencia.setAdapter(adaptador);
+        setListViewHeightBasedOnChildren(datosAsistencia);
+        datosAsistencia.setFocusable(false);
     }
 
     public void crearGrafica(){
-        graficaBarra = findViewById(R.id.grafica_barra_asistencia_mes);
+        graficaBarraUnidad = findViewById(R.id.grafica_barra_asistencia_unidad_mes);
         List<BarEntry> valoresAsistencia = new ArrayList<>();
         valoresAsistencia.add(new BarEntry(0f, 4f, "Asistido"));
         valoresAsistencia.add(new BarEntry(1f, 4f, "Faltado"));
@@ -85,17 +74,14 @@ public class AsistenciaPorMes extends AppCompatActivity {
         asistencia.setBarBorderColor(Color.WHITE);
 
         BarData valoresGrafica = new BarData(asistencia);
-        graficaBarra.setData(valoresGrafica);
-        graficaBarra.setFitBars(true);
-        graficaBarra.setDrawValueAboveBar(true);
-        graficaBarra.getXAxis().setEnabled(false);
-        graficaBarra.animateY(1500, Easing.EasingOption.EaseInOutExpo);
-        graficaBarra.getDescription().setText("");
-        graficaBarra.setTouchEnabled(false);
-        graficaBarra.getLegend().setEnabled(false);
-        //XAxis valoresx  = graficaBarra.getXAxis();
-        //valoresx.setValueFormatter(new IndexAxisValueFormatter(estatus));
-        //valoresx.setLabelCount(4, true);
+        graficaBarraUnidad.setData(valoresGrafica);
+        graficaBarraUnidad.setFitBars(true);
+        graficaBarraUnidad.setDrawValueAboveBar(true);
+        graficaBarraUnidad.getXAxis().setEnabled(false);
+        graficaBarraUnidad.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+        graficaBarraUnidad.getDescription().setText("");
+        graficaBarraUnidad.setTouchEnabled(false);
+        graficaBarraUnidad.getLegend().setEnabled(false);
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -117,5 +103,13 @@ public class AsistenciaPorMes extends AppCompatActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

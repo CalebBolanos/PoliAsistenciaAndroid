@@ -71,8 +71,8 @@ public class AsistenciaUnidad extends AppCompatActivity {
 
                         break;
                     default:
-                        Intent graficas = new Intent(AsistenciaUnidad.this, AsistenciaPorMes.class);
-                        startActivity(graficas);
+                        Intent graficasUnidadMes = new Intent(AsistenciaUnidad.this, AsistenciaUnidadMes.class);
+                        startActivity(graficasUnidadMes);
                         break;
                 }
             }

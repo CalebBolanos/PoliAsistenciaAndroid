@@ -73,7 +73,6 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_weight="0.5"
                         android:drawableLeft="@drawable/ic_circulo_azul_24dp"
                         android:gravity="center"
@@ -90,7 +89,6 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_weight="0.5"
                         android:drawableLeft="@drawable/ic_circulo_rojo_24dp"
                         android:gravity="center"
@@ -100,6 +98,8 @@
                         app:layout_constraintHorizontal_bias="0.655"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/grafica_barra_asistencia_mes" />
+
+
                 </android.support.constraint.ConstraintLayout>
 
 
@@ -109,9 +109,9 @@
                 android:id="@+id/listview_asistencia_individual"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="150dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardview_grafica_asistencia_mes_alumno" />
