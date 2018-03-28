@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Caleb on 28/03/2018.
  */
 
-public class AsistenciaUnidadMesAdapter extends ArrayAdapter<DatosAsistenciaUnidadMes> {
+public class AsistenciaUnidadDiaAdapter extends ArrayAdapter<DatosAsistenciaUnidadDia> {
 
     private Context context;
     private int resource;
@@ -23,11 +23,10 @@ public class AsistenciaUnidadMesAdapter extends ArrayAdapter<DatosAsistenciaUnid
     static class ViewHolder {
         TextView boleta;
         TextView nombre;
-        TextView diasAsistido;
-        TextView diasFaltado;
+        TextView asistencia;
     }
 
-    public AsistenciaUnidadMesAdapter(@NonNull Context context, int resource, @NonNull ArrayList<DatosAsistenciaUnidadMes> objects) {
+    public AsistenciaUnidadDiaAdapter(@NonNull Context context, int resource, @NonNull ArrayList<DatosAsistenciaUnidadDia> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -38,8 +37,7 @@ public class AsistenciaUnidadMesAdapter extends ArrayAdapter<DatosAsistenciaUnid
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String boleta = getItem(position).getBoleta();
         String nombre = getItem(position).getNombre();
-        String diasAsistido = getItem(position).getDiasAsistido();
-        String diasFaltado = getItem(position).getDiasFaltado();
+        String asistencia = getItem(position).getAsistencia();
 
         ViewHolder holder;
 
@@ -50,8 +48,7 @@ public class AsistenciaUnidadMesAdapter extends ArrayAdapter<DatosAsistenciaUnid
             holder = new ViewHolder();
             holder.boleta = convertView.findViewById(R.id.textview_boleta);
             holder.nombre = convertView.findViewById(R.id.textview_nombre);
-            holder.diasAsistido = convertView.findViewById(R.id.textview_asistido);
-            holder.diasFaltado = convertView.findViewById(R.id.textview_faltado);
+            holder.asistencia = convertView.findViewById(R.id.textview_asistencia);
             convertView.setTag(holder);
         }
         else {
@@ -59,8 +56,7 @@ public class AsistenciaUnidadMesAdapter extends ArrayAdapter<DatosAsistenciaUnid
         }
         holder.boleta.setText(boleta);
         holder.nombre.setText(nombre);
-        holder.diasAsistido.setText(diasAsistido);
-        holder.diasFaltado.setText(diasFaltado);
+        holder.asistencia.setText(asistencia);
         return convertView;
     }
 }

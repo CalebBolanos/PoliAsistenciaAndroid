@@ -171,4 +171,9 @@ public class AsistenciaUnidad extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void abrirAsistenciaUnidadDia(View view) {
+        Intent AsistenciaUnidad = new Intent(AsistenciaUnidad.this, AsistenciaUnidadDia.class);
+        startActivity(AsistenciaUnidad);
+    }
 }
