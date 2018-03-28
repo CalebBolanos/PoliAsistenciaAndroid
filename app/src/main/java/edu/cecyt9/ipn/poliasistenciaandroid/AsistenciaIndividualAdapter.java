@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Caleb on 27/03/2018.
@@ -19,7 +18,14 @@ import java.util.List;
 public class AsistenciaIndividualAdapter extends ArrayAdapter<datosAsistenciaIndividual> {
 
     private Context context;
-    int resource;
+    private int resource;
+
+    static class ViewHolder {
+        TextView asistido;
+        TextView dia;
+        TextView entrada;
+        TextView salida;
+    }
 
     public AsistenciaIndividualAdapter(@NonNull Context context, int resource, @NonNull ArrayList<datosAsistenciaIndividual> objects) {
         super(context, resource, objects);
@@ -36,17 +42,29 @@ public class AsistenciaIndividualAdapter extends ArrayAdapter<datosAsistenciaInd
         String salida = getItem(position).getSalida();
 
         datosAsistenciaIndividual diax = new datosAsistenciaIndividual(asistido, dia, entrada, salida);
-        LayoutInflater inflador = LayoutInflater.from(context);
-        convertView = inflador.inflate(resource, parent, false);
+        ViewHolder holder;
 
-        TextView txtAsistido = convertView.findViewById(R.id.textview_asistido);
-        TextView txtDia = convertView.findViewById(R.id.textview_dia);
-        TextView txtEntrada = convertView.findViewById(R.id.textview_entrada);
-        TextView txtSalida = convertView.findViewById(R.id.textview_salida);
-        txtAsistido.setText(asistido);
-        txtDia.setText(dia);
-        txtEntrada.setText(entrada);
-        txtSalida.setText(salida);
+        if(convertView == null){
+            LayoutInflater inflador = LayoutInflater.from(context);
+            convertView = inflador.inflate(resource, parent, false);
+
+            holder = new ViewHolder();
+            holder.asistido = convertView.findViewById(R.id.textview_asistido);
+            holder.dia = convertView.findViewById(R.id.textview_dia);
+            holder.entrada = convertView.findViewById(R.id.textview_entrada);
+            holder.salida = convertView.findViewById(R.id.textview_salida);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+
+        holder.asistido.setText(asistido);
+        holder.dia.setText(dia);
+        holder.entrada.setText(entrada);
+        holder.salida.setText(salida);
+
         return convertView;
 
 
