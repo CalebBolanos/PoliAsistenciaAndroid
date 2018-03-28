@@ -2,13 +2,23 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import org.jetbrains.annotations.Contract;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.CambiarCorreo;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
@@ -80,6 +90,9 @@ public class FragmentNotificacionesAlumno extends Fragment {
                 startActivity(navegador);
             }
         });
+        ImageView deku = vista.findViewById(R.id.imageView2);
+        deku.setImageDrawable(resizeImage(R.drawable.deku));
+
         return vista;
     }
 
@@ -120,5 +133,36 @@ public class FragmentNotificacionesAlumno extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public Drawable resizeImage(int imageResource) {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        double deviceWidth = display.getWidth();
+
+        BitmapDrawable bd = (BitmapDrawable) this.getResources().getDrawable(imageResource);
+        double imageHeight = bd.getBitmap().getHeight();
+        double imageWidth = bd.getBitmap().getWidth();
+
+        double ratio = deviceWidth / imageWidth;
+        int newImageHeight = (int) (imageHeight * ratio);
+
+        Bitmap bMap = BitmapFactory.decodeResource(getResources(), imageResource);
+        Drawable drawable = new BitmapDrawable(this.getResources(), getResizedBitmap(bMap, newImageHeight, (int) deviceWidth));
+
+        return drawable;
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+        return resizedBitmap;
     }
 }

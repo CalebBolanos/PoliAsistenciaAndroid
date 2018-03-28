@@ -49,7 +49,7 @@ public class AsistenciaUnidadDia extends AppCompatActivity {
         DatosAsistenciaUnidadDia titulo = new DatosAsistenciaUnidadDia("Boleta", "Nombre", "Asistio");
         ArrayList <DatosAsistenciaUnidadDia> datos = new ArrayList<>();
         datos.add(titulo);
-        
+
         for (int i = 1; i <=30 ; i++) {
             DatosAsistenciaUnidadDia filax = new DatosAsistenciaUnidadDia("20160900"+1, "Nombre", "si");
             datos.add(filax);
