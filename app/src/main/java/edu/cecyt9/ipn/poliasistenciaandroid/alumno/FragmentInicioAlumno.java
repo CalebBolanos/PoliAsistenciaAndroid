@@ -2,6 +2,7 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -24,6 +26,8 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaPorMes;
+import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
 
@@ -49,6 +53,7 @@ public class FragmentInicioAlumno extends Fragment {
 
     LineChart grafica;
     ListView listaHorario;
+    Button botonEstadisticas, botonHorario, botonConfiguraciones;
 
     public FragmentInicioAlumno() {
         // Required empty public constructor
@@ -97,10 +102,9 @@ public class FragmentInicioAlumno extends Fragment {
             datos.add(unidadx);
             unidadx = null;
         }
-
         HorarioUnidadAdapter adaptador = new HorarioUnidadAdapter(getContext(), R.layout.adapter_view_horario_unidad, datos);
         listaHorario.setAdapter(adaptador);
-        //listaHorario.setFocusable(false);
+        listaHorario.setFocusable(false);
         listaHorario.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -116,6 +120,28 @@ public class FragmentInicioAlumno extends Fragment {
                 }
                 v.onTouchEvent(event);
                 return true;
+            }
+        });
+        botonEstadisticas = vistaInicio.findViewById(R.id.boton_estadisticas);
+        botonEstadisticas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioAlumno)getActivity()).reemplazarFragment(R.id.navigation_estadisticas);
+            }
+        });
+        botonHorario = vistaInicio.findViewById(R.id.boton_horario);
+        botonHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioAlumno)getActivity()).reemplazarFragment(R.id.navigation_horario);
+            }
+        });
+        botonConfiguraciones = vistaInicio.findViewById(R.id.boton_configuracion);
+        botonConfiguraciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent configuracion = new Intent(getActivity(), Configuracion.class);
+                startActivity(configuracion);
             }
         });
         generarGrafica();
