@@ -1158,74 +1158,28 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview_asistencia_profesores"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="100dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tablelayout_horario_alumno">
 
-                <TableLayout
-                    android:id="@+id/tablelayout_asistencia_profesores"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:id="@+id/contenedor_profesores">
 
-                    <TableRow
-                        android:id="@+id/tablerow_titulo_asistencia_profesores"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:weightSum="1"
-
-                        >
-
-                        <TextView
-                            android:id="@+id/txt_asistencia_profesores_unidad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_weight="0.33"
-                            android:background="@color/blanco"
-                            android:gravity="center"
-                            android:padding="3dip"
-                            android:text="Unidad de Aprendizaje" />
-
-                        <TextView
-                            android:id="@+id/txt_asistencia_profesores_profesor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_weight="0.33"
-                            android:background="@color/blanco"
-                            android:gravity="center"
-                            android:padding="3dip"
-                            android:text="Profesor" />
-
-                        <TextView
-                            android:id="@+id/txt_asistencia_profesores_estatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:layout_weight="0.33"
-                            android:background="@color/blanco"
-                            android:gravity="center"
-                            android:padding="3dip"
-                            android:text="Estatus" />
-
-                    </TableRow>
-
-
-
-                </TableLayout>
-
-
-
-
+                    <ListView
+                        android:id="@+id/listview_estatus_profesores"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
 
