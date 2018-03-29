@@ -1,13 +1,16 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,6 +48,7 @@ public class FragmentInicioAlumno extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     LineChart grafica;
+    ListView listaHorario;
 
     public FragmentInicioAlumno() {
         // Required empty public constructor
@@ -77,12 +81,43 @@ public class FragmentInicioAlumno extends Fragment {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vistaInicio = inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
         grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
+        listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
+        DatosHorarioAlumno titulo = new DatosHorarioAlumno("Unidad de Aprendizaje", "Hora");
+        ArrayList<DatosHorarioAlumno> datos = new ArrayList<>();
+        datos.add(titulo);
+        for (int i = 0; i <9 ; i++) {
+            DatosHorarioAlumno unidadx = new DatosHorarioAlumno("Unidad"+i, "00:00");
+            datos.add(unidadx);
+            unidadx = null;
+        }
+
+        HorarioUnidadAdapter adaptador = new HorarioUnidadAdapter(getContext(), R.layout.adapter_view_horario_unidad, datos);
+        listaHorario.setAdapter(adaptador);
+        //listaHorario.setFocusable(false);
+        listaHorario.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
         generarGrafica();
         return vistaInicio;
     }
