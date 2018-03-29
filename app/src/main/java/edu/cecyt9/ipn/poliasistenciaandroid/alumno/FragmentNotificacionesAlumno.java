@@ -9,8 +9,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +23,16 @@ import android.widget.ImageView;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 import edu.cecyt9.ipn.poliasistenciaandroid.CambiarCorreo;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
+import edu.cecyt9.ipn.poliasistenciaandroid.DatosNotificacionImagenUrl;
+import edu.cecyt9.ipn.poliasistenciaandroid.NotificacionesAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
@@ -45,6 +56,9 @@ public class FragmentNotificacionesAlumno extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView recyclerNotificaciones;
+    NotificacionesAdapter adaptador;
 
     public FragmentNotificacionesAlumno() {
         // Required empty public constructor
@@ -82,6 +96,18 @@ public class FragmentNotificacionesAlumno extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_notificaciones_alumno, container, false);
+        recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
+        recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
+        List<DatosNotificacionImagenUrl> notificaciones = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            DatosNotificacionImagenUrl notificacionx = new DatosNotificacionImagenUrl(R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url");
+            notificaciones.add(notificacionx);
+            notificacionx = null;
+        }
+
+        adaptador = new NotificacionesAdapter(getContext(), notificaciones);
+        recyclerNotificaciones.setAdapter(adaptador);
+        /*
         Button botonImagen = vista.findViewById(R.id.button_imagen);
         botonImagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +117,7 @@ public class FragmentNotificacionesAlumno extends Fragment {
             }
         });
         ImageView deku = vista.findViewById(R.id.imageView2);
-        deku.setImageDrawable(resizeImage(R.drawable.deku));
+        deku.setImageDrawable(resizeImage(R.drawable.deku));*/
 
         return vista;
     }
