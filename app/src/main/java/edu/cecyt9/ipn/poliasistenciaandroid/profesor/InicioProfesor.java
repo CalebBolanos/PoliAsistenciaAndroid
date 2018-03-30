@@ -142,4 +142,36 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void reemplazarFragment(int itemId){
+        FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out);
+
+        switch (itemId){
+            case R.id.navigation_inicio:
+                transaccion.replace(R.id.contenedorFragment, inicio);
+                transaccion.commit();
+                barraNavegacion.setSelectedItemId(R.id.navigation_inicio);
+                break;
+            case R.id.navigation_horario:
+                transaccion.replace(R.id.contenedorFragment, horario);
+                transaccion.commit();
+                barraNavegacion.setSelectedItemId(R.id.navigation_horario);
+                break;
+            case R.id.navigation_estadisticas:
+                transaccion.replace(R.id.contenedorFragment, estadisticas);
+                transaccion.commit();
+                barraNavegacion.setSelectedItemId(R.id.navigation_estadisticas);
+                break;
+            case R.id.navigation_notificaciones:
+                transaccion.replace(R.id.contenedorFragment, notificaciones);
+                transaccion.commit();
+                barraNavegacion.setSelectedItemId(R.id.navigation_notificaciones);
+                break;
+        }
+
+    }
 }

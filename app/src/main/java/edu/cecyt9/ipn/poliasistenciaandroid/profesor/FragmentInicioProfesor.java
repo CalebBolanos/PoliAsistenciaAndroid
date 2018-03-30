@@ -1,13 +1,17 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,7 +25,9 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
 
 
 /**
@@ -44,6 +50,8 @@ public class FragmentInicioProfesor extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     LineChart grafica;
+    Button botonEstadisticas, botonHorario, botonConfiguraciones;
+    ListView listaHorario;
 
     public FragmentInicioProfesor() {
         // Required empty public constructor
@@ -82,7 +90,62 @@ public class FragmentInicioProfesor extends Fragment {
         View vistaInicio = inflater.inflate(R.layout.fragment_inicio_profesor, container, false);
         grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
         generarGrafica();
+        botonEstadisticas = vistaInicio.findViewById(R.id.boton_estadisticas);
+        botonEstadisticas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_estadisticas);
+            }
+        });
+        botonHorario = vistaInicio.findViewById(R.id.boton_horario);
+        botonHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_horario);
+            }
+        });
+        botonConfiguraciones = vistaInicio.findViewById(R.id.boton_configuracion);
+        botonConfiguraciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent configuracion = new Intent(getActivity(), Configuracion.class);
+                startActivity(configuracion);
+            }
+        });
+        listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
+        HorarioGrupo titulo = new HorarioGrupo("Grupo", "Unidad", "Hora");
+        ArrayList<HorarioGrupo> datos = new ArrayList<>();
+        datos.add(titulo);
+        for (int i = 0; i <10 ; i++) {
+            HorarioGrupo grupox = new HorarioGrupo("Grupo "+i, "Unidad "+i, "Hora");
+            datos.add(grupox);
+            grupox = null;
+
+        }
+        HorarioGrupoAdapter adaptador = new HorarioGrupoAdapter(getContext(), R.layout.adapter_view_horario_grupo, datos);
+        listaHorario.setAdapter(adaptador);
+        listaHorario.setFocusable(false);
+        listaHorario.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+
         return vistaInicio;
+        //HorarioGrupo -> HorarioGrupoAdapter
+        //DatosGrupos -> GruposAdapter
     }
 
     // TODO: Rename method, update argument and hook method into UI event
