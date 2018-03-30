@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class WebViewNotificaciones extends AppCompatActivity {
 
@@ -40,7 +42,9 @@ public class WebViewNotificaciones extends AppCompatActivity {
             //getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.blanco));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.blanco));
         }
-
+        Intent nav = getIntent();
+        String urlx = nav.getStringExtra("Url");
+        Toast.makeText(this, urlx, Toast.LENGTH_SHORT).show();
         navegador = findViewById(R.id.webview_notificacion);
         navegador.setWebViewClient(new WebViewClient());
         navegador.getSettings().setJavaScriptEnabled(true);

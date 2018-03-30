@@ -53,17 +53,17 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_descripcion_notificacion_imagen"
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/descripcion_imagen"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="13dp"
                     android:text="Es un software diseñado para el registro y control de la asistencia al plantel tanto de alumnos como de profesores, que les permitirá ver sus incidencias. PoliAsitencia también implementa un sistema distribuido para gestión escolar que notifica la entrada y salida del plantel."
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

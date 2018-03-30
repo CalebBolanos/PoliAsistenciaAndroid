@@ -3,7 +3,11 @@ package edu.cecyt9.ipn.poliasistenciaandroid
 /**
  * Created by Caleb on 29/03/2018.
  */
-class DatosNotificacionImagenUrl {
+class DatosNotificacion {
+    var tipoNotificacion: Int = 0
+        get() = field
+        set(value){field = value}
+
     var imagenUsuario: Int = 0
         get() = field
         set(value){field = value}
@@ -26,7 +30,8 @@ class DatosNotificacionImagenUrl {
 
     constructor()
 
-    constructor(imagenUsuario: Int, titulo: String, descripcion: String, imagen: Int, url: String) {
+    constructor(tipoNotificacion: Int,imagenUsuario: Int, titulo: String, descripcion: String, imagen: Int, url: String) {
+        this.tipoNotificacion = tipoNotificacion
         this.imagenUsuario = imagenUsuario
         this.titulo = titulo
         this.descripcion = descripcion
