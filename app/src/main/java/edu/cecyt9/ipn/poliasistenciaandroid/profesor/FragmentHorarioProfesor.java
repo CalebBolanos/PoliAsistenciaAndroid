@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
@@ -28,6 +32,7 @@ public class FragmentHorarioProfesor extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ListView listaGrupos;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,7 +71,17 @@ public class FragmentHorarioProfesor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_horario_profesor, container, false);
+        View vista = inflater.inflate(R.layout.fragment_horario_profesor, container, false);
+        listaGrupos = vista.findViewById(R.id.listview_datos_grupos);
+        DatosGrupos titulo = new DatosGrupos("Grupo", "Unidad", "Alumnos", "Especialidad");
+        ArrayList<DatosGrupos> datos = new ArrayList<>();
+        datos.add(titulo);
+        GruposAdapter adaptador = new GruposAdapter(getContext(), R.layout.adapter_view_grupos, datos);
+        listaGrupos.setAdapter(adaptador);
+        listaGrupos.setFocusable(false);
+        setListViewHeightBasedOnChildren(listaGrupos);
+
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,5 +121,26 @@ public class FragmentHorarioProfesor extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }
