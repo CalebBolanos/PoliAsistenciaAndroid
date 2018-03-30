@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,11 @@ import android.widget.ImageView;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.cecyt9.ipn.poliasistenciaandroid.DatosNotificacion;
+import edu.cecyt9.ipn.poliasistenciaandroid.NotificacionesAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
@@ -44,7 +51,8 @@ public class FragmentNotificacionesProfesor extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    RecyclerView recyclerNotificaciones;
+    NotificacionesAdapter adaptador;
     public FragmentNotificacionesProfesor() {
         // Required empty public constructor
     }
@@ -80,17 +88,19 @@ public class FragmentNotificacionesProfesor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
-        Button botonImagen = vista.findViewById(R.id.button_imagen);
-        botonImagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent navegador = new Intent(getActivity(), WebViewNotificaciones.class);
-                startActivity(navegador);
-            }
-        });
+        recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
+        recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
+        List<DatosNotificacion> notificaciones = new ArrayList<>();
+        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen");
+        notificaciones.add(notificacionprueba);
+        for (int i = 0; i < 5; i++) {
+            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url"+i);
+            notificaciones.add(notificacionx);
+            notificacionx = null;
+        }
 
-        ImageView deku = vista.findViewById(R.id.imageView2);
-        deku.setImageDrawable(resizeImage(R.drawable.deku));
+        adaptador = new NotificacionesAdapter(getContext(), notificaciones);
+        recyclerNotificaciones.setAdapter(adaptador);
         return vista;
     }
 
