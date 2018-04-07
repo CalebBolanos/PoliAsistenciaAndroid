@@ -73,11 +73,11 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction().setCustomAnimations(
+            FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction();/*.setCustomAnimations(
                     android.R.anim.fade_in,
                     android.R.anim.fade_out,
                     android.R.anim.fade_in,
-                    android.R.anim.fade_out);
+                    android.R.anim.fade_out);*/
             switch (item.getItemId()) {
                 case R.id.navigation_inicio:
                     transaccion.replace(R.id.contenedorFragment, inicio);
@@ -144,11 +144,11 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
     }
 
     public void reemplazarFragment(int itemId){
-        FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction().setCustomAnimations(
+        FragmentTransaction transaccion = getSupportFragmentManager().beginTransaction();/*.setCustomAnimations(
                 android.R.anim.fade_in,
                 android.R.anim.fade_out,
                 android.R.anim.fade_in,
-                android.R.anim.fade_out);
+                android.R.anim.fade_out);*/
 
         switch (itemId){
             case R.id.navigation_inicio:

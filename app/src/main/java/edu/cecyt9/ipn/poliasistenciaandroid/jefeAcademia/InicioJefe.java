@@ -1,11 +1,10 @@
-package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
+package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -13,38 +12,44 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
-
-public class InicioAlumno extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        FragmentInicioAlumno.OnFragmentInteractionListener,
-        FragmentHorarioAlumno.OnFragmentInteractionListener,
-        FragmentEstadisticasAlumno.OnFragmentInteractionListener,
-        FragmentNotificacionesAlumno.OnFragmentInteractionListener{
+public class InicioJefe extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        FragementInicioJefeAcademia.OnFragmentInteractionListener,
+        FragmentHorarioJefe.OnFragmentInteractionListener,
+        FragmentEstadisticasJefe.OnFragmentInteractionListener,
+        FragmentNotificacionesJefe.OnFragmentInteractionListener{
 
     private NavigationView navegador;
-    FragmentInicioAlumno inicio;
-    FragmentHorarioAlumno horario;
-    FragmentEstadisticasAlumno estadisticas;
-    FragmentNotificacionesAlumno notificaciones;
+    FragementInicioJefeAcademia inicio;
+    FragmentHorarioJefe horario;
+    FragmentEstadisticasJefe estadisticas;
+    FragmentNotificacionesJefe notificaciones;
     BottomNavigationView barraNavegacion;
     Toolbar toolbarInicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_alumno);
-        navegador = findViewById(R.id.navegador);
+        setContentView(R.layout.activity_inicio_jefe);
+
+        navegador = findViewById(R.id.navegador_jefe);
         navegador.setNavigationItemSelectedListener(this);
         barraNavegacion = findViewById(R.id.navigation);
         barraNavegacion.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         toolbarInicio = findViewById(R.id.toolbar);
+        Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
+        TextView tit1 = findViewById(R.id.toolbar_title);
+        TextView tit2 = findViewById(R.id.toolbar_title_2);
+        tit1.setTypeface(calibri);
+        tit2.setTypeface(calibri, Typeface.BOLD);
         setSupportActionBar(toolbarInicio);
         final Drawable drwmenu = getResources().getDrawable(R.drawable.ic_menu_black_24dp);
         drwmenu.setColorFilter(getResources().getColor(R.color.blanco), PorterDuff.Mode.SRC_ATOP);
@@ -53,25 +58,12 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         toolbarInicio.setNavigationIcon(drwmenu);
         getSupportActionBar().setHideOnContentScrollEnabled(false);
 
-
-        inicio = new FragmentInicioAlumno();
-        horario = new FragmentHorarioAlumno();
-        estadisticas = new FragmentEstadisticasAlumno();
-        notificaciones = new FragmentNotificacionesAlumno();
+        inicio = new FragementInicioJefeAcademia();
+        horario = new FragmentHorarioJefe();
+        estadisticas = new FragmentEstadisticasJefe();
+        notificaciones = new FragmentNotificacionesJefe();
 
         getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
-
-        Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
-        TextView tit1 = (TextView)findViewById(R.id.toolbar_title);
-        TextView tit2 = (TextView)findViewById(R.id.toolbar_title_2);
-        tit1.setTypeface(calibri);
-        tit2.setTypeface(calibri, Typeface.BOLD);
-
-
-/*
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -106,10 +98,8 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         }
     };
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.barra_configuracion) {
@@ -121,7 +111,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.container);
+        DrawerLayout drawer = findViewById(R.id.container);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -136,8 +126,9 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.container);
+        DrawerLayout drawer = findViewById(R.id.container);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcademia;
+import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 public class InicioSesion extends AppCompatActivity {
@@ -59,7 +61,7 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
                 case "jefe":
-                    Intent inicioJefe = new Intent(this, InicioAlumno.class);
+                    Intent inicioJefe = new Intent(this, InicioJefe.class);
                     inicioJefe.putExtra("usuario", usr);
                     startActivity(inicioJefe);
                     finish();

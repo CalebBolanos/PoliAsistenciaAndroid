@@ -35,7 +35,9 @@
         <activity android:name=".profesor.AsistenciaIndividualProfesor" />
         <activity android:name=".AsistenciaUnidad" />
         <activity android:name=".AsistenciaUnidadMes" />
-        <activity android:name=".AsistenciaUnidadDia"></activity>
+        <activity android:name=".AsistenciaUnidadDia" />
+        <activity android:name=".jefeAcademia.InicioJefe" />
+        <activity android:name=".CrearNotificacion"></activity>
     </application>
 
 </manifest>
