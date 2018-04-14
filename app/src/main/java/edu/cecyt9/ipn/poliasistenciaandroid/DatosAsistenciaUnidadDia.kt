@@ -5,16 +5,8 @@ package edu.cecyt9.ipn.poliasistenciaandroid
  */
 class DatosAsistenciaUnidadDia {
     var boleta: String = ""
-        get() = field
-        set(value){field = value}
-
     var nombre: String = ""
-        get() = field
-        set(value){field = value}
-
     var asistencia: String = ""
-        get() = field
-        set(value){field = value}
 
     constructor(boleta: String, nombre: String, asistencia: String) {
         this.boleta = boleta

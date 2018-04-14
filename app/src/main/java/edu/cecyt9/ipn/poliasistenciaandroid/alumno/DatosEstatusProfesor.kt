@@ -5,16 +5,8 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno
  */
 class DatosEstatusProfesor {
     var unidad: String = ""
-        get() = field
-        set(value){field = value}
-
     var profesor: String = ""
-        get() = field
-        set(value){field = value}
-
     var estatus: String = ""
-        get() = field
-        set(value){field = value}
 
     constructor(unidad: String, profesor: String, estatus: String) {
         this.unidad = unidad

@@ -8,128 +8,142 @@
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="99dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="116dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="99dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tit_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/poli"
+                android:textColor="@color/azul"
+                android:textSize="60sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tit_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asistencia"
+                android:textAllCaps="false"
+                android:textColor="@color/azulMas"
+                android:textSize="65sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tit_1"
+                app:layout_constraintStart_toEndOf="@+id/tit_1" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/txtInputLayout_usuario"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="52dp"
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <EditText
+                android:id="@+id/txt_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/usuario"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:theme="@style/azul" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/txtInputLayout_contrasena"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_usuario">
+
+            <EditText
+                android:id="@+id/txt_contrasena"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/contrasena"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:theme="@style/azul" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/ingresar"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/color_gradiente"
+            android:onClick="iniciarSesion"
+            android:text="@string/ingresar"
+            android:textColor="@color/blanco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
         <TextView
-            android:id="@+id/tit_1"
+            android:id="@+id/mensaje"
+            android:layout_width="203dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingresar" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/poli"
-            android:textColor="@color/azul"
-            android:textSize="60sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Mantener sesion iniciada"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_contrasena" />
 
-        <TextView
-            android:id="@+id/tit_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/asistencia"
-            android:textAllCaps="false"
-            android:textColor="@color/azulMas"
-            android:textSize="65sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tit_1"
-            app:layout_constraintStart_toEndOf="@+id/tit_1" />
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtInputLayout_usuario"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
-        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <EditText
-            android:id="@+id/txt_usuario"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/usuario"
-            android:singleLine="true"
-            android:textSize="18sp"
-            android:theme="@style/azul" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtInputLayout_contrasena"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_usuario"
-        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-        <EditText
-            android:id="@+id/txt_contrasena"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/contrasena"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:theme="@style/azul" />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <Button
-        android:id="@+id/ingresar"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/color_gradiente"
-        android:onClick="iniciarSesion"
-        android:text="@string/ingresar"
-        android:textColor="@color/blanco"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
-
-    <TextView
-        android:id="@+id/mensaje"
-        android:layout_width="203dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingresar" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Mantener sesion iniciada"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_contrasena" />
 
 
 </android.support.constraint.ConstraintLayout>
