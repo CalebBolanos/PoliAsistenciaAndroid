@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 
 
 public class InicioAlumno extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -116,6 +117,8 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
             Intent configuracion = new Intent(this, Configuracion.class);
             startActivity(configuracion);
         } else if (id == R.id.cerrarsesion) {
+            Sesion sesion = new Sesion(this);
+            sesion.clearDatos();
             Intent iniciarSesion = new Intent(this, InicioSesion.class);
             startActivity(iniciarSesion);
             finish();

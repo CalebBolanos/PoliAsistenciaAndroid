@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,19 +17,35 @@ import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcad
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.ALUMNO;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.JEFE_ACADEMIA;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
+
 public class InicioSesion extends AppCompatActivity {
     EditText usuario, contrasena;
     Button ingresar;
     String usr, psw;
     TextView mensaje;
+    CheckBox sesionIniciado;
+    Boolean mantenerSesion = false;
+    private Sesion sesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
+        sesion = new Sesion(this);
+        if(!sesion.getUsuario().equals("")){
+            Intent inicioAlumno = new Intent(this, InicioAlumno.class);
+            inicioAlumno.putExtra("usuario", usr);
+            startActivity(inicioAlumno);
+            finish();
+            return;
+        }
         usuario = findViewById(R.id.txt_usuario);
         contrasena = findViewById(R.id.txt_contrasena);
         ingresar = findViewById(R.id.ingresar);
         mensaje = findViewById(R.id.mensaje);
+        sesionIniciado = findViewById(R.id.checkBox);
         Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
         TextView titulo = findViewById(R.id.tit_1);
         TextView titulo2 = findViewById(R.id.tit_2);
@@ -47,22 +64,29 @@ public class InicioSesion extends AppCompatActivity {
         usr = usuario.getText().toString();
         psw = usuario.getText().toString();
         if(usr.equals(psw)){
+            mantenerSesion = sesionIniciado.isChecked();
             switch (usr){
                 case "alumno":
+                    if(mantenerSesion){
+                        sesion.setDatos(usr, psw, ALUMNO);
+                    }
                     Intent inicioAlumno = new Intent(this, InicioAlumno.class);
-                    inicioAlumno.putExtra("usuario", usr);
                     startActivity(inicioAlumno);
                     finish();
                     break;
                 case "profesor":
+                    if(mantenerSesion){
+                        sesion.setDatos(usr, psw, PROFESOR);
+                    }
                     Intent inicioProfesor = new Intent(this, InicioProfesor.class);
-                    inicioProfesor.putExtra("usuario", usr);
                     startActivity(inicioProfesor);
                     finish();
                     break;
                 case "jefe":
+                    if(mantenerSesion){
+                        sesion.setDatos(usr, psw, JEFE_ACADEMIA);
+                    }
                     Intent inicioJefe = new Intent(this, InicioJefe.class);
-                    inicioJefe.putExtra("usuario", usr);
                     startActivity(inicioJefe);
                     finish();
                     break;
@@ -76,5 +100,8 @@ public class InicioSesion extends AppCompatActivity {
             mensaje.setText("Usario o contraseña incorrecta");
         }
 
+    }
+
+    public void verificarCheckBox(View view) {
     }
 }

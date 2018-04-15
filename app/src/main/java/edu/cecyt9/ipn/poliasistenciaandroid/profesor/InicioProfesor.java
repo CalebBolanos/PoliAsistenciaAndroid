@@ -22,6 +22,7 @@ import android.widget.TextView;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 
 public class InicioProfesor extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentInicioProfesor.OnFragmentInteractionListener,
@@ -108,6 +109,8 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
             Intent configuracion = new Intent(this, Configuracion.class);
             startActivity(configuracion);
         } else if (id == R.id.cerrarsesion) {
+            Sesion sesion = new Sesion(this);
+            sesion.clearDatos();
             Intent iniciarSesion = new Intent(this, InicioSesion.class);
             startActivity(iniciarSesion);
             finish();
