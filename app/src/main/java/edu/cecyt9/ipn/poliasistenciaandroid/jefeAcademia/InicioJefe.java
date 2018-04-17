@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
+import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 public class InicioJefe extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragementInicioJefeAcademia.OnFragmentInteractionListener,
@@ -135,7 +138,23 @@ public class InicioJefe extends AppCompatActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder constructorAlerta = new AlertDialog.Builder(InicioJefe.this);
+            constructorAlerta.setTitle("PoliAsistencia");
+            constructorAlerta.setMessage("¿Estás seguro de que quieres salir?");
+            constructorAlerta.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    InicioJefe.this.finish();
+                }
+            })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+            AlertDialog alerta = constructorAlerta.create();
+            alerta.show();
         }
     }
 

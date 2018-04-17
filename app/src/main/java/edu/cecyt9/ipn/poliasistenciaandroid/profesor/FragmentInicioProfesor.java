@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -25,6 +26,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaUnidad;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
@@ -140,6 +142,21 @@ public class FragmentInicioProfesor extends Fragment {
                 }
                 v.onTouchEvent(event);
                 return true;
+            }
+        });
+        listaHorario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String seleccionado = listaHorario.getItemAtPosition(i).toString();
+                switch (seleccionado){
+                    case "":
+
+                        break;
+                    default:
+                        Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
+                        startActivity(graficas);
+                        break;
+                }
             }
         });
 

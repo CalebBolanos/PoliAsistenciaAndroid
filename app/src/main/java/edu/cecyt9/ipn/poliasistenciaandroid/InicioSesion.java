@@ -35,10 +35,24 @@ public class InicioSesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
         sesion = new Sesion(this);
         if(!sesion.getUsuario().equals("")){
-            Intent inicioAlumno = new Intent(this, InicioAlumno.class);
-            inicioAlumno.putExtra("usuario", usr);
-            startActivity(inicioAlumno);
-            finish();
+            switch (sesion.getTipoUsr()){
+                case ALUMNO:
+                    Intent inicioAlumno = new Intent(this, InicioAlumno.class);
+                    startActivity(inicioAlumno);
+                    finish();
+                    break;
+                case PROFESOR:
+                    Intent inicioProfesor = new Intent(this, InicioProfesor.class);
+                    startActivity(inicioProfesor);
+                    finish();
+                    break;
+                case JEFE_ACADEMIA:
+                    Intent inicioJefe = new Intent(this, InicioJefe.class);
+                    startActivity(inicioJefe);
+                    finish();
+                    break;
+            }
+
             return;
         }
         usuario = findViewById(R.id.txt_usuario);
