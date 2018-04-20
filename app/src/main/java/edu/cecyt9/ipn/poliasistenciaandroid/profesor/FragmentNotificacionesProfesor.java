@@ -91,10 +91,10 @@ public class FragmentNotificacionesProfesor extends Fragment {
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         List<DatosNotificacion> notificaciones = new ArrayList<>();
-        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", false);
+        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Profesor", R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", false);
         notificaciones.add(notificacionprueba);
         for (int i = 0; i < 5; i++) {
-            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url"+i, false);
+            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, "Profesor", R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url"+i, false);
             notificaciones.add(notificacionx);
             notificacionx = null;
         }

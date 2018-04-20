@@ -32,6 +32,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     //Notificaciones con imagen y url
     public static class ViewHolderNotificacionImagenUrl extends RecyclerView.ViewHolder{
         CircleImageView imagenUsuario;
+        TextView usuario;
         TextView titulo;
         AppCompatTextView descripcion;
         ImageView imagen;
@@ -42,6 +43,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
 
             imagenUsuario = itemView.findViewById(R.id.imagen_notificacion_imagen);
+            usuario = itemView.findViewById(R.id.txt_usuario_imagen);
             titulo = itemView.findViewById(R.id.txt_notificacion_imagen);
             descripcion = itemView.findViewById(R.id.descripcion_imagen);
             imagen = itemView.findViewById(R.id.imageView2);
@@ -54,6 +56,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static class ViewHolderNotificacionUrl extends RecyclerView.ViewHolder{
         CircleImageView imagenUsuario;
         TextView titulo;
+        TextView usuario;
         AppCompatTextView descripcion;
         Button botonUrl;
         Button borrar;
@@ -62,6 +65,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
 
             imagenUsuario = itemView.findViewById(R.id.imagen_alumno);
+            usuario = itemView.findViewById(R.id.txt_usuario);
             titulo = itemView.findViewById(R.id.txt_notificacion);
             descripcion = itemView.findViewById(R.id.descripcion);
             botonUrl = itemView.findViewById(R.id.botonNotifi);
@@ -109,6 +113,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case NOTIFICACION_URL:
                 final ViewHolderNotificacionUrl holderNotificacionUrl = (ViewHolderNotificacionUrl) holder;
                 holderNotificacionUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                holderNotificacionUrl.usuario.setText(notificaciones.get(position).getUsuario());
                 holderNotificacionUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
                 final String url = notificaciones.get(position).getUrl();
@@ -135,6 +140,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case NOTIFICACION_IMAGEN_URL:
                 final ViewHolderNotificacionImagenUrl holderNotificacionImagenUrl = (ViewHolderNotificacionImagenUrl) holder;
                 holderNotificacionImagenUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                holderNotificacionImagenUrl.usuario.setText(notificaciones.get(position).getUsuario());
                 holderNotificacionImagenUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionImagenUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
                 holderNotificacionImagenUrl.imagen.setImageResource(notificaciones.get(position).getImagen());
