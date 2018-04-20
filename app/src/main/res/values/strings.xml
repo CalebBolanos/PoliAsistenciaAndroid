@@ -11,6 +11,8 @@
     <string name="navegacion_horario">Horario</string>
     <string name="navegacion_estadisticas">Estadísticas</string>
     <string name="navegacion_notificaciones">Notificaciones</string>
+    <string name="navegacion_buscar_alumno">Buscar Alumno</string>
+    <string name="navegacion_grupo">Grupos</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

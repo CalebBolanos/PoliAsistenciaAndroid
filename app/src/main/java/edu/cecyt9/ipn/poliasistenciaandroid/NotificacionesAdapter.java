@@ -58,7 +58,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ViewHolderNotificacionUrl(View itemView) {
             super(itemView);
 
-            imagenUsuario = itemView.findViewById(R.id.imagen_notificacion);
+            imagenUsuario = itemView.findViewById(R.id.imagen_alumno);
             titulo = itemView.findViewById(R.id.txt_notificacion);
             descripcion = itemView.findViewById(R.id.descripcion);
             botonUrl = itemView.findViewById(R.id.botonNotifi);

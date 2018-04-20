@@ -15,10 +15,12 @@ import android.widget.TextView;
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcademia;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
+import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.ALUMNO;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.JEFE_ACADEMIA;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PREFECTO;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
 
 public class InicioSesion extends AppCompatActivity {
@@ -47,8 +49,13 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
                 case JEFE_ACADEMIA:
-                    Intent inicioJefe = new Intent(this, InicioJefe.class);
-                    startActivity(inicioJefe);
+                    //Intent inicioJefe = new Intent(this, InicioJefe.class);
+                    //startActivity(inicioJefe);
+                    //finish();
+                    break;
+                case PREFECTO:
+                    Intent inicioPrefecto = new Intent(this, InicioPrefecto.class);
+                    startActivity(inicioPrefecto);
                     finish();
                     break;
             }
@@ -102,6 +109,14 @@ public class InicioSesion extends AppCompatActivity {
                     }
                     Intent inicioJefe = new Intent(this, InicioJefe.class);
                     startActivity(inicioJefe);
+                    finish();
+                    break;
+                case "prefecto":
+                    if(mantenerSesion){
+                        sesion.setDatos(usr, psw, PREFECTO);
+                    }
+                    Intent inicioPrefecto = new Intent(this, InicioPrefecto.class);
+                    startActivity(inicioPrefecto);
                     finish();
                     break;
                 default:
