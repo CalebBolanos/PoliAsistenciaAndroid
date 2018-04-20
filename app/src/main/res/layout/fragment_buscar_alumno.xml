@@ -5,14 +5,6 @@
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.prefecto.FragmentBuscarAlumno">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchView" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_alumnos"
@@ -21,8 +13,5 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/searchView"
             android:layout_marginTop="10dp" />
-
-
-    </RelativeLayout>
 
 </FrameLayout>

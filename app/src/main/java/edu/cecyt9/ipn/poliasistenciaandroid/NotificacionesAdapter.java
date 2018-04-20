@@ -36,6 +36,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         AppCompatTextView descripcion;
         ImageView imagen;
         Button botonUrl;
+        Button borrar;
 
         public ViewHolderNotificacionImagenUrl(View itemView) {
             super(itemView);
@@ -45,6 +46,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             descripcion = itemView.findViewById(R.id.descripcion_imagen);
             imagen = itemView.findViewById(R.id.imageView2);
             botonUrl = itemView.findViewById(R.id.button_imagen);
+            borrar = itemView.findViewById(R.id.borrar_imagen);
         }
     }
 
@@ -54,6 +56,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView titulo;
         AppCompatTextView descripcion;
         Button botonUrl;
+        Button borrar;
 
         public ViewHolderNotificacionUrl(View itemView) {
             super(itemView);
@@ -62,6 +65,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             titulo = itemView.findViewById(R.id.txt_notificacion);
             descripcion = itemView.findViewById(R.id.descripcion);
             botonUrl = itemView.findViewById(R.id.botonNotifi);
+            borrar = itemView.findViewById(R.id.borrar);
         }
     }
 
@@ -103,7 +107,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case NOTIFICACION_IMAGEN:
                 break;
             case NOTIFICACION_URL:
-                ViewHolderNotificacionUrl holderNotificacionUrl = (ViewHolderNotificacionUrl) holder;
+                final ViewHolderNotificacionUrl holderNotificacionUrl = (ViewHolderNotificacionUrl) holder;
                 holderNotificacionUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
                 holderNotificacionUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
@@ -116,9 +120,20 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         context.startActivity(navegador);
                     }
                 });
+                if(notificaciones.get(position).getBorrar()){
+                    holderNotificacionUrl.borrar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            borrar(holderNotificacionUrl.getAdapterPosition());
+                        }
+                    });
+                }
+                else{
+                    holderNotificacionUrl.borrar.setVisibility(View.GONE);
+                }
                 break;
             case NOTIFICACION_IMAGEN_URL:
-                ViewHolderNotificacionImagenUrl holderNotificacionImagenUrl = (ViewHolderNotificacionImagenUrl) holder;
+                final ViewHolderNotificacionImagenUrl holderNotificacionImagenUrl = (ViewHolderNotificacionImagenUrl) holder;
                 holderNotificacionImagenUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
                 holderNotificacionImagenUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionImagenUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
@@ -132,6 +147,17 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         context.startActivity(navegador);
                     }
                 });
+                if(notificaciones.get(position).getBorrar()){
+                    holderNotificacionImagenUrl.borrar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            borrar(holderNotificacionImagenUrl.getAdapterPosition());
+                        }
+                    });
+                }
+                else {
+                    holderNotificacionImagenUrl.borrar.setVisibility(View.GONE);
+                }
                 break;
         }
     }
@@ -144,5 +170,11 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
         return notificaciones.size();
+    }
+
+    public void borrar(int posicion){
+        notificaciones.remove(posicion);
+        notifyItemRemoved(posicion);
+        notifyItemRangeChanged(posicion, notificaciones.size());
     }
 }

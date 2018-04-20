@@ -49,9 +49,9 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
                 case JEFE_ACADEMIA:
-                    //Intent inicioJefe = new Intent(this, InicioJefe.class);
-                    //startActivity(inicioJefe);
-                    //finish();
+                    Intent inicioJefe = new Intent(this, InicioJefe.class);
+                    startActivity(inicioJefe);
+                    finish();
                     break;
                 case PREFECTO:
                     Intent inicioPrefecto = new Intent(this, InicioPrefecto.class);

@@ -16,8 +16,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
@@ -33,6 +36,7 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
     FragmentGrupos grupos;
     BottomNavigationView barraNavegacion;
     Toolbar toolbarInicio;
+    MaterialSearchView busqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,20 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
         grupos = new FragmentGrupos();
 
         getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, buscarAlumno).commit();
+
+        busqueda = findViewById(R.id.search_view);
+        busqueda.closeSearch();
+        busqueda.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
     }
 
@@ -156,5 +174,15 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.busqueda, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        busqueda.setMenuItem(item);
+
+        return true;
     }
 }
