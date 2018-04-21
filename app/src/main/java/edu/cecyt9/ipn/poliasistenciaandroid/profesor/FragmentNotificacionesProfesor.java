@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -53,6 +55,8 @@ public class FragmentNotificacionesProfesor extends Fragment {
     private OnFragmentInteractionListener mListener;
     RecyclerView recyclerNotificaciones;
     NotificacionesAdapter adaptador;
+    SwipeRefreshLayout refrescar;
+
     public FragmentNotificacionesProfesor() {
         // Required empty public constructor
     }
@@ -90,7 +94,7 @@ public class FragmentNotificacionesProfesor extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<DatosNotificacion> notificaciones = new ArrayList<>();
+        final List<DatosNotificacion> notificaciones = new ArrayList<>();
         DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Profesor", R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", false);
         notificaciones.add(notificacionprueba);
         for (int i = 0; i < 5; i++) {
@@ -101,6 +105,27 @@ public class FragmentNotificacionesProfesor extends Fragment {
 
         adaptador = new NotificacionesAdapter(getContext(), notificaciones);
         recyclerNotificaciones.setAdapter(adaptador);
+
+        final RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refrescar.setRefreshing(true);
+                notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
+                adaptador.notifyItemInserted(0);
+                smoothScroller.setTargetPosition(0);
+                recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);
+                refrescar.setRefreshing(false);
+            }
+        });
+
         return vista;
     }
 

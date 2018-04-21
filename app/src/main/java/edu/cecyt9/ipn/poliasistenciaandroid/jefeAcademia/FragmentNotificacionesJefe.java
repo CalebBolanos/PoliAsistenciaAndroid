@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ public class FragmentNotificacionesJefe extends Fragment {
 
     RecyclerView recyclerNotificaciones;
     NotificacionesAdapter adaptador;
+    SwipeRefreshLayout refrescar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,7 +84,7 @@ public class FragmentNotificacionesJefe extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_notificaciones_jefe, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<DatosNotificacion> notificaciones = new ArrayList<>();//Hacer notificaciones con boton borrar
+        final List<DatosNotificacion> notificaciones = new ArrayList<>();//Hacer notificaciones con boton borrar
         DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", true);
         notificaciones.add(notificacionprueba);
         for (int i = 0; i < 5; i++) {
@@ -93,6 +96,12 @@ public class FragmentNotificacionesJefe extends Fragment {
         adaptador = new NotificacionesAdapter(getContext(), notificaciones);
         recyclerNotificaciones.setAdapter(adaptador);
 
+        final RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+
         FloatingActionButton fab = vista.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +110,21 @@ public class FragmentNotificacionesJefe extends Fragment {
                 startActivity(subirNotificacion);
             }
         });
+
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refrescar.setRefreshing(true);
+                notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
+                adaptador.notifyItemInserted(0);
+                smoothScroller.setTargetPosition(0);
+                recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);
+                refrescar.setRefreshing(false);
+            }
+        });
+
         return vista;
     }
 

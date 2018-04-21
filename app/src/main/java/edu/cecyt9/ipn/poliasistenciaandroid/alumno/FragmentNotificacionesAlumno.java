@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -49,6 +50,7 @@ public class FragmentNotificacionesAlumno extends Fragment {
 
     RecyclerView recyclerNotificaciones;
     NotificacionesAdapter adaptador;
+    SwipeRefreshLayout refrescar;
 
     public FragmentNotificacionesAlumno() {
         // Required empty public constructor
@@ -99,6 +101,17 @@ public class FragmentNotificacionesAlumno extends Fragment {
 
         adaptador = new NotificacionesAdapter(getContext(), notificaciones);
         recyclerNotificaciones.setAdapter(adaptador);
+
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refrescar.setRefreshing(true);
+                adaptador.notifyDataSetChanged();
+                refrescar.setRefreshing(false);
+            }
+        });
         /*
         Button botonImagen = vista.findViewById(R.id.button_imagen);
         botonImagen.setOnClickListener(new View.OnClickListener() {
