@@ -63,7 +63,10 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
         buscarAlumno = new FragmentBuscarAlumno();
         grupos = new FragmentGrupos();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, buscarAlumno).commit();
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, buscarAlumno).commit();
+        }
+
 
         /*busqueda = findViewById(R.id.search_view);
         busqueda.closeSearch();

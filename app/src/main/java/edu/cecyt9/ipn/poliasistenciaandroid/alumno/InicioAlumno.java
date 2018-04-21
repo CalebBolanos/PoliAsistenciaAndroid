@@ -15,9 +15,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+
+import java.io.Console;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
@@ -43,6 +46,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_alumno);
+
         navegador = findViewById(R.id.navegador);
         navegador.setNavigationItemSelectedListener(this);
         barraNavegacion = findViewById(R.id.navigation);
@@ -55,20 +59,20 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setHideOnContentScrollEnabled(false);
         toolbarInicio.setNavigationIcon(drwmenu);
         getSupportActionBar().setHideOnContentScrollEnabled(false);
-
-
-        inicio = new FragmentInicioAlumno();
-        horario = new FragmentHorarioAlumno();
-        estadisticas = new FragmentEstadisticasAlumno();
-        notificaciones = new FragmentNotificacionesAlumno();
-
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
-
         Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
         TextView tit1 = (TextView)findViewById(R.id.toolbar_title);
         TextView tit2 = (TextView)findViewById(R.id.toolbar_title_2);
         tit1.setTypeface(calibri);
         tit2.setTypeface(calibri, Typeface.BOLD);
+        inicio = new FragmentInicioAlumno();
+        horario = new FragmentHorarioAlumno();
+        estadisticas = new FragmentEstadisticasAlumno();
+        notificaciones = new FragmentNotificacionesAlumno();
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
+        }
+
+
 
 
 /*

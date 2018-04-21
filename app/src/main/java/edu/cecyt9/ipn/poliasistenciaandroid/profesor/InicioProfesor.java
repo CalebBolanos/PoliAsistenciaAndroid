@@ -69,7 +69,10 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
         estadisticas = new FragmentEstadisticasProfesor();
         notificaciones = new FragmentNotificacionesProfesor();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
+        }
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

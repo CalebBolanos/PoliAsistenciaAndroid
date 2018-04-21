@@ -86,6 +86,8 @@ public class FragmentBuscarAlumno extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_buscar_alumno, container, false);
         recyclerAlumno = vista.findViewById(R.id.recycler_alumnos);
         recyclerAlumno.setLayoutManager(new LinearLayoutManager(getContext()));
+        alumnos = null;
+        alumnos = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, "Alumno "+ i, "6IM7", "201609000"+i);
             alumnos.add(alumnox);

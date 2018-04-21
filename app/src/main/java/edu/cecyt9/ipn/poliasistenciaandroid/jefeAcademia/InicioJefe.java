@@ -61,13 +61,15 @@ public class InicioJefe extends AppCompatActivity implements NavigationView.OnNa
         getSupportActionBar().setHideOnContentScrollEnabled(false);
         toolbarInicio.setNavigationIcon(drwmenu);
         getSupportActionBar().setHideOnContentScrollEnabled(false);
-
         inicio = new FragementInicioJefeAcademia();
         horario = new FragmentHorarioJefe();
         estadisticas = new FragmentEstadisticasJefe();
         notificaciones = new FragmentNotificacionesJefe();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
+        }
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
