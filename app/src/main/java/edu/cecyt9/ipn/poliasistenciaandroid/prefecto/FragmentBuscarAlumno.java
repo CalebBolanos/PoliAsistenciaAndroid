@@ -148,18 +148,29 @@ public class FragmentBuscarAlumno extends Fragment {
         busqueda.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                List<DatosAlumno> busqueda = filtrarAlumno(alumnos, query);
-                AlumnoAdapter adaptadorBusqueda = new AlumnoAdapter(getContext(), busqueda);
-                recyclerAlumno.swapAdapter(adaptadorBusqueda, false);
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                List<DatosAlumno> busqueda = filtrarAlumno(alumnos, newText);
+                AlumnoAdapter adaptadorBusqueda = new AlumnoAdapter(getContext(), busqueda);
+                recyclerAlumno.swapAdapter(adaptadorBusqueda, false);
+                return true;
             }
         });
 
+        busqueda.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                recyclerAlumno.swapAdapter(adaptador, false);
+            }
+        });
 
 
     }
