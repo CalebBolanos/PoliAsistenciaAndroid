@@ -122,6 +122,8 @@ public class FragmentNotificacionesProfesor extends Fragment {
                 adaptador.notifyItemInserted(0);
                 smoothScroller.setTargetPosition(0);
                 recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);
+                //notificaciones.add(new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
+                //adaptador.notifyItemInserted(notificaciones.size() - 1);
                 refrescar.setRefreshing(false);
             }
         });

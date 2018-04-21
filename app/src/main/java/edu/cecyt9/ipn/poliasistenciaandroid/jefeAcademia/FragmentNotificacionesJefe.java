@@ -118,9 +118,11 @@ public class FragmentNotificacionesJefe extends Fragment {
             public void onRefresh() {
                 refrescar.setRefreshing(true);
                 notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
-                adaptador.notifyItemInserted(0);
+                adaptador.notifyItemInserted(0);//a veces da error xdxd
                 smoothScroller.setTargetPosition(0);
                 recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);
+                //notificaciones.add(new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
+                //adaptador.notifyItemInserted(notificaciones.size() - 1);
                 refrescar.setRefreshing(false);
             }
         });

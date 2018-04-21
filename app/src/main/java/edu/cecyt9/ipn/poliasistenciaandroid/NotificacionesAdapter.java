@@ -182,5 +182,6 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notificaciones.remove(posicion);
         notifyItemRemoved(posicion);
         notifyItemRangeChanged(posicion, notificaciones.size());
+        //borrar noti con base
     }
 }

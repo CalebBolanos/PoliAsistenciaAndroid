@@ -36,7 +36,7 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
     FragmentGrupos grupos;
     BottomNavigationView barraNavegacion;
     Toolbar toolbarInicio;
-    MaterialSearchView busqueda;
+    //MaterialSearchView busqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
 
         getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, buscarAlumno).commit();
 
-        busqueda = findViewById(R.id.search_view);
+        /*busqueda = findViewById(R.id.search_view);
         busqueda.closeSearch();
         busqueda.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -77,7 +77,7 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
+        });*/
 
     }
 
@@ -136,24 +136,24 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
         DrawerLayout drawer = findViewById(R.id.container);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            AlertDialog.Builder constructorAlerta = new AlertDialog.Builder(InicioPrefecto.this);
-            constructorAlerta.setTitle("PoliAsistencia");
-            constructorAlerta.setMessage("¿Estás seguro de que quieres salir?");
-            constructorAlerta.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    InicioPrefecto.this.finish();
-                }
-            })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    });
-            AlertDialog alerta = constructorAlerta.create();
-            alerta.show();
+        }else{
+                AlertDialog.Builder constructorAlerta = new AlertDialog.Builder(InicioPrefecto.this);
+                constructorAlerta.setTitle("PoliAsistencia");
+                constructorAlerta.setMessage("¿Estás seguro de que quieres salir?");
+                constructorAlerta.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        InicioPrefecto.this.finish();
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog alerta = constructorAlerta.create();
+                alerta.show();
         }
     }
 
@@ -176,13 +176,13 @@ public class InicioPrefecto extends AppCompatActivity implements NavigationView.
 
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.busqueda, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
-        busqueda.setMenuItem(item);
+        //busqueda.setMenuItem(item);
 
         return true;
-    }
+    }*/
 }

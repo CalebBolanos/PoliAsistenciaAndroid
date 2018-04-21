@@ -1,4 +1,4 @@
-package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia;
+package edu.cecyt9.ipn.poliasistenciaandroid.prefecto;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.DatosAlumno;
 
 /**
  * Created by Caleb on 19/04/2018.

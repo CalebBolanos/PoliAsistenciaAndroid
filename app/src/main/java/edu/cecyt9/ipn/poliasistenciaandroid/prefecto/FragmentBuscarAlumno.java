@@ -7,14 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
-import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.AlumnoAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.DatosAlumno;
 
 
@@ -40,6 +44,8 @@ public class FragmentBuscarAlumno extends Fragment {
 
     RecyclerView recyclerAlumno;
     AlumnoAdapter adaptador;
+    MaterialSearchView busqueda;
+    List<DatosAlumno> alumnos = new ArrayList<>();
 
     public FragmentBuscarAlumno() {
         // Required empty public constructor
@@ -76,11 +82,11 @@ public class FragmentBuscarAlumno extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View vista = inflater.inflate(R.layout.fragment_buscar_alumno, container, false);
         recyclerAlumno = vista.findViewById(R.id.recycler_alumnos);
         recyclerAlumno.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<DatosAlumno> alumnos = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, "Alumno "+ i, "6IM7", "201609000"+i);
             alumnos.add(alumnox);
             alumnox = null;
@@ -128,5 +134,44 @@ public class FragmentBuscarAlumno extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.busqueda, menu);
+        busqueda = getActivity().findViewById(R.id.search_view);
+        final MenuItem item = menu.findItem(R.id.action_search);
+        busqueda.setMenuItem(item);
+
+        busqueda.closeSearch();
+        busqueda.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<DatosAlumno> busqueda = filtrarAlumno(alumnos, query);
+                AlumnoAdapter adaptadorBusqueda = new AlumnoAdapter(getContext(), busqueda);
+                recyclerAlumno.swapAdapter(adaptadorBusqueda, false);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+
+    }
+
+    public List<DatosAlumno> filtrarAlumno(List<DatosAlumno> alumnos, String busqueda){
+        List<DatosAlumno> filtrado = new ArrayList<>();
+        for(DatosAlumno alumno: alumnos ){
+            String boleta = alumno.getBoleta();
+            if(boleta.contains(busqueda)){
+                filtrado.add(alumno);
+            }
+        }
+        return filtrado;
     }
 }
