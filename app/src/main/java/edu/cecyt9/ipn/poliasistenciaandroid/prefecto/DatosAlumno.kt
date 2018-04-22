@@ -1,4 +1,4 @@
-package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia
+package edu.cecyt9.ipn.poliasistenciaandroid.prefecto
 
 /**
  * Created by Caleb on 19/04/2018.

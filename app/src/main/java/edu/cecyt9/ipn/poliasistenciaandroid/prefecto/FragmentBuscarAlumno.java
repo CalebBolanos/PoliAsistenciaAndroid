@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
-import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.DatosAlumno;
 
 
 /**

@@ -38,6 +38,9 @@
         <activity android:name=".jefeAcademia.InicioJefe" />
         <activity android:name=".CrearNotificacion" />
         <activity android:name=".prefecto.InicioPrefecto" />
+        <activity android:name=".prefecto.InformacionAlumno" />
+        <activity android:name=".prefecto.InfoHorarioAlumno" />
+        <activity android:name=".prefecto.InfoMesesEstadisticasAlumno"></activity>
     </application>
 
 </manifest>
