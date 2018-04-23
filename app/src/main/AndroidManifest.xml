@@ -40,7 +40,12 @@
         <activity android:name=".prefecto.InicioPrefecto" />
         <activity android:name=".prefecto.InformacionAlumno" />
         <activity android:name=".prefecto.InfoHorarioAlumno" />
-        <activity android:name=".prefecto.InfoMesesEstadisticasAlumno"></activity>
+        <activity android:name=".prefecto.InfoMesesEstadisticasAlumno" />
+
+        <service
+            android:name=".ServiceNotificaciones"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

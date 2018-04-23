@@ -1,7 +1,12 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.opengl.EGLExt;
@@ -9,6 +14,7 @@ import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,6 +91,12 @@ public class InicioSesion extends AppCompatActivity {
             //getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.blanco));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.blanco));
         }
+
+
+
+
+        startService(new Intent(InicioSesion.this, ServiceNotificaciones.class));
+
     }
 
     public void iniciarSesion(View view) {

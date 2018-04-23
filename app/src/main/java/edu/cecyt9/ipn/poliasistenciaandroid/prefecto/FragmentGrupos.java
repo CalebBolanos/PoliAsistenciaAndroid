@@ -1,13 +1,20 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.prefecto;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaUnidad;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
 
@@ -30,6 +37,8 @@ public class FragmentGrupos extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    ListView listaGrupo;
 
     public FragmentGrupos() {
         // Required empty public constructor
@@ -68,6 +77,30 @@ public class FragmentGrupos extends Fragment {
         // Inflate the layout for this fragment
         //setHasOptionsMenu(true);
         View vista = inflater.inflate(R.layout.fragment_grupos, container, false);
+        listaGrupo = vista.findViewById(R.id.listview_grupos);
+        ArrayList<String> arrayGrupos = new ArrayList<>();
+        for(int i = 1; i<=50; i++){
+            arrayGrupos.add("Grupo " + i);
+        }
+        ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayGrupos);
+        listaGrupo.setAdapter(adaptador);
+        listaGrupo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String seleccionado = listaGrupo.getItemAtPosition(i).toString();
+                switch (seleccionado){
+                    case "":
+
+                        break;
+                    default:
+                        Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
+                        startActivity(graficas);
+                        break;
+                }
+
+            }
+        });
         return vista;
     }
 

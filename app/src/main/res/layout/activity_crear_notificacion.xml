@@ -40,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Titulo"
-            android:inputType="textPassword"
             android:singleLine="true"
             android:theme="@style/azul" />
     </android.support.design.widget.TextInputLayout>
@@ -63,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Informacion"
-            android:inputType="textPassword"
             android:singleLine="true"
             android:theme="@style/azul" />
 
@@ -87,7 +85,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Añadir url"
-            android:inputType="textPassword"
             android:singleLine="true"
             android:theme="@style/azul" />
 

@@ -32,7 +32,7 @@ public class InfoMesesEstadisticasAlumno extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null){
-            getSupportActionBar().setTitle("Horario");
+            getSupportActionBar().setTitle("Selecciona un mes");
             final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
             flechaAtras.setColorFilter(getResources().getColor(R.color.blanco), PorterDuff.Mode.SRC_ATOP);
             getSupportActionBar().setHomeAsUpIndicator(flechaAtras);
@@ -43,7 +43,7 @@ public class InfoMesesEstadisticasAlumno extends AppCompatActivity {
 
         listaMeses = findViewById(R.id.listview_meses);
         ArrayList<String> arrayMeses = new ArrayList<>();
-        for(int i = 1; i<=12; i++){
+        for(int i = 1; i<=20; i++){
             arrayMeses.add("Mes" + i);
         }
 

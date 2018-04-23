@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 
@@ -64,6 +65,23 @@ public class InformacionAlumno extends AppCompatActivity {
         HorarioUnidadAdapter adaptador = new HorarioUnidadAdapter(this, R.layout.adapter_view_horario_unidad, datos);
         listaHorario.setAdapter(adaptador);
         listaHorario.setFocusable(false);
+        listaHorario.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
 
         generarGrafica();
     }

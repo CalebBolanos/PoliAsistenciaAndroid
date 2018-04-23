@@ -24,15 +24,36 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
+import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
+import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
+
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.ALUMNO;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.JEFE_ACADEMIA;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PREFECTO;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
+
 public class Configuracion extends AppCompatActivity {
 
     ListView lista;
+    Sesion sesion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_configuracion);
+        sesion = new Sesion(this);
+        if (sesion.getUsuario().equals("")) {
+            Intent iniciarSesion = new Intent(this, InicioSesion.class);
+            startActivity(iniciarSesion);
+            finish();
+            return;
+        }
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar_configuracion);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
 
@@ -73,6 +94,11 @@ public class Configuracion extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.boton_izquierdo, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @Override
