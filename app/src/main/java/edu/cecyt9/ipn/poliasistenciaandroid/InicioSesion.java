@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.opengl.EGLExt;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,6 +27,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcademia;
@@ -45,6 +54,8 @@ public class InicioSesion extends AppCompatActivity {
     Boolean mantenerSesion = false;
     private Sesion sesion;
     ConstraintLayout constraintLayout;
+    String resultado = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +84,6 @@ public class InicioSesion extends AppCompatActivity {
                     finish();
                     break;
             }
-
             return;
         }
         usuario = findViewById(R.id.txt_usuario);
@@ -93,10 +103,13 @@ public class InicioSesion extends AppCompatActivity {
         }
 
 
+        //startService(new Intent(InicioSesion.this, ServiceNotificaciones.class));
+    }
 
-
-        startService(new Intent(InicioSesion.this, ServiceNotificaciones.class));
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new prueba().execute();
     }
 
     public void iniciarSesion(View view) {
@@ -164,5 +177,60 @@ public class InicioSesion extends AppCompatActivity {
     }
 
     public void verificarCheckBox(View view) {
+    }
+
+    public class prueba extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            //ws usuario
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://192.168.20.133:8080/serviciosWebPoliAsistencia/usuario?WSDL";
+            String METHOD_NAME = "validarUsuario";
+            String SOAP_ACTION = "http://servicios/validarUsuario";
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("numero", "gest");
+            request.addProperty("contrasena", "gest");
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+            envelope.setOutputSoapObject(request);
+            envelope.setAddAdornments(false);
+            envelope.dotNet = true;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+                
+                resultado = response.toString();
+                Log.i("Resultado validar usr", resultado);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success==false){
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "El resultado es: "+resultado, Toast.LENGTH_LONG).show();
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+        }
     }
 }

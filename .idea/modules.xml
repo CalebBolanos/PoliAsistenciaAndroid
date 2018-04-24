@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PoliAsistenciaAndroid.iml" filepath="$PROJECT_DIR$/PoliAsistenciaAndroid.iml" />
+      <module fileurl="file://C:\Users\Alumno\Documents\GitHub\PoliAsistenciaAndroid\PoliAsistenciaAndroid.iml" filepath="C:\Users\Alumno\Documents\GitHub\PoliAsistenciaAndroid\PoliAsistenciaAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Alumno\Documents\GitHub\PoliAsistenciaAndroid\app\app.iml" filepath="C:\Users\Alumno\Documents\GitHub\PoliAsistenciaAndroid\app\app.iml" />
     </modules>
   </component>
 </project>
