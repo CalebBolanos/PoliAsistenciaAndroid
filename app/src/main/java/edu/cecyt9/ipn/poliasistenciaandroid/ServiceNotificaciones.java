@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 public class ServiceNotificaciones extends Service {
 
-    private static final int CREAR_NOTIFICACION = 1;
+    public static final String GENERAL = "General";
 
     public ServiceNotificaciones() {
     }
@@ -34,31 +35,7 @@ public class ServiceNotificaciones extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Servicio corriendo"+startId, Toast.LENGTH_SHORT).show();
-
-        NotificationCompat.Builder constructor = new NotificationCompat.Builder(this, "notificaciones");
-        Intent noti = new Intent(this.getApplicationContext(), CambiarCorreo.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, noti, 0);
-
-        NotificationCompat.BigTextStyle txtGrande = new NotificationCompat.BigTextStyle();
-        txtGrande.bigText("Texto grande");
-        txtGrande.setBigContentTitle("Titulo grande");
-        txtGrande.setSummaryText("detalles");
-
-        constructor.setContentIntent(pendingIntent);
-        constructor.setSmallIcon(R.mipmap.ic_launcher_round);
-        constructor.setContentTitle("Titulo");
-        constructor.setContentText("Texto");
-        constructor.setPriority(Notification.PRIORITY_MAX);
-        constructor.setStyle(txtGrande);
-
-        NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel canal = new NotificationChannel("notificaciones", "notificaciones", NotificationManager.IMPORTANCE_HIGH);
-            manager.createNotificationChannel(canal);
-        }
-        manager.notify(0, constructor.build());
-
+        crearNotificacion();
         return START_STICKY;
     }
 
@@ -66,5 +43,35 @@ public class ServiceNotificaciones extends Service {
     public void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "Servicio destruido", Toast.LENGTH_SHORT).show();
+    }
+
+    public void crearNotificacion(){
+        int color = getResources().getColor(R.color.azulMas);
+
+        NotificationCompat.Builder constructor = new NotificationCompat.Builder(this, GENERAL);
+        Intent noti = new Intent(this.getApplicationContext(), CambiarCorreo.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, noti, 0);
+
+        constructor.setContentIntent(pendingIntent);
+        constructor.setSmallIcon(R.drawable.notificacion);
+        constructor.setContentTitle("Titulo");
+        constructor.setContentText("Texto");
+        constructor.setPriority(Notification.PRIORITY_HIGH);
+        constructor.setColor(color);
+        constructor.setVibrate(new long[1]);
+        constructor.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        constructor.setOnlyAlertOnce(true);
+        constructor.setChannelId(GENERAL);
+        constructor.setAutoCancel(true);
+        constructor.setDefaults(Notification.DEFAULT_ALL);
+        constructor.setOngoing(false);
+
+        NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel canal = new NotificationChannel(GENERAL, GENERAL, NotificationManager.IMPORTANCE_HIGH);
+            manager.createNotificationChannel(canal);
+        }
+        manager.notify(0, constructor.build());
     }
 }

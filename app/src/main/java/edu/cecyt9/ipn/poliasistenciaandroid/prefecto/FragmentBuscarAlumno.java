@@ -178,9 +178,15 @@ public class FragmentBuscarAlumno extends Fragment {
 
     public List<DatosAlumno> filtrarAlumno(List<DatosAlumno> alumnos, String busqueda){
         List<DatosAlumno> filtrado = new ArrayList<>();
+        String boleta = "";
+        String nombre = "";
+        String grupo = "";
+
         for(DatosAlumno alumno: alumnos ){
-            String boleta = alumno.getBoleta();
-            if(boleta.contains(busqueda)){
+            boleta = alumno.getBoleta().toLowerCase();
+            nombre = alumno.getNombre().toLowerCase();
+            grupo = alumno.getGrupo().toLowerCase();
+            if(boleta.contains(busqueda) || nombre.contains(busqueda) || grupo.contains(busqueda)){
                 filtrado.add(alumno);
             }
         }
