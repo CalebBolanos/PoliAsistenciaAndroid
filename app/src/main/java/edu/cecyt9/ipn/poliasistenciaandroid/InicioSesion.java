@@ -35,6 +35,9 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcademia;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
@@ -55,6 +58,7 @@ public class InicioSesion extends AppCompatActivity {
     private Sesion sesion;
     ConstraintLayout constraintLayout;
     String resultado = "";
+    ArrayList datosUsuario = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,16 +189,15 @@ public class InicioSesion extends AppCompatActivity {
 
             //ws usuario
             String NAMESPACE = "http://servicios/";
-            String URL = "http://192.168.20.133:8080/serviciosWebPoliAsistencia/usuario?WSDL";
-            String METHOD_NAME = "validarUsuario";
-            String SOAP_ACTION = "http://servicios/validarUsuario";
+            String URL = "http://192.168.1.65:8080/serviciosWebPoliAsistencia/usuario?WSDL";
+            String METHOD_NAME = "traerUrl";
+            String SOAP_ACTION = "http://servicios/traerUrl";
+
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("numero", "gest");
-            request.addProperty("contrasena", "gest");
+            request.addProperty("idPer", 1);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            envelope.setOutputSoapObject(request);
             envelope.setOutputSoapObject(request);
             envelope.setAddAdornments(false);
             envelope.dotNet = true;
@@ -203,10 +206,9 @@ public class InicioSesion extends AppCompatActivity {
 
             try{
                 ht.call(SOAP_ACTION, envelope);
-                SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
-                
+                SoapPrimitive  response = (SoapPrimitive) envelope.getResponse();
                 resultado = response.toString();
-                Log.i("Resultado validar usr", resultado);
+                Log.i("Respuesta" ,  resultado);
             }
             catch(Exception error){
                 error.printStackTrace();
@@ -218,12 +220,12 @@ public class InicioSesion extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if(success==false){
+            if(!success){
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
 
             }
             else{
-                Toast.makeText(getApplicationContext(), "El resultado es: "+resultado, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Bien "+resultado, Toast.LENGTH_LONG).show();
 
             }
         }
