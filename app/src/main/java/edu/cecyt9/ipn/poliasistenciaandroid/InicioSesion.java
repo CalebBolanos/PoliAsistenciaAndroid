@@ -1,21 +1,12 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
-import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.opengl.EGLExt;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +25,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
-import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.FragementInicioJefeAcademia;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
 import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
@@ -190,22 +177,27 @@ public class InicioSesion extends AppCompatActivity {
             //ws usuario
             String NAMESPACE = "http://servicios/";
             String URL = "http://192.168.1.65:8080/serviciosWebPoliAsistencia/usuario?WSDL";
-            String METHOD_NAME = "traerUrl";
-            String SOAP_ACTION = "http://servicios/traerUrl";
+            String METHOD_NAME = "validarUsuarioAndroid";
+            String SOAP_ACTION = "http://servicios/validarUsuarioAndroid";
 
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("idPer", 1);
+            request.addProperty("numero", "gest");
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.setOutputSoapObject(request);
-            envelope.setAddAdornments(false);
-            envelope.dotNet = true;
+
+            envelope.dotNet = false;
 
             HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
 
             try{
                 ht.call(SOAP_ACTION, envelope);
+                String a = ht.requestDump;
+                String b = ht.responseDump;
+                Log.println(Log.INFO, "request", a);
+                Log.println(Log.INFO, "response", b);
                 SoapPrimitive  response = (SoapPrimitive) envelope.getResponse();
                 resultado = response.toString();
                 Log.i("Respuesta" ,  resultado);
@@ -216,7 +208,7 @@ public class InicioSesion extends AppCompatActivity {
             }
 
             return true;
-        }
+    }
 
         @Override
         protected void onPostExecute(final Boolean success) {
