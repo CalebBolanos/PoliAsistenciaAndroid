@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
@@ -41,11 +42,15 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
     FragmentNotificacionesAlumno notificaciones;
     BottomNavigationView barraNavegacion;
     Toolbar toolbarInicio;
+    Sesion sesion;
+    TextView nombreUsr, tipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_alumno);
+
+        sesion = new Sesion(this);
 
         navegador = findViewById(R.id.navegador);
         navegador.setNavigationItemSelectedListener(this);
@@ -72,8 +77,12 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();
         }
 
-
-
+        View header = navegador.getHeaderView(0);
+        nombreUsr = header.findViewById(R.id.nombrePersona);
+        String nombreConcatenado = sesion.getNombre() +" "+ sesion.getPaterno() +" "+ sesion.getMaterno();
+        nombreUsr.setText(nombreConcatenado);
+        tipo = header.findViewById(R.id.tipoPersona);
+        tipo.setText("Alumno");
 
 /*
         mTextMessage = (TextView) findViewById(R.id.message);

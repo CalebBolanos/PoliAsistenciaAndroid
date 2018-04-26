@@ -23,7 +23,7 @@
         app:headerLayout="@layout/cuenta"
         app:itemIconTint="@color/negro"
         app:itemTextColor="@color/negro"
-        app:menu="@menu/drawermenu"></android.support.design.widget.NavigationView>
+        app:menu="@menu/drawermenu"/>
 
 
 </android.support.v4.widget.DrawerLayout>

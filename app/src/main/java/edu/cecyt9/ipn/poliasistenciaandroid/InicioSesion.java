@@ -34,6 +34,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.ALUMNO;
+import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.GESTION;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.JEFE_ACADEMIA;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PREFECTO;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
@@ -42,14 +43,12 @@ public class InicioSesion extends AppCompatActivity {
     EditText usuario, contrasena;
     Button ingresar;
     String usr, psw;
-    CheckBox sesionIniciado;
-    Boolean mantenerSesion = false;
     private Sesion sesion;
     ConstraintLayout constraintLayout;
     String resultado = "";
     ProgressDialog proceso;
     ArrayList datosUsuario = new ArrayList();
-    public static final String IP = "192.168.20.89";
+    public static final String IP = "192.168.1.65";
     public static final String PUERTO = "8080";
 
     @Override
@@ -57,8 +56,8 @@ public class InicioSesion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
         sesion = new Sesion(this);
-        if(!sesion.getUsuario().equals("")){
-            switch (sesion.getTipoUsr()){
+        if(sesion.getIdTipo() != 0){
+            switch (sesion.getIdTipo()){
                 case ALUMNO:
                     Intent inicioAlumno = new Intent(this, InicioAlumno.class);
                     startActivity(inicioAlumno);
@@ -85,7 +84,6 @@ public class InicioSesion extends AppCompatActivity {
         usuario = findViewById(R.id.txt_usuario);
         contrasena = findViewById(R.id.txt_contrasena);
         ingresar = findViewById(R.id.ingresar);
-        sesionIniciado = findViewById(R.id.checkBox);
         Typeface calibri = Typeface.createFromAsset(getAssets(),  "fonts/calibri.ttf");
         TextView titulo = findViewById(R.id.tit_1);
         TextView titulo2 = findViewById(R.id.tit_2);
@@ -97,8 +95,6 @@ public class InicioSesion extends AppCompatActivity {
             //getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.blanco));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.blanco));
         }
-
-
         //startService(new Intent(InicioSesion.this, ServiceNotificaciones.class));
     }
 
@@ -108,7 +104,7 @@ public class InicioSesion extends AppCompatActivity {
     }
 
     public void iniciarSesion(View view) {
-        new prueba().execute(usuario.getText().toString().trim(), contrasena.getText().toString().trim());
+        new obtenerDatos().execute(usuario.getText().toString().trim(), contrasena.getText().toString().trim());
 
         proceso = new ProgressDialog(InicioSesion.this);
         proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -117,10 +113,7 @@ public class InicioSesion extends AppCompatActivity {
         proceso.show();
     }
 
-    public void verificarCheckBox(View view) {
-    }
-
-    public class prueba extends AsyncTask<String, String, Boolean> {
+    public class obtenerDatos extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
 
@@ -180,6 +173,7 @@ public class InicioSesion extends AppCompatActivity {
             String genero = "";
             String num = "";
             String nacimiento = "";
+            String urlImagen = "";
 
             int idPersona = 0;
             int idTipo = 0;
@@ -206,49 +200,39 @@ public class InicioSesion extends AppCompatActivity {
                     genero = info.getString("genero");
                     num = info.getString("numero");
                     nacimiento = info.getString("nacimiento");
+                    urlImagen = info.getString("urlImagen");
+
+                    sesion.setDatos(idPersona, idTipo, nombre, paterno, materno, genero, num, nacimiento, urlImagen);
                 }
                 catch (JSONException error){
                     Snackbar.make(constraintLayout, "Errrooooooor", Snackbar.LENGTH_LONG).show();
                     proceso.dismiss();
                     return;
                 }
-                mantenerSesion = sesionIniciado.isChecked();
-                switch (Integer.parseInt(idTipo)){
-                    case 1://gestion
+                switch (idTipo){
+                    case GESTION://gestion
                         proceso.dismiss();
                         Snackbar.make(constraintLayout, "Solo puedes iniciar sesion en un navegador", Snackbar.LENGTH_LONG).show();
                         break;
-                    case 2://alumno
-                        if(mantenerSesion){
-                            sesion.setDatos(usr, psw, ALUMNO);
-                        }
+                    case ALUMNO://alumno
                         proceso.dismiss();
                         Intent inicioAlumno = new Intent(getApplicationContext(), InicioAlumno.class);
                         startActivity(inicioAlumno);
                         finish();
                         break;
-                    case 3://profesor
-                        if(mantenerSesion){
-                            sesion.setDatos(usr, psw, PROFESOR);
-                        }
+                    case PROFESOR://profesor
                         proceso.dismiss();
                         Intent inicioProfesor = new Intent(getApplicationContext(), InicioProfesor.class);
                         startActivity(inicioProfesor);
                         finish();
                         break;
-                    case 4://jefe academia
-                        if(mantenerSesion){
-                            sesion.setDatos(usr, psw, JEFE_ACADEMIA);
-                        }
+                    case JEFE_ACADEMIA://jefe academia
                         proceso.dismiss();
                         Intent inicioJefe = new Intent(getApplicationContext(), InicioJefe.class);
                         startActivity(inicioJefe);
                         finish();
                         break;
-                    case 6://prefecto
-                        if(mantenerSesion){
-                            sesion.setDatos(usr, psw, PREFECTO);
-                        }
+                    case PREFECTO://prefecto
                         proceso.dismiss();
                         Intent inicioPrefecto = new Intent(getApplicationContext(), InicioPrefecto.class);
                         startActivity(inicioPrefecto);

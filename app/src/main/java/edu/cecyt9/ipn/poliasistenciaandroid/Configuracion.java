@@ -45,7 +45,7 @@ public class Configuracion extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion);
 
         sesion = new Sesion(this);
-        if (sesion.getUsuario().equals("")) {
+        if (sesion.getIdTipo() == 0) {
             Intent iniciarSesion = new Intent(this, InicioSesion.class);
             startActivity(iniciarSesion);
             finish();

@@ -11,16 +11,17 @@ import android.preference.PreferenceManager;
 public class Sesion {
 
     private SharedPreferences datosSesion;
+    public static final int GESTION = 1;
     public static final int ALUMNO = 2;
     public static final int PROFESOR = 3;
     public static final int JEFE_ACADEMIA = 4;
-    public static final int PREFECTO = 5;
+    public static final int PREFECTO = 6;
 
     public Sesion(Context contexto) {
         datosSesion = PreferenceManager.getDefaultSharedPreferences(contexto);
     }
 
-    public void setDatos(int idPer, int idTipo, String nombre, String paterno, String materno, String genero, String num, String nacimiento ){
+    public void setDatos(int idPer, int idTipo, String nombre, String paterno, String materno, String genero, String num, String nacimiento, String urlImagen){
         SharedPreferences.Editor usr = datosSesion.edit();
         usr.putInt("idper", idPer);
         usr.putInt("idtipo", idTipo);
@@ -30,6 +31,7 @@ public class Sesion {
         usr.putString("genero", genero);
         usr.putString("num", num);
         usr.putString("nacimiento", nacimiento);
+        usr.putString("urlImagen", urlImagen);
 
         usr.apply();
     }
@@ -44,6 +46,7 @@ public class Sesion {
         usr.putString("genero", "");
         usr.putString("num", "");
         usr.putString("nacimiento", "");
+        usr.putString("urlImagen", "");
         usr.apply();
     }
 
@@ -95,6 +98,12 @@ public class Sesion {
         usr.apply();
     }
 
+    public void setUrlImagen(String urlImagen){
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("urlImagen", urlImagen);
+        usr.apply();
+    }
+
 
     public int getIdPer() {
         int idPer = datosSesion.getInt("idper",0);
@@ -136,13 +145,9 @@ public class Sesion {
         return nacimiento;
     }
 
-
-
-
-
-
-
-
-
+    public String urlImagen(){
+        String urlImagen = datosSesion.getString("urlImagen","");
+        return urlImagen;
+    }
 
 }
