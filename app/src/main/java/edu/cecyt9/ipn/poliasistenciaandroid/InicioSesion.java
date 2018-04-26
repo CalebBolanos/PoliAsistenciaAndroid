@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -45,7 +47,10 @@ public class InicioSesion extends AppCompatActivity {
     private Sesion sesion;
     ConstraintLayout constraintLayout;
     String resultado = "";
+    ProgressDialog proceso;
     ArrayList datosUsuario = new ArrayList();
+    public static final String IP = "192.168.1.65";
+    public static final String PUERTO = "8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,89 +105,46 @@ public class InicioSesion extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new prueba().execute();
     }
 
     public void iniciarSesion(View view) {
-        //aqui tendriamos que implementar un web service y hacer switch en el idTipo para
-        //redirijirlo a su respectivo activity
-        ProgressDialog proceso = new ProgressDialog(InicioSesion.this);
+        new prueba().execute(usuario.getText().toString().trim(), contrasena.getText().toString().trim());
+
+        proceso = new ProgressDialog(InicioSesion.this);
         proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         proceso.setMessage("Iniciando Sesión");
         proceso.setCancelable(false);
         proceso.show();
-
-        usr = usuario.getText().toString();
-        psw = usuario.getText().toString();
-        if(usr.equals(psw)){
-            mantenerSesion = sesionIniciado.isChecked();
-            switch (usr){
-                case "alumno":
-                    if(mantenerSesion){
-                        sesion.setDatos(usr, psw, ALUMNO);
-                    }
-                    proceso.dismiss();
-                    Intent inicioAlumno = new Intent(this, InicioAlumno.class);
-                    startActivity(inicioAlumno);
-                    finish();
-                    break;
-                case "profesor":
-                    if(mantenerSesion){
-                        sesion.setDatos(usr, psw, PROFESOR);
-                    }
-                    proceso.dismiss();
-                    Intent inicioProfesor = new Intent(this, InicioProfesor.class);
-                    startActivity(inicioProfesor);
-                    finish();
-                    break;
-                case "jefe":
-                    if(mantenerSesion){
-                        sesion.setDatos(usr, psw, JEFE_ACADEMIA);
-                    }
-                    proceso.dismiss();
-                    Intent inicioJefe = new Intent(this, InicioJefe.class);
-                    startActivity(inicioJefe);
-                    finish();
-                    break;
-                case "prefecto":
-                    if(mantenerSesion){
-                        sesion.setDatos(usr, psw, PREFECTO);
-                    }
-                    proceso.dismiss();
-                    Intent inicioPrefecto = new Intent(this, InicioPrefecto.class);
-                    startActivity(inicioPrefecto);
-                    finish();
-                    break;
-                default:
-                    proceso.dismiss();
-                    Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
-                    break;
-
-            }
-        }
-        else{
-            proceso.dismiss();
-            Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
-        }
-
     }
 
     public void verificarCheckBox(View view) {
     }
 
-    public class prueba extends AsyncTask<Void, Void, Boolean> {
+    public class prueba extends AsyncTask<String, String, Boolean> {
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(String... params) {
 
-            //ws usuario
+            String valor = "";
+            JSONObject datos = new JSONObject();
+            try {
+                datos.put("usuario", params[0]);
+                datos.put("contrasena", params[1]);
+                valor = datos.toString();
+            }
+            catch (Exception e){
+                return false;
+            }
+
+
+            //ws inicio sesion
             String NAMESPACE = "http://servicios/";
-            String URL = "http://192.168.1.65:8080/serviciosWebPoliAsistencia/usuario?WSDL";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/usuario?WSDL";
             String METHOD_NAME = "validarUsuarioAndroid";
             String SOAP_ACTION = "http://servicios/validarUsuarioAndroid";
 
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("numero", "gest");
+            request.addProperty("numero", valor);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.setOutputSoapObject(request);
@@ -212,19 +174,83 @@ public class InicioSesion extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if(!success){
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+            if(success){
+                String idPersona = "";
+                String idTipo = "";
 
+                if(resultado.equals("incorrecto") || resultado.equals("error")){
+                    proceso.dismiss();
+                    Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+
+                try{
+                    JSONObject info = new JSONObject(resultado);
+                    idPersona = info.getString("idPersona");
+                    idTipo = info.getString("idTipo");
+                }
+                catch (JSONException error){
+                    Snackbar.make(constraintLayout, "Errrooooooor", Snackbar.LENGTH_LONG).show();
+                    proceso.dismiss();
+                    return;
+                }
+                mantenerSesion = sesionIniciado.isChecked();
+                switch (Integer.parseInt(idTipo)){
+                    case 1://gestion
+                        proceso.dismiss();
+                        Snackbar.make(constraintLayout, "Solo puedes iniciar sesion en un navegador", Snackbar.LENGTH_LONG).show();
+                        break;
+                    case 2://alumno
+                        if(mantenerSesion){
+                            sesion.setDatos(usr, psw, ALUMNO);
+                        }
+                        proceso.dismiss();
+                        Intent inicioAlumno = new Intent(getApplicationContext(), InicioAlumno.class);
+                        startActivity(inicioAlumno);
+                        finish();
+                        break;
+                    case 3://profesor
+                        if(mantenerSesion){
+                            sesion.setDatos(usr, psw, PROFESOR);
+                        }
+                        proceso.dismiss();
+                        Intent inicioProfesor = new Intent(getApplicationContext(), InicioProfesor.class);
+                        startActivity(inicioProfesor);
+                        finish();
+                        break;
+                    case 4://jefe academia
+                        if(mantenerSesion){
+                            sesion.setDatos(usr, psw, JEFE_ACADEMIA);
+                        }
+                        proceso.dismiss();
+                        Intent inicioJefe = new Intent(getApplicationContext(), InicioJefe.class);
+                        startActivity(inicioJefe);
+                        finish();
+                        break;
+                    case 6://prefecto
+                        if(mantenerSesion){
+                            sesion.setDatos(usr, psw, PREFECTO);
+                        }
+                        proceso.dismiss();
+                        Intent inicioPrefecto = new Intent(getApplicationContext(), InicioPrefecto.class);
+                        startActivity(inicioPrefecto);
+                        finish();
+                        break;
+                    default:
+                        proceso.dismiss();
+                        Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
+                        break;
+                }
             }
             else{
-                Toast.makeText(getApplicationContext(), "Bien "+resultado, Toast.LENGTH_LONG).show();
-
+                proceso.dismiss();
+                Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
             }
         }
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_LONG).show();
         }
     }
 }
