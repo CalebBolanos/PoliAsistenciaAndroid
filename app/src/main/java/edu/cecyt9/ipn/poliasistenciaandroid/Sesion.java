@@ -20,52 +20,129 @@ public class Sesion {
         datosSesion = PreferenceManager.getDefaultSharedPreferences(contexto);
     }
 
-    public void setDatos(String usuario, String contrasena, int tipoUsr){
+    public void setDatos(int idPer, int idTipo, String nombre, String paterno, String materno, String genero, String num, String nacimiento ){
         SharedPreferences.Editor usr = datosSesion.edit();
-        usr.putString("usuario", usuario);
-        usr.putString("contrasena", contrasena);
-        usr.putInt("tipo", tipoUsr);
+        usr.putInt("idper", idPer);
+        usr.putInt("idtipo", idTipo);
+        usr.putString("nombre", nombre);
+        usr.putString("paterno", paterno);
+        usr.putString("materno", materno);
+        usr.putString("genero", genero);
+        usr.putString("num", num);
+        usr.putString("nacimiento", nacimiento);
+
         usr.apply();
     }
 
     public void clearDatos(){
         SharedPreferences.Editor usr = datosSesion.edit();
-        usr.putString("usuario", "");
-        usr.putString("contrasena", "");
-        usr.putInt("tipo", 0);
+        usr.putInt("idper", 0);
+        usr.putInt("idtipo", 0);
+        usr.putString("nombre", "");
+        usr.putString("paterno", "");
+        usr.putString("materno", "");
+        usr.putString("genero", "");
+        usr.putString("num", "");
+        usr.putString("nacimiento", "");
         usr.apply();
     }
 
-    public void setUsuario(String usuario) {
+    public void setIdPer(int idPer) {
         SharedPreferences.Editor usr = datosSesion.edit();
-        usr.putString("usuario", usuario);
+        usr.putInt("idper", idPer);
         usr.apply();
     }
 
-    public void setContrasena(String contrasena) {
+    public void setIdTipo(int IdTipo) {
         SharedPreferences.Editor usr = datosSesion.edit();
-        usr.putString("contrasena", contrasena);
+        usr.putInt("idtipo", IdTipo);
         usr.apply();
     }
 
-    public void setTipoUsr(int tipoUsr) {
+    public void setNombre(String nombre) {
         SharedPreferences.Editor usr = datosSesion.edit();
-        usr.putInt("tipo", tipoUsr);
+        usr.putString("nombre", nombre);
         usr.apply();
     }
 
-    public String getUsuario() {
-        String usuario = datosSesion.getString("usuario","");
-        return usuario;
+    public void setPaterno(String paterno) {
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("paterno", paterno);
+        usr.apply();
     }
 
-    public String getContrasena() {
-        String contrasena = datosSesion.getString("contrasena","");
-        return contrasena;
+    public void setMaterno(String materno) {
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("materno", materno);
+        usr.apply();
     }
 
-    public int getTipoUsr() {
-        int tipo = datosSesion.getInt("tipo", 0);
-        return tipo;
+    public void setGenero(String genero) {
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("genero", genero);
+        usr.apply();
     }
+
+    public void setNum(String num) {
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("num", num);
+        usr.apply();
+    }
+
+    public void setNacimiento(String nacimiento) {
+        SharedPreferences.Editor usr = datosSesion.edit();
+        usr.putString("nacimiento", nacimiento);
+        usr.apply();
+    }
+
+
+    public int getIdPer() {
+        int idPer = datosSesion.getInt("idper",0);
+        return idPer;
+    }
+
+    public int getIdTipo() {
+        int idTipo = datosSesion.getInt("idtipo",0);
+        return idTipo;
+    }
+
+    public String getNombre() {
+        String nombre = datosSesion.getString("nombre","");
+        return nombre;
+    }
+
+    public String getPaterno() {
+        String paterno = datosSesion.getString("paterno","");
+        return paterno;
+    }
+
+    public String getMaterno() {
+        String materno = datosSesion.getString("materno","");
+        return materno;
+    }
+
+    public String getGenero() {
+        String genero = datosSesion.getString("genero","");
+        return genero;
+    }
+
+    public String getNum() {
+        String num = datosSesion.getString("num","");
+        return num;
+    }
+
+    public String getNacimiento() {
+        String nacimiento = datosSesion.getString("nacimiento","");
+        return nacimiento;
+    }
+
+
+
+
+
+
+
+
+
+
 }

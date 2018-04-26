@@ -49,7 +49,7 @@ public class InicioSesion extends AppCompatActivity {
     String resultado = "";
     ProgressDialog proceso;
     ArrayList datosUsuario = new ArrayList();
-    public static final String IP = "192.168.1.65";
+    public static final String IP = "192.168.20.89";
     public static final String PUERTO = "8080";
 
     @Override
@@ -174,20 +174,38 @@ public class InicioSesion extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if(success){
-                String idPersona = "";
-                String idTipo = "";
+            String nombre = "";
+            String paterno = "";
+            String materno = "";
+            String genero = "";
+            String num = "";
+            String nacimiento = "";
 
+            int idPersona = 0;
+            int idTipo = 0;
+
+            if(success){
                 if(resultado.equals("incorrecto") || resultado.equals("error")){
                     proceso.dismiss();
                     Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                if(resultado.equals("gestion")){
+                    proceso.dismiss();
+                    Snackbar.make(constraintLayout, "Solo puedes iniciar sesion en un navegador", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
 
                 try{
                     JSONObject info = new JSONObject(resultado);
-                    idPersona = info.getString("idPersona");
-                    idTipo = info.getString("idTipo");
+                    idPersona = Integer.parseInt(info.getString("idPersona"));
+                    idTipo = Integer.parseInt(info.getString("idTipo"));
+                    nombre = info.getString("nombre");
+                    paterno = info.getString("paterno");
+                    materno = info.getString("materno");
+                    genero = info.getString("genero");
+                    num = info.getString("numero");
+                    nacimiento = info.getString("nacimiento");
                 }
                 catch (JSONException error){
                     Snackbar.make(constraintLayout, "Errrooooooor", Snackbar.LENGTH_LONG).show();
