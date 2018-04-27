@@ -2,8 +2,10 @@ package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 
@@ -34,7 +44,8 @@ public class FragmentHorarioAlumno extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView[][]txtH;
+    TextView[][]txtH=new TextView[14][5];
+    String[][] HoH = new String[14][5];
     ListView listaProfesores;
 
     private OnFragmentInteractionListener mListener;
@@ -73,22 +84,6 @@ public class FragmentHorarioAlumno extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String sH[][] = {{"txt_horario_alumno_l7", "txt_horario_alumno_m7", "txt_horario_alumno_mi7", "txt_horario_alumno_j7", "txt_horario_alumno_v7"},
-                {"txt_horario_alumno_l8", "txt_horario_alumno_m8", "txt_horario_alumno_mi8", "txt_horario_alumno_j8", "txt_horario_alumno_v8"},
-                {"txt_horario_alumno_l9", "txt_horario_alumno_m9", "txt_horario_alumno_mi9", "txt_horario_alumno_j9", "txt_horario_alumno_v9"},
-                {"txt_horario_alumno_l10", "txt_horario_alumno_m10", "txt_horario_alumno_mi10", "txt_horario_alumno_j10", "txt_horario_alumno_v10"},
-                {"txt_horario_alumno_l11", "txt_horario_alumno_m11", "txt_horario_alumno_mi11", "txt_horario_alumno_j11", "txt_horario_alumno_v11"},
-                {"txt_horario_alumno_l12", "txt_horario_alumno_m12", "txt_horario_alumno_mi12", "txt_horario_alumno_j12", "txt_horario_alumno_v12"},
-                {"txt_horario_alumno_l13", "txt_horario_alumno_m13", "txt_horario_alumno_mi13", "txt_horario_alumno_j13", "txt_horario_alumno_v13"},
-                {"txt_horario_alumno_l14", "txt_horario_alumno_m14", "txt_horario_alumno_mi14", "txt_horario_alumno_j14", "txt_horario_alumno_v14"},
-                {"txt_horario_alumno_l15", "txt_horario_alumno_m15", "txt_horario_alumno_mi15", "txt_horario_alumno_j15", "txt_horario_alumno_v15"},
-                {"txt_horario_alumno_l16", "txt_horario_alumno_m16", "txt_horario_alumno_mi16", "txt_horario_alumno_j16", "txt_horario_alumno_v16"},
-                {"txt_horario_alumno_l17", "txt_horario_alumno_m17", "txt_horario_alumno_mi17", "txt_horario_alumno_j17", "txt_horario_alumno_v17"},
-                {"txt_horario_alumno_l18", "txt_horario_alumno_m18", "txt_horario_alumno_mi18", "txt_horario_alumno_j18", "txt_horario_alumno_v18"},
-                {"txt_horario_alumno_l19", "txt_horario_alumno_m19", "txt_horario_alumno_mi19", "txt_horario_alumno_j19", "txt_horario_alumno_v19"},
-                {"txt_horario_alumno_l20", "txt_horario_alumno_m20", "txt_horario_alumno_mi20", "txt_horario_alumno_j20", "txt_horario_alumno_v20"}};
-
-        // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_fragment_horario_alumno, container, false);
         txtH[0][0] = vista.findViewById(R.id.txt_horario_alumno_l7);
         txtH[0][1] = vista.findViewById(R.id.txt_horario_alumno_m7);
@@ -160,15 +155,8 @@ public class FragmentHorarioAlumno extends Fragment {
         txtH[13][2] = vista.findViewById(R.id.txt_horario_alumno_mi20);
         txtH[13][3] = vista.findViewById(R.id.txt_horario_alumno_j20);
         txtH[13][4] = vista.findViewById(R.id.txt_horario_alumno_v20);
-        // Metodo que queremos ejecutar en el servicio web
-         String Metodo = "horarioAlumno";
-// Namespace definido en el servicio web
-         String namespace = "192.168.100.4:16645/serviciosWebPoliAsistencia/alumno";
-// namespace + metodo
-        String accionSoap = "192.168.100.4:16645/serviciosWebPoliAsistencia/alumno/horarioAlumno";
-// Fichero de definicion del servcio web
-        String url = "http://www.webservicex.net/globalweather.asmx";
-
+        ObtenerHorario oH = new ObtenerHorario();
+        oH.execute();
         listaProfesores = vista.findViewById(R.id.listview_estatus_profesores);
         DatosEstatusProfesor titulo = new DatosEstatusProfesor("Unidad de Aprendizaje", "Profesor", "Estatus");
         ArrayList<DatosEstatusProfesor> datos = new ArrayList<>();
@@ -246,5 +234,67 @@ public class FragmentHorarioAlumno extends Fragment {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    public class ObtenerHorario extends AsyncTask<String, String, Boolean> {
+        private String resultado;
+        private String hor[][] = new String[14][5];
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            // Metodo que queremos ejecutar en el servicio web
+            String Metodo = "horarioAndroidAlumno";
+// Namespace definido en el servicio web
+            String namespace = "http://servicios/";
+// namespace + metodo
+            String accionSoap = "hhtp://servicios/horarioAndroidAlumno";
+// Fichero de definicion del servcio web
+            String url = "http://192.168.20.57:8080/serviciosWebPoliAsistencia/alumno?WSDL";
+
+            SoapObject request = new SoapObject(namespace, Metodo);
+            request.addProperty("numero", "pm2016928");
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(url);
+            ht.debug = true;
+
+            try {
+                ht.call(accionSoap, envelope);
+                SoapPrimitive responce = (SoapPrimitive) envelope.getResponse();
+                resultado = responce.toString();
+            } catch (Exception xd) {
+                Log.println(Log.ERROR, "Error: ", xd.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean aBoolean) {
+            try {
+                JSONArray info = new JSONArray(resultado);
+                JSONObject info2;
+                String Dias[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
+                for (int i = 0; i < hor.length; i++) {
+                    info2 = info.getJSONObject(i);
+                    for (int j = 0; j < hor[i].length; j++) {
+                        hor[i][j] = info2.getString(Dias[j]);
+
+                        //Log.println(Log.DEBUG, "Error: ", hor[i][j]);
+                    }
+                }
+            } catch (Exception xd) {
+                Log.println(Log.ERROR, "Error: ", xd.getMessage());
+            }
+
+            for(int i = 0; i<hor.length; i++){
+                for(int j = 0; j<hor[i].length; j++){
+                    txtH[i][j].setText(hor[i][j]);
+                    Log.println(Log.DEBUG, "Error: ", hor[i][j]);
+                }
+            }
+        }
     }
 }
