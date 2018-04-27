@@ -37,6 +37,7 @@ dependencies {
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.android.support:support-compat:26.1.0'
     implementation files('libs/ksoap2-android-assembly-2.4-jar-with-dependencies.jar')
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.5.2'
 }
 
 apply plugin: 'kotlin-android'

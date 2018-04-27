@@ -21,8 +21,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.Console;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
@@ -44,6 +47,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
     Toolbar toolbarInicio;
     Sesion sesion;
     TextView nombreUsr, tipo;
+    CircleImageView foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +87,9 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         nombreUsr.setText(nombreConcatenado);
         tipo = header.findViewById(R.id.tipoPersona);
         tipo.setText("Alumno");
-
+        foto = header.findViewById(R.id.foto);
+        Picasso.with(getApplicationContext()).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+sesion.getUrlImagen())
+                .into(foto);
 /*
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

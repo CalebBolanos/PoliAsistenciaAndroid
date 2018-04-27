@@ -145,7 +145,7 @@ public class Sesion {
         return nacimiento;
     }
 
-    public String urlImagen(){
+    public String getUrlImagen(){
         String urlImagen = datosSesion.getString("urlImagen","");
         return urlImagen;
     }

@@ -10,6 +10,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:src="@drawable/sanic"
+        android:id="@+id/foto"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/blanco"/>
     
