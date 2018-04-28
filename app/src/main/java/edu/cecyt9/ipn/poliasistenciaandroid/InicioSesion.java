@@ -42,12 +42,10 @@ import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
 public class InicioSesion extends AppCompatActivity {
     EditText usuario, contrasena;
     Button ingresar;
-    String usr, psw;
     private Sesion sesion;
     ConstraintLayout constraintLayout;
     String resultado = "";
     ProgressDialog proceso;
-    ArrayList datosUsuario = new ArrayList();
     public static final String IP = "192.168.1.65";
     public static final String PUERTO = "8080";
 
