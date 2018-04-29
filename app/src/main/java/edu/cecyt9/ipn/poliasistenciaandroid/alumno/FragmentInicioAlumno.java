@@ -28,6 +28,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -56,46 +57,28 @@ import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PREFECTO;
 import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentInicioAlumno.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentInicioAlumno#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FragmentInicioAlumno extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     Sesion sesion;
-    String resultado;
+    String resultado, resultado2;
     LineChart grafica;
     ListView listaHorario;
     TextView txtdiasAsistidos;
     Button botonEstadisticas, botonHorario, botonConfiguraciones;
-//HolaSoyCaleb
+    ArrayList<DatosHorarioAlumno> datos;
+    //HolaSoyCaleb
     public FragmentInicioAlumno() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentInicioAlumno.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentInicioAlumno newInstance(String param1, String param2) {
         FragmentInicioAlumno fragment = new FragmentInicioAlumno();
         Bundle args = new Bundle();
@@ -124,13 +107,14 @@ public class FragmentInicioAlumno extends Fragment {
         listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
         txtdiasAsistidos = vistaInicio.findViewById(R.id.txt_descripcion_estadistica);
         DatosHorarioAlumno titulo = new DatosHorarioAlumno("Unidad de Aprendizaje", "Hora");
-        ArrayList<DatosHorarioAlumno> datos = new ArrayList<>();
+        datos = new ArrayList<>();
         datos.add(titulo);
+        /*
         for (int i = 0; i <9 ; i++) {
             DatosHorarioAlumno unidadx = new DatosHorarioAlumno("Unidad"+i, "00:00");
             datos.add(unidadx);
             unidadx = null;
-        }
+        }*/
         HorarioUnidadAdapter adaptador = new HorarioUnidadAdapter(getContext(), R.layout.adapter_view_horario_unidad, datos);
         listaHorario.setAdapter(adaptador);
         listaHorario.setFocusable(false);
@@ -176,10 +160,10 @@ public class FragmentInicioAlumno extends Fragment {
 
         sesion = new Sesion(getContext());
         new graficaGeneralAndroid().execute();
+        new obtenerHorarioDiaAndroid().execute();
         return vistaInicio;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -203,21 +187,10 @@ public class FragmentInicioAlumno extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
     public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
         @Override
@@ -242,10 +215,6 @@ public class FragmentInicioAlumno extends Fragment {
 
             try{
                 ht.call(SOAP_ACTION, envelope);
-                String a = ht.requestDump;
-                String b = ht.responseDump;
-                Log.println(Log.INFO, "request", a);
-                Log.println(Log.INFO, "response", b);
                 SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
                 resultado = response.toString();
                 Log.i("Respuesta" ,  resultado);
@@ -335,6 +304,69 @@ public class FragmentInicioAlumno extends Fragment {
             Toast.makeText(getContext(), "Cancelado", Toast.LENGTH_LONG).show();
         }
     }
+
+    public class obtenerHorarioDiaAndroid  extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String METHOD_NAME = "obtenerHorarioDiaAndroid";
+            String SOAP_ACTION = "http://servicios/obtenerHorarioDiaAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("boleta", sesion.getNum());
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado2 = response.toString();
+                Log.i("Respuesta" ,  resultado2);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                try {
+                    JSONArray materias = new JSONArray(resultado2);
+                    for (int i = 0; i < materias.length(); i++) {
+                        datos.add(new DatosHorarioAlumno(materias.getJSONObject(i).getString("Materia"),
+                                materias.getJSONObject(i).getString("Hora")));
+                    }
+                    HorarioUnidadAdapter unidadAdapter = new HorarioUnidadAdapter(getContext(), R.layout.adapter_view_horario_unidad, datos);
+                    listaHorario.setAdapter(unidadAdapter);
+                    unidadAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            Toast.makeText(getContext(), "Cancelado", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     public String nombreMes(int mes){
         String nombreMes;
