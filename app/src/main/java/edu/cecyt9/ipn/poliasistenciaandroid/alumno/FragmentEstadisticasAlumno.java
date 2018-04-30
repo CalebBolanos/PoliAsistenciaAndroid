@@ -109,31 +109,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
         listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
         new graficaGeneralAndroid().execute();
-        ArrayList<String> arrayMeses = new ArrayList<>();
-        for(int i = 1; i<=12; i++){
-            arrayMeses.add("Mes" + i);
-        }
 
-        ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayMeses);
-        listaMeses.setAdapter(adaptador);
-        setListViewHeightBasedOnChildren(listaMeses);
-        listaMeses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String seleccionado = listaMeses.getItemAtPosition(i).toString();
-                switch (seleccionado){
-                    case "":
-
-                        break;
-                    default:
-                        Intent graficas = new Intent(getActivity(), AsistenciaPorMes.class);
-                        startActivity(graficas);
-                        break;
-                }
-
-            }
-        });
         return vistaEstadisticas;
     }
 
@@ -245,19 +221,19 @@ public class FragmentEstadisticasAlumno extends Fragment {
                 int diasAsistidos = 0;
                 final HashMap<Integer, String> meses = new HashMap<>();
                 ArrayList<Entry> dias = new ArrayList<>();
+                ArrayList<String> arrayMeses = new ArrayList<>();
 
                 try{
                     JSONObject info = new JSONObject(resultado);
                     mesActual = Integer.parseInt(info.getString("mes actual"));
                     ciclo = Integer.parseInt(info.getString("Ciclo"));
-
-
                     meses.put(0, "Meses");
                     dias.add(new Entry(0f, 0f));
                     if(ciclo == 1){
                         int x = 1;
                         for (int i = 7; i <=mesActual; i++) {
                             infoMes = "mes " + i;
+                            arrayMeses.add(nombreMes(i));
                             meses.put(x, nombreMes(i));
                             dias.add(new Entry(x, Integer.parseInt(info.getString(infoMes))));
                             x++;
@@ -266,6 +242,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
                     else{
                         for (int i = 1; i <=mesActual; i++) {
                             infoMes = "mes " + i;
+                            arrayMeses.add(nombreMes(i));
                             meses.put(i, nombreMes(i));
                             dias.add(new Entry(i, Integer.parseInt(info.getString(infoMes))));
                         }
@@ -275,6 +252,27 @@ public class FragmentEstadisticasAlumno extends Fragment {
                     e.printStackTrace();
                     return;
                 }
+
+                ArrayAdapter adaptador = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayMeses);
+                listaMeses.setAdapter(adaptador);
+                setListViewHeightBasedOnChildren(listaMeses);
+                listaMeses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String seleccionado = listaMeses.getItemAtPosition(i).toString();
+                        switch (seleccionado){
+                            case "":
+
+                                break;
+                            default:
+                                Intent graficas = new Intent(getActivity(), AsistenciaPorMes.class);
+                                startActivity(graficas);
+                                break;
+                        }
+
+                    }
+                });
+                adaptador.notifyDataSetChanged();
 
                 LineDataSet datos = new LineDataSet(dias, "Dias");
                 datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
