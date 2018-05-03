@@ -245,6 +245,8 @@ public class FragmentEstadisticasAlumno extends Fragment {
                                 break;
                             default:
                                 Intent graficas = new Intent(getActivity(), AsistenciaPorMes.class);
+                                graficas.putExtra("mes", seleccionado);
+                                graficas.putExtra("id", sesion.getIdPer());
                                 startActivity(graficas);
                                 break;
                         }
