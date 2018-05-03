@@ -73,6 +73,8 @@ public class FragmentInicioAlumno extends Fragment {
     ListView listaHorario;
     TextView txtdiasAsistidos;
     Button botonEstadisticas, botonHorario, botonConfiguraciones;
+    graficaGeneralAndroid graficaAsync;
+    obtenerHorarioDiaAndroid horarioAsync;
     ArrayList<DatosHorarioAlumno> datos;
     //HolaSoyCaleb
     public FragmentInicioAlumno() {
@@ -91,6 +93,8 @@ public class FragmentInicioAlumno extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -159,9 +163,19 @@ public class FragmentInicioAlumno extends Fragment {
         });
 
         sesion = new Sesion(getContext());
-        new graficaGeneralAndroid().execute();
-        new obtenerHorarioDiaAndroid().execute();
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+        horarioAsync =new obtenerHorarioDiaAndroid();
+        horarioAsync.execute();
         return vistaInicio;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        graficaAsync.cancel(true);
+        horarioAsync.cancel(true);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -301,7 +315,7 @@ public class FragmentInicioAlumno extends Fragment {
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(getContext(), "Cancelado", Toast.LENGTH_LONG).show();
+            super.onCancelled();
         }
     }
 
@@ -363,10 +377,9 @@ public class FragmentInicioAlumno extends Fragment {
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(getContext(), "Cancelado", Toast.LENGTH_LONG).show();
+            super.onCancelled();
         }
     }
-
 
     public String nombreMes(int mes){
         String nombreMes;
