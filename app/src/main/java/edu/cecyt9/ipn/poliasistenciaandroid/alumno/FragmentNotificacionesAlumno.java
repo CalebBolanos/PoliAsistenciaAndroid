@@ -28,14 +28,6 @@ import edu.cecyt9.ipn.poliasistenciaandroid.NotificacionesAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentNotificacionesAlumno.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentNotificacionesAlumno#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentNotificacionesAlumno extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,15 +48,6 @@ public class FragmentNotificacionesAlumno extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentNotificacionesAlumno.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentNotificacionesAlumno newInstance(String param1, String param2) {
         FragmentNotificacionesAlumno fragment = new FragmentNotificacionesAlumno();
         Bundle args = new Bundle();
@@ -112,22 +95,10 @@ public class FragmentNotificacionesAlumno extends Fragment {
                 refrescar.setRefreshing(false);
             }
         });
-        /*
-        Button botonImagen = vista.findViewById(R.id.button_imagen);
-        botonImagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent navegador = new Intent(getActivity(), WebViewNotificaciones.class);
-                startActivity(navegador);
-            }
-        });
-        ImageView deku = vista.findViewById(R.id.imageView2);
-        deku.setImageDrawable(resizeImage(R.drawable.deku));*/
 
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -151,49 +122,8 @@ public class FragmentNotificacionesAlumno extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    public Drawable resizeImage(int imageResource) {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        double deviceWidth = display.getWidth();
-
-        BitmapDrawable bd = (BitmapDrawable) this.getResources().getDrawable(imageResource);
-        double imageHeight = bd.getBitmap().getHeight();
-        double imageWidth = bd.getBitmap().getWidth();
-
-        double ratio = deviceWidth / imageWidth;
-        int newImageHeight = (int) (imageHeight * ratio);
-
-        Bitmap bMap = BitmapFactory.decodeResource(getResources(), imageResource);
-        Drawable drawable = new BitmapDrawable(this.getResources(), getResizedBitmap(bMap, newImageHeight, (int) deviceWidth));
-
-        return drawable;
-    }
-
-    @Nullable
-    @Contract(pure = true)
-    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        return resizedBitmap;
-    }
 }
