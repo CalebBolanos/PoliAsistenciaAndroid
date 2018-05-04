@@ -148,21 +148,25 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/nombreCompleto"
                             android:text="Nombre Completo" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/boletaDatos"
                             android:text="Boleta" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/nacimiento"
                             android:text="Fecha de nacimiento" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/correo"
                             android:text="Correo" />
 
 

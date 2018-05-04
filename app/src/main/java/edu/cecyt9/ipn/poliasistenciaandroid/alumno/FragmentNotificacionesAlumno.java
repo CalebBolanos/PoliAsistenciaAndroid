@@ -7,18 +7,28 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.Contract;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +37,15 @@ import edu.cecyt9.ipn.poliasistenciaandroid.DatosNotificacion;
 import edu.cecyt9.ipn.poliasistenciaandroid.NotificacionesAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
+
 
 public class FragmentNotificacionesAlumno extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -43,6 +54,8 @@ public class FragmentNotificacionesAlumno extends Fragment {
     RecyclerView recyclerNotificaciones;
     NotificacionesAdapter adaptador;
     SwipeRefreshLayout refrescar;
+    String resultado;
+    obtenerNotificacionesAndroid notificacionesAndroid;
 
     public FragmentNotificacionesAlumno() {
         // Required empty public constructor
@@ -73,29 +86,8 @@ public class FragmentNotificacionesAlumno extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_notificaciones_alumno, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<DatosNotificacion> notificaciones = new ArrayList<>();
-        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "jefe",R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", false);
-        notificaciones.add(notificacionprueba);
-        for (int i = 0; i < 5; i++) {
-            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, "profesor", R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url"+i, false);
-            notificaciones.add(notificacionx);
-            notificacionx = null;
-        }
-
-        adaptador = new NotificacionesAdapter(getContext(), notificaciones);
-        recyclerNotificaciones.setAdapter(adaptador);
-
         refrescar = vista.findViewById(R.id.swipeRefreshLayout);
-        refrescar.setColorSchemeResources(R.color.colorPrimary);
-        refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refrescar.setRefreshing(true);
-                adaptador.notifyDataSetChanged();
-                refrescar.setRefreshing(false);
-            }
-        });
-
+        new obtenerNotificacionesAndroid().execute();
         return vista;
     }
 
@@ -124,6 +116,89 @@ public class FragmentNotificacionesAlumno extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public class obtenerNotificacionesAndroid extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String METHOD_NAME = "obtenerNotificacionesAndroid";
+            String SOAP_ACTION = "http://servicios/obtenerNotificacionesAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("tipoNotificacion", "1");
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado = response.toString();
+                Log.i("Respuesta" ,  resultado);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                List<DatosNotificacion> noti = new ArrayList<>();
+                try {
+                    JSONArray notificaciones = new JSONArray(resultado);
+                    for (int i = 0; i < notificaciones.length(); i++) {
+                        DatosNotificacion notificacionx = new DatosNotificacion(
+                                Integer.parseInt(notificaciones.getJSONObject(i).getString("tipoNotificacion")),
+                                notificaciones.getJSONObject(i).getString("usuario"),
+                                notificaciones.getJSONObject(i).getString("imagenUsuario"),
+                                notificaciones.getJSONObject(i).getString("titulo"),
+                                notificaciones.getJSONObject(i).getString("descripcion"),
+                                notificaciones.getJSONObject(i).getString("imagen"),
+                                notificaciones.getJSONObject(i).getString("url"),
+                                false);
+                        noti.add(notificacionx);
+                        notificacionx = null;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                adaptador = new NotificacionesAdapter(getContext(), noti);
+                recyclerNotificaciones.setAdapter(adaptador);
+                adaptador.notifyDataSetChanged();
+                refrescar.setColorSchemeResources(R.color.colorPrimary);
+                refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refrescar.setRefreshing(true);
+                        adaptador.notifyDataSetChanged();
+                        refrescar.setRefreshing(false);
+                    }
+                });
+            }
+            else{
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
     }
 
 }

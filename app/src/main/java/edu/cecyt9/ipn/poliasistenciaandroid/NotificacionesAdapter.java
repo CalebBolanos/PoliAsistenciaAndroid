@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -112,7 +114,9 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 break;
             case NOTIFICACION_URL:
                 final ViewHolderNotificacionUrl holderNotificacionUrl = (ViewHolderNotificacionUrl) holder;
-                holderNotificacionUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                //holderNotificacionUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                Picasso.with(context).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+notificaciones.get(position).getImagenUsuario()).
+                        into(holderNotificacionUrl.imagenUsuario);
                 holderNotificacionUrl.usuario.setText(notificaciones.get(position).getUsuario());
                 holderNotificacionUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
@@ -139,11 +143,15 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 break;
             case NOTIFICACION_IMAGEN_URL:
                 final ViewHolderNotificacionImagenUrl holderNotificacionImagenUrl = (ViewHolderNotificacionImagenUrl) holder;
-                holderNotificacionImagenUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                //holderNotificacionImagenUrl.imagenUsuario.setImageResource(notificaciones.get(position).getImagenUsuario());
+                Picasso.with(context).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+notificaciones.get(position).getImagenUsuario())
+                        .into(holderNotificacionImagenUrl.imagenUsuario);
                 holderNotificacionImagenUrl.usuario.setText(notificaciones.get(position).getUsuario());
                 holderNotificacionImagenUrl.titulo.setText(notificaciones.get(position).getTitulo());
                 holderNotificacionImagenUrl.descripcion.setText(notificaciones.get(position).getDescripcion());
-                holderNotificacionImagenUrl.imagen.setImageResource(notificaciones.get(position).getImagen());
+                //holderNotificacionImagenUrl.imagen.setImageResource(notificaciones.get(position).getImagen());
+                Picasso.with(context).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+notificaciones.get(position).getImagen())
+                        .into(holderNotificacionImagenUrl.imagen);
                 final String urlImagen = notificaciones.get(position).getUrl();
                 holderNotificacionImagenUrl.botonUrl.setOnClickListener(new View.OnClickListener() {
                     @Override

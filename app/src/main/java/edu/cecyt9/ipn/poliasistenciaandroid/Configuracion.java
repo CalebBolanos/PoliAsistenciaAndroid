@@ -17,13 +17,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
 import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
 import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
@@ -38,6 +43,9 @@ public class Configuracion extends AppCompatActivity {
 
     ListView lista;
     Sesion sesion;
+    TextView nombre, boleta, nacimiento;
+    CircleImageView imagen;
+    LinearLayout datosGenerales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,17 @@ public class Configuracion extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        nombre = findViewById(R.id.textView2);
+        String nombreString = sesion.getNombre() +" "+sesion.getPaterno()+" "+sesion.getMaterno();
+        nombre.setText(nombreString);
+        imagen = findViewById(R.id.imageView);
+        datosGenerales = findViewById(R.id.linear_datos);
+        Picasso.with(this).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+sesion.getUrlImagen()).into(imagen);
+        boleta = findViewById(R.id.boletaDatos);
+        boleta.setText(sesion.getNum());
+        nacimiento = findViewById(R.id.nacimiento);
+        nacimiento.setText(sesion.getNacimiento());
 
         lista = findViewById(R.id.listview_info);
         setListViewHeightBasedOnChildren(lista);

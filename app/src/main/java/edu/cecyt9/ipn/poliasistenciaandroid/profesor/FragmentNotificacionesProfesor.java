@@ -95,10 +95,10 @@ public class FragmentNotificacionesProfesor extends Fragment {
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         final List<DatosNotificacion> notificaciones = new ArrayList<>();
-        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Profesor", R.drawable.sanic, "notificacion sin imagen", "descripcion", 0, "sin imagen", false);
+        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Profesor", "", "notificacion sin imagen", "descripcion", "", "sin imagen", false);
         notificaciones.add(notificacionprueba);
         for (int i = 0; i < 5; i++) {
-            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, "Profesor", R.drawable.sanic, "notificacion"+i, "Descripcion xd", R.drawable.sanic, "Url"+i, false);
+            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, "Profesor", "", "notificacion"+i, "Descripcion xd", "", "Url"+i, false);
             notificaciones.add(notificacionx);
             notificacionx = null;
         }
@@ -118,7 +118,7 @@ public class FragmentNotificacionesProfesor extends Fragment {
             @Override
             public void onRefresh() {
                 refrescar.setRefreshing(true);
-                notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
+                notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", "", "Notificacion", "notificacion Agregada con SwipeRefreshLayout", "", "sin imagen", true));
                 adaptador.notifyItemInserted(0);
                 smoothScroller.setTargetPosition(0);
                 recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);

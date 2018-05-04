@@ -6,14 +6,14 @@ package edu.cecyt9.ipn.poliasistenciaandroid
 class DatosNotificacion {
     var tipoNotificacion: Int = 0
     var usuario: String = ""
-    var imagenUsuario: Int = 0
+    var imagenUsuario: String = ""
     var titulo: String = ""
     var descripcion: String = ""
-    var imagen: Int = 0
+    var imagen: String = ""
     var url: String = ""
     var borrar: Boolean = false
 
-    constructor(tipoNotificacion: Int, usuario: String, imagenUsuario: Int, titulo: String, descripcion: String, imagen: Int, url: String, borrar: Boolean) {
+    constructor(tipoNotificacion: Int, usuario: String, imagenUsuario: String, titulo: String, descripcion: String, imagen: String, url: String, borrar: Boolean) {
         this.tipoNotificacion = tipoNotificacion
         this.usuario = usuario
         this.imagenUsuario = imagenUsuario
