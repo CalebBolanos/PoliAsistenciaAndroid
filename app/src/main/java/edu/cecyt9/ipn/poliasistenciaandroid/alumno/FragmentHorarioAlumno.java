@@ -159,7 +159,7 @@ public class FragmentHorarioAlumno extends Fragment {
         txtH[13][2] = vista.findViewById(R.id.txt_horario_alumno_mi20);
         txtH[13][3] = vista.findViewById(R.id.txt_horario_alumno_j20);
         txtH[13][4] = vista.findViewById(R.id.txt_horario_alumno_v20);
-        ObtenerHorario oH = new ObtenerHorario();
+        ObtenerHorarioAlumnos oH = new ObtenerHorarioAlumnos();
         oH.execute();
         listaProfesores = vista.findViewById(R.id.listview_estatus_profesores);
         DatosEstatusProfesor titulo = new DatosEstatusProfesor("Unidad de Aprendizaje", "Profesor", "Estatus");
@@ -240,7 +240,7 @@ public class FragmentHorarioAlumno extends Fragment {
         listView.setLayoutParams(params);
     }
 
-    public class ObtenerHorario extends AsyncTask<String, String, Boolean> {
+    public class ObtenerHorarioAlumnos extends AsyncTask<String, String, Boolean> {
         private String resultado;
         private String hor[][] = new String[14][5];
 
