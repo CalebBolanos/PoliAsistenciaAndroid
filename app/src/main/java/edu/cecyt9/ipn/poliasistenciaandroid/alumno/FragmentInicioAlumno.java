@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -40,21 +39,12 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaPorMes;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
-import edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia.InicioJefe;
-import edu.cecyt9.ipn.poliasistenciaandroid.prefecto.InicioPrefecto;
-import edu.cecyt9.ipn.poliasistenciaandroid.profesor.InicioProfesor;
 
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
-import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.ALUMNO;
-import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.GESTION;
-import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.JEFE_ACADEMIA;
-import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PREFECTO;
-import static edu.cecyt9.ipn.poliasistenciaandroid.Sesion.PROFESOR;
 
 
 
@@ -105,7 +95,6 @@ public class FragmentInicioAlumno extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View vistaInicio = inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
         grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
         listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
@@ -113,12 +102,6 @@ public class FragmentInicioAlumno extends Fragment {
         DatosHorarioAlumno titulo = new DatosHorarioAlumno("Unidad de Aprendizaje", "Hora");
         datos = new ArrayList<>();
         datos.add(titulo);
-        /*
-        for (int i = 0; i <9 ; i++) {
-            DatosHorarioAlumno unidadx = new DatosHorarioAlumno("Unidad"+i, "00:00");
-            datos.add(unidadx);
-            unidadx = null;
-        }*/
         HorarioUnidadAdapter adaptador = new HorarioUnidadAdapter(getContext(), R.layout.adapter_view_horario_unidad, datos);
         listaHorario.setAdapter(adaptador);
         listaHorario.setFocusable(false);
@@ -202,7 +185,6 @@ public class FragmentInicioAlumno extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
