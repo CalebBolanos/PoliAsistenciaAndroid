@@ -19,13 +19,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
+
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 public class InicioProfesor extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentInicioProfesor.OnFragmentInteractionListener,
@@ -40,12 +47,15 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
     FragmentNotificacionesProfesor notificaciones;
     BottomNavigationView barraNavegacion;
     Toolbar toolbarInicio;
+    TextView nombreUsr, tipo;
+    CircleImageView foto;
+    Sesion sesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_profesor);
-
+        sesion = new Sesion(this);
         navegador = findViewById(R.id.navegador_profesor);
         navegador.setNavigationItemSelectedListener(this);
         barraNavegacion = findViewById(R.id.navigation);
@@ -68,6 +78,17 @@ public class InicioProfesor extends AppCompatActivity implements NavigationView.
         horario = new FragmentHorarioProfesor();
         estadisticas = new FragmentEstadisticasProfesor();
         notificaciones = new FragmentNotificacionesProfesor();
+
+        View header = navegador.getHeaderView(0);
+        nombreUsr = header.findViewById(R.id.nombrePersona);
+        String nombreConcatenado = sesion.getNombre() +" "+ sesion.getPaterno() +" "+ sesion.getMaterno();
+        nombreUsr.setText(nombreConcatenado);
+        tipo = header.findViewById(R.id.tipoPersona);
+        tipo.setText("Profesor");
+        foto = header.findViewById(R.id.foto);
+        Picasso.with(getApplicationContext()).load("http://"+IP+":"+PUERTO+"/poliAsistenciaWeb/"+sesion.getUrlImagen())
+                .into(foto);
+
 
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragment, inicio).commit();

@@ -31,6 +31,9 @@ import edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
+
 
 public class InicioAlumno extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentInicioAlumno.OnFragmentInteractionListener,
@@ -88,7 +91,7 @@ public class InicioAlumno extends AppCompatActivity implements NavigationView.On
         tipo = header.findViewById(R.id.tipoPersona);
         tipo.setText("Alumno");
         foto = header.findViewById(R.id.foto);
-        Picasso.with(getApplicationContext()).load("http://"+InicioSesion.IP+":"+InicioSesion.PUERTO+"/poliAsistenciaWeb/"+sesion.getUrlImagen())
+        Picasso.with(getApplicationContext()).load("http://"+IP+":"+PUERTO+"/poliAsistenciaWeb/"+sesion.getUrlImagen())
                 .into(foto);
 /*
         mTextMessage = (TextView) findViewById(R.id.message);

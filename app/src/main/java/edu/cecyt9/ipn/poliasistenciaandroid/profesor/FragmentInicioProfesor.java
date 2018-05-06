@@ -3,9 +3,11 @@ package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -23,30 +27,33 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.AsistenciaUnidad;
 import edu.cecyt9.ipn.poliasistenciaandroid.Configuracion;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
-import edu.cecyt9.ipn.poliasistenciaandroid.alumno.InicioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.DatosHorarioAlumno;
+import edu.cecyt9.ipn.poliasistenciaandroid.alumno.HorarioUnidadAdapter;
+
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentInicioProfesor.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentInicioProfesor#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentInicioProfesor extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -54,20 +61,17 @@ public class FragmentInicioProfesor extends Fragment {
     LineChart grafica;
     Button botonEstadisticas, botonHorario, botonConfiguraciones;
     ListView listaHorario;
+    String resultado, resultado2;
+    Sesion sesion;
+    TextView txtdiasAsistidos;
+    ArrayList<HorarioGrupo> datos;
+    graficaGeneralAndroid graficaAsync;
+    obtenerHorarioDiaAndroid horarioAsync;
 
     public FragmentInicioProfesor() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentInicioProfesor.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentInicioProfesor newInstance(String param1, String param2) {
         FragmentInicioProfesor fragment = new FragmentInicioProfesor();
         Bundle args = new Bundle();
@@ -89,41 +93,16 @@ public class FragmentInicioProfesor extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        sesion = new Sesion(getContext());
+
         View vistaInicio = inflater.inflate(R.layout.fragment_inicio_profesor, container, false);
         grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
-        generarGrafica();
-        botonEstadisticas = vistaInicio.findViewById(R.id.boton_estadisticas);
-        botonEstadisticas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_estadisticas);
-            }
-        });
-        botonHorario = vistaInicio.findViewById(R.id.boton_horario);
-        botonHorario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_horario);
-            }
-        });
-        botonConfiguraciones = vistaInicio.findViewById(R.id.boton_configuracion);
-        botonConfiguraciones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent configuracion = new Intent(getActivity(), Configuracion.class);
-                startActivity(configuracion);
-            }
-        });
+        txtdiasAsistidos = vistaInicio.findViewById(R.id.txt_descripcion_estadistica);
+
         listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
         HorarioGrupo titulo = new HorarioGrupo("Grupo", "Unidad", "Hora");
-        ArrayList<HorarioGrupo> datos = new ArrayList<>();
+        datos = new ArrayList<>();
         datos.add(titulo);
-        for (int i = 0; i <10 ; i++) {
-            HorarioGrupo grupox = new HorarioGrupo("Grupo "+i, "Unidad "+i, "Hora");
-            datos.add(grupox);
-            grupox = null;
-
-        }
         HorarioGrupoAdapter adaptador = new HorarioGrupoAdapter(getContext(), R.layout.adapter_view_horario_grupo, datos);
         listaHorario.setAdapter(adaptador);
         listaHorario.setFocusable(false);
@@ -160,12 +139,45 @@ public class FragmentInicioProfesor extends Fragment {
             }
         });
 
+
+        botonEstadisticas = vistaInicio.findViewById(R.id.boton_estadisticas);
+        botonEstadisticas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_estadisticas);
+            }
+        });
+        botonHorario = vistaInicio.findViewById(R.id.boton_horario);
+        botonHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InicioProfesor)getActivity()).reemplazarFragment(R.id.navigation_horario);
+            }
+        });
+        botonConfiguraciones = vistaInicio.findViewById(R.id.boton_configuracion);
+        botonConfiguraciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent configuracion = new Intent(getActivity(), Configuracion.class);
+                startActivity(configuracion);
+            }
+        });
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+        horarioAsync = new obtenerHorarioDiaAndroid();
+        horarioAsync.execute();
         return vistaInicio;
         //HorarioGrupo -> HorarioGrupoAdapter
         //DatosGrupos -> GruposAdapter
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onPause() {
+        super.onPause();
+        graficaAsync.cancel(true);
+        horarioAsync.cancel(true);
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -189,19 +201,184 @@ public class FragmentInicioProfesor extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String METHOD_NAME = "graficaGeneralAndroid";
+            String SOAP_ACTION = "http://servicios/graficaGeneralAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("idPer", sesion.getIdPer());
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado = response.toString();
+                Log.i("Respuesta" ,  resultado);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                int mesActual = 0;
+                int ciclo = 0;
+                String infoMes;
+                int diasAsistidos = 0;
+                final HashMap<Integer, String> meses = new HashMap<>();
+                ArrayList<Entry> dias = new ArrayList<>();
+
+                try{
+                    JSONObject info = new JSONObject(resultado);
+                    mesActual = Integer.parseInt(info.getString("mes actual"));
+                    ciclo = Integer.parseInt(info.getString("Ciclo"));
+
+                    diasAsistidos = Integer.parseInt(info.getString("total asistidos"));
+                    String infoDias = "Días asistidos en total: "+diasAsistidos;
+                    txtdiasAsistidos.setText(infoDias);
+
+                    meses.put(0, "Meses");
+                    dias.add(new Entry(0f, 0f));
+                    if(ciclo == 1){
+                        int x = 1;
+                        for (int i = 7; i <=mesActual; i++) {
+                            infoMes = "mes " + i;
+                            meses.put(x, nombreMes(i));
+                            dias.add(new Entry(x, Integer.parseInt(info.getString(infoMes))));
+                            x++;
+                        }
+                    }
+                    else{
+                        for (int i = 1; i <=mesActual; i++) {
+                            infoMes = "mes " + i;
+                            meses.put(i, nombreMes(i));
+                            dias.add(new Entry(i, Integer.parseInt(info.getString(infoMes))));
+                        }
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                LineDataSet datos = new LineDataSet(dias, "Dias");
+                datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
+                datos.setDrawFilled(true);
+                datos.setLineWidth(3f);
+                datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
+                datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
+                datos.setCircleRadius(5f);
+                LineData todo = new LineData(datos);
+
+                XAxis valoresx = grafica.getXAxis();
+                valoresx.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return meses.get((int)value);
+                    }
+                });
+                valoresx.setLabelCount(meses.size(),true);
+
+                grafica.setData(todo);
+                grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+                grafica.setTouchEnabled(false);
+                grafica.getDescription().setText("");
+            }
+            else{
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+
+    public class obtenerHorarioDiaAndroid  extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String METHOD_NAME = "obtenerHorarioDiaAndroid";
+            String SOAP_ACTION = "http://servicios/obtenerHorarioDiaAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("numero", sesion.getNum());
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado2 = response.toString();
+                Log.i("Respuesta" ,  resultado2);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                try {
+                    JSONArray materias = new JSONArray(resultado2);
+                    for (int i = 0; i < materias.length(); i++) {
+                        datos.add(new HorarioGrupo(materias.getJSONObject(i).getString("grupo"),
+                                materias.getJSONObject(i).getString("unidad"),
+                                materias.getJSONObject(i).getString("hora")));
+                    }
+                    HorarioGrupoAdapter adaptador = new HorarioGrupoAdapter(getContext(), R.layout.adapter_view_horario_grupo, datos);
+                    listaHorario.setAdapter(adaptador);
+                    adaptador.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
     }
 
     public void generarGrafica(){
@@ -240,5 +417,38 @@ public class FragmentInicioProfesor extends Fragment {
         grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
         grafica.setTouchEnabled(false);
         grafica.getDescription().setText("");
+    }
+
+    public String nombreMes(int mes){
+        String nombreMes;
+        switch (mes) {
+            case 1:  nombreMes = "Enero";
+                break;
+            case 2:  nombreMes = "Febrero";
+                break;
+            case 3:  nombreMes = "Marzo";
+                break;
+            case 4:  nombreMes = "Abril";
+                break;
+            case 5:  nombreMes = "Mayo";
+                break;
+            case 6:  nombreMes = "Junio";
+                break;
+            case 7:  nombreMes = "Julio";
+                break;
+            case 8:  nombreMes = "Agosto";
+                break;
+            case 9:  nombreMes = "Septiembre";
+                break;
+            case 10: nombreMes = "Octubre";
+                break;
+            case 11: nombreMes = "Noviembre";
+                break;
+            case 12: nombreMes = "Diciembre";
+                break;
+            default: nombreMes = "Mes invalido";
+                break;
+        }
+        return nombreMes;
     }
 }
