@@ -127,6 +127,7 @@
                             android:weightSum="1">
 
                             <TextView
+                                android:id="@+id/txt_semestre"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.5"
@@ -136,6 +137,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
+                                android:id="@+id/txt_turno"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.5"
@@ -174,6 +176,7 @@
                             android:weightSum="1">
 
                             <TextView
+                                android:id="@+id/txt_especialidad"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.5"
@@ -183,6 +186,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
+                                android:id="@+id/txt_inscritos"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.5"

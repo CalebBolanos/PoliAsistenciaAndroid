@@ -381,44 +381,6 @@ public class FragmentInicioProfesor extends Fragment {
         }
     }
 
-    public void generarGrafica(){
-        final HashMap<Integer, String> meses = new HashMap<>();
-        meses.put(0, "Meses");
-        meses.put(1, "Enero");
-        meses.put(2, "Febrero");
-        meses.put(3, "Marzo");
-
-
-        ArrayList<Entry> dias = new ArrayList<>();
-        dias.add(new Entry(0f, 0f));
-        dias.add(new Entry(1f, 0f));
-        dias.add(new Entry(2f, 1f));
-        dias.add(new Entry(3f, 0f));
-
-        LineDataSet datos = new LineDataSet(dias, "Dias");
-        datos.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        datos.setFillColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setDrawFilled(true);
-        datos.setLineWidth(3f);
-        datos.setColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setCircleColor(ContextCompat.getColor(getContext(), R.color.azul));
-        datos.setCircleRadius(5f);
-        LineData todo = new LineData(datos);
-
-        XAxis valoresx = grafica.getXAxis();
-        valoresx.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return meses.get((int)value);
-            }
-        });
-        valoresx.setLabelCount(meses.size(),true);
-        grafica.setData(todo);
-        grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
-        grafica.setTouchEnabled(false);
-        grafica.getDescription().setText("");
-    }
-
     public String nombreMes(int mes){
         String nombreMes;
         switch (mes) {

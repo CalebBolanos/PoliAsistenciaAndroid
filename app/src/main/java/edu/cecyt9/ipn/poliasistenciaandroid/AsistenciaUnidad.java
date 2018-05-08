@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,20 +30,46 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.profesor.AsistenciaIndividualProfesor;
 
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
+
 public class AsistenciaUnidad extends AppCompatActivity {
 
     ListView listaMeses;
     LineChart graficaUnidad;
+    TextView nombreUnidad, grupo, semestre, turno, especialidad, inscritos;
+    String resultado, idString, grupoString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistencia_unidad);
+
+        Intent intent = getIntent();
+        idString = intent.getStringExtra("id");
+        grupoString = intent.getStringExtra("grupo");
+
+
+        nombreUnidad = findViewById(R.id.txt_nombre_unidad);
+        grupo = findViewById(R.id.txt_grupo);
+        semestre = findViewById(R.id.txt_semestre);
+        turno = findViewById(R.id.txt_turno);
+        especialidad = findViewById(R.id.txt_especialidad);
+        inscritos = findViewById(R.id.txt_inscritos);
 
         Toolbar toolbar = findViewById(R.id.toolbar_asistencia_unidad);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
@@ -80,6 +110,7 @@ public class AsistenciaUnidad extends AppCompatActivity {
         setListViewHeightBasedOnChildren(listaMeses);
         listaMeses.setFocusable(false);
         generarGrafica();
+        new informacionUnidadAndroid().execute();
 
 
     }
@@ -176,4 +207,122 @@ public class AsistenciaUnidad extends AppCompatActivity {
         Intent AsistenciaUnidad = new Intent(AsistenciaUnidad.this, AsistenciaUnidadDia.class);
         startActivity(AsistenciaUnidad);
     }
+
+
+    public class informacionUnidadAndroid extends  AsyncTask<String, String, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String valor = "";
+            JSONObject datos = new JSONObject();
+            try {
+                datos.put("grupo", grupoString);
+                datos.put("id", idString);
+                valor = datos.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/profesor?WSDL";
+            String METHOD_NAME = "informacionUnidadAndroid";
+            String SOAP_ACTION = "http://servicios/informacionUnidadAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("datos", valor);//sesion.getIdPer()
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado = response.toString();
+                Log.i("Respuesta" ,  resultado);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                String unidadString = "", semestreString ="", turnoString = "", especialidadString = "", inscritosString = "";
+                try {
+                    JSONObject datos = new JSONObject(resultado);
+                    unidadString = datos.getString("unidad");
+                    semestreString = datos.getString("semestre");
+                    turnoString = datos.getString("turno");
+                    especialidadString = datos.getString("especialidad");
+                    inscritosString = datos.getString("alumnos");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                nombreUnidad.setText(unidadString);
+                grupo.setText(grupoString);
+                semestre.setText(semestreString);
+                turno.setText(turnoString);
+                especialidad.setText(especialidadString);
+                inscritos.setText(inscritosString);
+
+            }
+            else{
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+    }
+
+    public String nombreMes(int mes){
+        String nombreMes;
+        switch (mes) {
+            case 1:  nombreMes = "Enero";
+                break;
+            case 2:  nombreMes = "Febrero";
+                break;
+            case 3:  nombreMes = "Marzo";
+                break;
+            case 4:  nombreMes = "Abril";
+                break;
+            case 5:  nombreMes = "Mayo";
+                break;
+            case 6:  nombreMes = "Junio";
+                break;
+            case 7:  nombreMes = "Julio";
+                break;
+            case 8:  nombreMes = "Agosto";
+                break;
+            case 9:  nombreMes = "Septiembre";
+                break;
+            case 10: nombreMes = "Octubre";
+                break;
+            case 11: nombreMes = "Noviembre";
+                break;
+            case 12: nombreMes = "Diciembre";
+                break;
+            default: nombreMes = "Mes invalido";
+                break;
+        }
+        return nombreMes;
+    }
+
+
 }

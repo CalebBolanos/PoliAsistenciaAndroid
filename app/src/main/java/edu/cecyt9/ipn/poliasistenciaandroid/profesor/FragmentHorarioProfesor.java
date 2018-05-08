@@ -30,26 +30,15 @@ import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentHorarioProfesor.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentHorarioProfesor#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentHorarioProfesor extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     ListView listaGrupos;
     TextView txtHP[][] = new TextView[14][5];
+    ObtenerHorarioProfesor ohp;
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,15 +46,6 @@ public class FragmentHorarioProfesor extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentHorarioProfesor.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentHorarioProfesor newInstance(String param1, String param2) {
         FragmentHorarioProfesor fragment = new FragmentHorarioProfesor();
         Bundle args = new Bundle();
@@ -159,7 +139,7 @@ public class FragmentHorarioProfesor extends Fragment {
         txtHP[13][2] = vista.findViewById(R.id.txt_horario_profesor_mi20);
         txtHP[13][3] = vista.findViewById(R.id.txt_horario_profesor_j20);
         txtHP[13][4] = vista.findViewById(R.id.txt_horario_profesor_v20);
-        ObtenerHorarioProfesor ohp = new ObtenerHorarioProfesor();
+        ohp = new ObtenerHorarioProfesor();
         ohp.execute();
         listaGrupos = vista.findViewById(R.id.listview_datos_grupos);
         DatosGrupos titulo = new DatosGrupos("Grupo", "Unidad", "profesors", "Especialidad");
@@ -173,7 +153,12 @@ public class FragmentHorarioProfesor extends Fragment {
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onPause() {
+        super.onPause();
+        ohp.cancel(true);
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -197,18 +182,7 @@ public class FragmentHorarioProfesor extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -241,11 +215,11 @@ public class FragmentHorarioProfesor extends Fragment {
         protected Boolean doInBackground(String... strings) {
             // Metodo que queremos ejecutar en el servicio web
             String Metodo = "horarioAndroidProfesor";
-// Namespace definido en el servicio web
+            // Namespace definido en el servicio web
             String namespace = "http://servicios/";
-// namespace + metodo
+            // namespace + metodo
             String accionSoap = "hhtp://servicios/horarioAndroidProfesor";
-// Fichero de definicion del servcio web
+            // Fichero de definicion del servcio web
             String url = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/profesor?WSDL";
             Sesion ses = new Sesion(getActivity().getApplicationContext());
             String bol = ses.getNum();
