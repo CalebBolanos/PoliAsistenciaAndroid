@@ -52,7 +52,7 @@ public class AsistenciaUnidad extends AppCompatActivity {
     ListView listaMeses;
     LineChart graficaUnidad;
     TextView nombreUnidad, grupo, semestre, turno, especialidad, inscritos;
-    String resultado, idString, grupoString;
+    String resultado, resultado2, idString, grupoString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class AsistenciaUnidad extends AppCompatActivity {
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
-            getSupportActionBar().setTitle("Nombre Grupo");
+            getSupportActionBar().setTitle(grupoString);
             final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
             flechaAtras.setColorFilter(getResources().getColor(R.color.blanco), PorterDuff.Mode.SRC_ATOP);
             getSupportActionBar().setHomeAsUpIndicator(flechaAtras);
@@ -86,32 +86,8 @@ public class AsistenciaUnidad extends AppCompatActivity {
         listaMeses = findViewById(R.id.listview_meses_unidad);
         graficaUnidad = findViewById(R.id.linechart_asistencia_unidad);
 
-        ArrayList<String> arrayMeses = new ArrayList<>();
-        for(int i = 1; i<=12; i++){
-            arrayMeses.add("Mes " + i);
-        }
-        ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayMeses);
-        listaMeses.setAdapter(adaptador);
-        listaMeses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String seleccionado = listaMeses.getItemAtPosition(i).toString();
-                switch (seleccionado){
-                    case "":
-
-                        break;
-                    default:
-                        Intent graficasUnidadMes = new Intent(AsistenciaUnidad.this, AsistenciaUnidadMes.class);
-                        startActivity(graficasUnidadMes);
-                        break;
-                }
-            }
-        });
-        setListViewHeightBasedOnChildren(listaMeses);
-        listaMeses.setFocusable(false);
-        generarGrafica();
+        new asistenciaUnidadMesAndroid().execute();
         new informacionUnidadAndroid().execute();
-
 
     }
 
@@ -205,6 +181,7 @@ public class AsistenciaUnidad extends AppCompatActivity {
 
     public void abrirAsistenciaUnidadDia(View view) {
         Intent AsistenciaUnidad = new Intent(AsistenciaUnidad.this, AsistenciaUnidadDia.class);
+        AsistenciaUnidad.putExtra("id", idString);
         startActivity(AsistenciaUnidad);
     }
 
@@ -289,6 +266,157 @@ public class AsistenciaUnidad extends AppCompatActivity {
             super.onCancelled();
         }
 
+    }
+
+    public class asistenciaUnidadMesAndroid extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/profesor?WSDL";
+            String METHOD_NAME = "asistenciaUnidadMesAndroid";
+            String SOAP_ACTION = "http://servicios/asistenciaUnidadMesAndroid";
+
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("idUnidad", idString);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado2 = response.toString();
+                Log.i("Respuesta" ,  resultado2);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                int mesActual = 0;
+                int ciclo = 0;
+                String infoMesAsistido, infoMesFaltado;
+                ArrayList<String> arrayMeses = new ArrayList<>();
+                final HashMap<Integer, String> meses = new HashMap<>();
+                ArrayList<Entry> diasAsistidos = new ArrayList<>();
+                ArrayList<Entry> diasFaltados = new ArrayList<>();
+
+                try{
+                    JSONObject info = new JSONObject(resultado2);
+                    mesActual = Integer.parseInt(info.getString("mes actual"));
+                    ciclo = Integer.parseInt(info.getString("Ciclo"));
+
+                    meses.put(0, "Meses");
+                    diasAsistidos.add(new Entry(0f, 0f));
+                    diasFaltados.add(new Entry(0f, 0f));
+                    if(ciclo == 1){
+                        int x = 1;
+                        for (int i = 7; i <=mesActual; i++) {
+                            infoMesAsistido = "mesAsistido " + i;
+                            infoMesFaltado = "mesFaltado " + i;
+                            arrayMeses.add(nombreMes(i));
+                            meses.put(x, nombreMes(i));
+                            diasAsistidos.add(new Entry(x, Float.parseFloat(info.getString(infoMesAsistido))));
+                            diasFaltados.add(new Entry(x, Float.parseFloat(info.getString(infoMesFaltado))));
+                            x++;
+                        }
+                    }
+                    else{
+                        for (int i = 1; i <=mesActual; i++) {
+                            infoMesAsistido = "mesAsistido " + i;
+                            infoMesFaltado = "mesFaltado " + i;
+                            meses.put(i, nombreMes(i));
+                            arrayMeses.add(nombreMes(i));
+                            diasAsistidos.add(new Entry(i, Float.parseFloat(info.getString(infoMesAsistido))));
+                            diasFaltados.add(new Entry(i, Float.parseFloat(info.getString(infoMesFaltado))));
+                        }
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                ArrayAdapter adaptador = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, arrayMeses);
+                listaMeses.setAdapter(adaptador);
+                listaMeses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String seleccionado = listaMeses.getItemAtPosition(i).toString();
+                        switch (seleccionado){
+                            case "":
+
+                                break;
+                            default:
+                                Intent graficasUnidadMes = new Intent(AsistenciaUnidad.this, AsistenciaUnidadMes.class);
+                                graficasUnidadMes.putExtra("mes", seleccionado);
+                                graficasUnidadMes.putExtra("id", idString);
+                                startActivity(graficasUnidadMes);
+                                break;
+                        }
+                    }
+                });
+                setListViewHeightBasedOnChildren(listaMeses);
+                listaMeses.setFocusable(false);
+                adaptador.notifyDataSetChanged();
+
+                LineDataSet datosAsistido = new LineDataSet(diasAsistidos, "Dias Asistidos");
+                datosAsistido.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                datosAsistido.setFillColor(ContextCompat.getColor(getApplicationContext(), R.color.azul));
+                datosAsistido.setDrawFilled(true);
+                datosAsistido.setLineWidth(3f);
+                datosAsistido.setColor(ContextCompat.getColor(getApplicationContext(), R.color.azul));
+                datosAsistido.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.azul));
+                datosAsistido.setCircleRadius(5f);
+
+                LineDataSet datosFalta = new LineDataSet(diasFaltados, "Dias Faltados");
+                datosFalta.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                datosFalta.setFillColor(ContextCompat.getColor(getApplicationContext(), R.color.rojoGrafica));
+                datosFalta.setDrawFilled(true);
+                datosFalta.setLineWidth(3f);
+                datosFalta.setColor(ContextCompat.getColor(getApplicationContext(), R.color.rojoGrafica));
+                datosFalta.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.rojoGrafica));
+                datosFalta.setCircleRadius(5f);
+
+                ArrayList<ILineDataSet> datasets = new ArrayList<>();
+                datasets.add(datosFalta);
+                datasets.add(datosAsistido);
+                XAxis valoresx = graficaUnidad.getXAxis();
+                valoresx.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return meses.get((int)value);
+                    }
+                });
+                valoresx.setLabelCount(meses.size(),true);
+                LineData todo = new LineData(datasets);
+                graficaUnidad.setData(todo);
+                graficaUnidad.animateY(1500, Easing.EasingOption.EaseInOutExpo);
+                graficaUnidad.setTouchEnabled(false);
+                graficaUnidad.getDescription().setText("");
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
     }
 
     public String nombreMes(int mes){
