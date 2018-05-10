@@ -149,7 +149,7 @@ public class FragmentBuscarAlumno extends Fragment {
         busqueda.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                return true;
             }
 
             @Override

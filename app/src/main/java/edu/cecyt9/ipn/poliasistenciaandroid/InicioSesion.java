@@ -111,6 +111,12 @@ public class InicioSesion extends AppCompatActivity {
         proceso.show();
     }
 
+    public void abrirPrefecto(View view) {
+        Intent inicioPrefecto = new Intent(getApplicationContext(), InicioPrefecto.class);
+        startActivity(inicioPrefecto);
+        finish();
+    }
+
     public class obtenerDatos extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {

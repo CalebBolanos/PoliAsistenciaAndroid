@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.Contract;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +43,13 @@ import edu.cecyt9.ipn.poliasistenciaandroid.NotificacionesAdapter;
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
 import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentNotificacionesProfesor.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentNotificacionesProfesor#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentNotificacionesProfesor extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -56,20 +57,12 @@ public class FragmentNotificacionesProfesor extends Fragment {
     RecyclerView recyclerNotificaciones;
     NotificacionesAdapter adaptador;
     SwipeRefreshLayout refrescar;
+    String resultado;
 
     public FragmentNotificacionesProfesor() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentNotificacionesProfesor.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentNotificacionesProfesor newInstance(String param1, String param2) {
         FragmentNotificacionesProfesor fragment = new FragmentNotificacionesProfesor();
         Bundle args = new Bundle();
@@ -94,25 +87,13 @@ public class FragmentNotificacionesProfesor extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        final List<DatosNotificacion> notificaciones = new ArrayList<>();
-        DatosNotificacion notificacionprueba = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Profesor", "", "notificacion sin imagen", "descripcion", "", "sin imagen", false);
-        notificaciones.add(notificacionprueba);
-        for (int i = 0; i < 5; i++) {
-            DatosNotificacion notificacionx = new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_IMAGEN_URL, "Profesor", "", "notificacion"+i, "Descripcion xd", "", "Url"+i, false);
-            notificaciones.add(notificacionx);
-            notificacionx = null;
-        }
-
-        adaptador = new NotificacionesAdapter(getContext(), notificaciones);
-        recyclerNotificaciones.setAdapter(adaptador);
-
-        final RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        new obtenerNotificacionesAndroid().execute();
+        /*final RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
             @Override protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
-
-        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
         refrescar.setColorSchemeResources(R.color.colorPrimary);
         refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -126,12 +107,10 @@ public class FragmentNotificacionesProfesor extends Fragment {
                 //adaptador.notifyItemInserted(notificaciones.size() - 1);
                 refrescar.setRefreshing(false);
             }
-        });
-
+        });*/
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -155,49 +134,91 @@ public class FragmentNotificacionesProfesor extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    public Drawable resizeImage(int imageResource) {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        double deviceWidth = display.getWidth();
+    public class obtenerNotificacionesAndroid extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
 
-        BitmapDrawable bd = (BitmapDrawable) this.getResources().getDrawable(imageResource);
-        double imageHeight = bd.getBitmap().getHeight();
-        double imageWidth = bd.getBitmap().getWidth();
+            String NAMESPACE = "http://servicios/";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String METHOD_NAME = "obtenerNotificacionesAndroid";
+            String SOAP_ACTION = "http://servicios/obtenerNotificacionesAndroid";
 
-        double ratio = deviceWidth / imageWidth;
-        int newImageHeight = (int) (imageHeight * ratio);
 
-        Bitmap bMap = BitmapFactory.decodeResource(getResources(), imageResource);
-        Drawable drawable = new BitmapDrawable(this.getResources(), getResizedBitmap(bMap, newImageHeight, (int) deviceWidth));
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("tipoNotificacion", "2");
 
-        return drawable;
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+
+            try{
+                ht.call(SOAP_ACTION, envelope);
+                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                resultado = response.toString();
+                Log.i("Respuesta" ,  resultado);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                List<DatosNotificacion> noti = new ArrayList<>();
+                try {
+                    JSONArray notificaciones = new JSONArray(resultado);
+                    for (int i = 0; i < notificaciones.length(); i++) {
+                        DatosNotificacion notificacionx = new DatosNotificacion(
+                                Integer.parseInt(notificaciones.getJSONObject(i).getString("tipoNotificacion")),
+                                notificaciones.getJSONObject(i).getString("usuario"),
+                                notificaciones.getJSONObject(i).getString("imagenUsuario"),
+                                notificaciones.getJSONObject(i).getString("titulo"),
+                                notificaciones.getJSONObject(i).getString("descripcion"),
+                                notificaciones.getJSONObject(i).getString("imagen"),
+                                notificaciones.getJSONObject(i).getString("url"),
+                                false);
+                        noti.add(notificacionx);
+                        notificacionx = null;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                adaptador = new NotificacionesAdapter(getContext(), noti);
+                recyclerNotificaciones.setAdapter(adaptador);
+                adaptador.notifyDataSetChanged();
+                refrescar.setColorSchemeResources(R.color.colorPrimary);
+                refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refrescar.setRefreshing(true);
+                        adaptador.notifyDataSetChanged();
+                        refrescar.setRefreshing(false);
+                    }
+                });
+            }
+            else{
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
     }
 
-    @Nullable
-    @Contract(pure = true)
-    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        return resizedBitmap;
-    }
 }
