@@ -123,21 +123,7 @@ public class FragmentInicioProfesor extends Fragment {
                 return true;
             }
         });
-        listaHorario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String seleccionado = listaHorario.getItemAtPosition(i).toString();
-                switch (seleccionado){
-                    case "":
 
-                        break;
-                    default:
-                        Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
-                        startActivity(graficas);
-                        break;
-                }
-            }
-        });
 
 
         botonEstadisticas = vistaInicio.findViewById(R.id.boton_estadisticas);
@@ -323,9 +309,9 @@ public class FragmentInicioProfesor extends Fragment {
         protected Boolean doInBackground(String... params) {
 
             String NAMESPACE = "http://servicios/";
-            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
-            String METHOD_NAME = "obtenerHorarioDiaAndroid";
-            String SOAP_ACTION = "http://servicios/obtenerHorarioDiaAndroid";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/profesor?WSDL";
+            String METHOD_NAME = "obtenerHorarioDiaProfesorAndroid";
+            String SOAP_ACTION = "http://servicios/obtenerHorarioDiaProfesorAndroid";
 
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
@@ -356,15 +342,36 @@ public class FragmentInicioProfesor extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success){
+                final ArrayList<String> ids = new ArrayList<>();
+                final ArrayList<String> grupos = new ArrayList<>();
                 try {
                     JSONArray materias = new JSONArray(resultado2);
                     for (int i = 0; i < materias.length(); i++) {
                         datos.add(new HorarioGrupo(materias.getJSONObject(i).getString("grupo"),
                                 materias.getJSONObject(i).getString("unidad"),
                                 materias.getJSONObject(i).getString("hora")));
+                        ids.add(i, materias.getJSONObject(i).getString("id"));
+                        grupos.add(i, materias.getJSONObject(i).getString("grupo"));
                     }
                     HorarioGrupoAdapter adaptador = new HorarioGrupoAdapter(getContext(), R.layout.adapter_view_horario_grupo, datos);
                     listaHorario.setAdapter(adaptador);
+                    listaHorario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            String seleccionado = listaHorario.getItemAtPosition(i).toString();
+                            switch (seleccionado){
+                                case "":
+
+                                    break;
+                                default:
+                                    Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
+                                    graficas.putExtra("id", ids.get(i-1));
+                                    graficas.putExtra("grupo", grupos.get(i-1));
+                                    startActivity(graficas);
+                                    break;
+                            }
+                        }
+                    });
                     adaptador.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
