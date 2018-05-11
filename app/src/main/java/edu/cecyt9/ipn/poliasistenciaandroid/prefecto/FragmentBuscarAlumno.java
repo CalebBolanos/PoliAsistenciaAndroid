@@ -2,10 +2,12 @@ package edu.cecyt9.ipn.poliasistenciaandroid.prefecto;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +17,22 @@ import android.view.ViewGroup;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.cecyt9.ipn.poliasistenciaandroid.R;
+import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
+
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
+import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 
 /**
@@ -45,6 +59,7 @@ public class FragmentBuscarAlumno extends Fragment {
     AlumnoAdapter adaptador;
     MaterialSearchView busqueda;
     List<DatosAlumno> alumnos = new ArrayList<>();
+    ArrayList<String[]> listaAlumnosAS = new ArrayList<>();
 
     public FragmentBuscarAlumno() {
         // Required empty public constructor
@@ -75,6 +90,8 @@ public class FragmentBuscarAlumno extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ObtenerListaAlumnos obLiAl = new ObtenerListaAlumnos();
+        obLiAl.execute();
     }
 
     @Override
@@ -87,8 +104,8 @@ public class FragmentBuscarAlumno extends Fragment {
         recyclerAlumno.setLayoutManager(new LinearLayoutManager(getContext()));
         alumnos = null;
         alumnos = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, "Alumno "+ i, "6IM7", "201609000"+i);
+        for (int i = 0; i < listaAlumnosAS.size(); i++) {
+            DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, listaAlumnosAS.get(i)[0], listaAlumnosAS.get(i)[1], listaAlumnosAS.get(i)[2]);
             alumnos.add(alumnox);
             alumnox = null;
         }
@@ -191,5 +208,59 @@ public class FragmentBuscarAlumno extends Fragment {
             }
         }
         return filtrado;
+    }
+
+    public class ObtenerListaAlumnos extends AsyncTask<String, String, Boolean> {
+        private String resultado;
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            // Metodo que queremos ejecutar en el servicio web
+            String Metodo = "listaDeAlumnosAndroid";
+// Namespace definido en el servicio web
+            String namespace = "http://servicios/";
+// namespace + metodo
+            String accionSoap = "hhtp://servicios/listaDeAlumnosAndroid";
+// Fichero de definicion del servcio web
+            String url = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/prefectos?WSDL";
+            Sesion ses = new Sesion(getActivity().getApplicationContext());
+            String bol = ses.getNum();
+            SoapObject request = new SoapObject(namespace, Metodo);
+            request.addProperty("numeroPrefecto", bol);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+
+            envelope.dotNet = false;
+
+            HttpTransportSE ht = new HttpTransportSE(url);
+            ht.debug = true;
+
+            try {
+                ht.call(accionSoap, envelope);
+                SoapPrimitive responce = (SoapPrimitive) envelope.getResponse();
+                resultado = responce.toString();
+            } catch (Exception xd) {
+                Log.println(Log.ERROR, "Error: ", xd.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean aBoolean) {
+            try {
+                String [] primerArreglo;
+                JSONArray info = new JSONArray(resultado);
+                JSONObject info2;
+                for(int i = 0; i<info.length(); i++){
+                    info2 = info.getJSONObject(i);
+                    primerArreglo = new String[3];
+                    primerArreglo[0] = info2.getString("Nombre");
+                    primerArreglo[1] = info2.getString("boleta");
+                    primerArreglo[2] = info2.getString("grupo");
+                    listaAlumnosAS.add(primerArreglo);
+                }
+            } catch (Exception xd) {
+                Log.println(Log.ERROR, "Error: ", xd.getMessage());
+            }
+        }
     }
 }
