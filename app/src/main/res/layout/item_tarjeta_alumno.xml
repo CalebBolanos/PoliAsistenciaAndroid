@@ -42,17 +42,17 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/grupo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="grupo"
-                    android:textSize="14sp" />
-
-                <TextView
                     android:id="@+id/boleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="boleta"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/grupo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="grupo"
                     android:textSize="12sp" />
 
 

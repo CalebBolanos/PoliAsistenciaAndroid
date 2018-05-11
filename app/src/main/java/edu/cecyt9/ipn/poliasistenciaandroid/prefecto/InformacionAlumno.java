@@ -33,12 +33,14 @@ public class InformacionAlumno extends AppCompatActivity {
 
     LineChart grafica;
     ListView listaHorario;
+    private  String bole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_alumno);
-
+        Intent inten = getIntent();
+        bole = inten.getStringExtra("boleta");
         Toolbar toolbar = findViewById(R.id.toolbar_info_alumno);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
@@ -130,12 +132,12 @@ public class InformacionAlumno extends AppCompatActivity {
         switch (view.getId()){
             case R.id.boton_horario:
                 Intent horario = new Intent(this, InfoHorarioAlumno.class);
-                horario.putExtra("boleta", "boleta");
+                horario.putExtra("boleta", bole);
                 startActivity(horario);
                 break;
             case R.id.boton_estadisticas:
                 Intent estadisticas = new Intent(this, InfoMesesEstadisticasAlumno.class);
-                estadisticas.putExtra("boleta", "boleta");
+                estadisticas.putExtra("boleta", bole);
                 startActivity(estadisticas);
                 break;
 

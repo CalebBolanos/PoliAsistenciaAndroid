@@ -105,7 +105,7 @@ public class FragmentBuscarAlumno extends Fragment {
         alumnos = null;
         alumnos = new ArrayList<>();
         for (int i = 0; i < listaAlumnosAS.size(); i++) {
-            DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, listaAlumnosAS.get(i)[0], listaAlumnosAS.get(i)[1], listaAlumnosAS.get(i)[2]);
+            DatosAlumno alumnox = new DatosAlumno(R.drawable.sanic, listaAlumnosAS.get(i)[0], listaAlumnosAS.get(i)[2], listaAlumnosAS.get(i)[1]);
             alumnos.add(alumnox);
             alumnox = null;
         }

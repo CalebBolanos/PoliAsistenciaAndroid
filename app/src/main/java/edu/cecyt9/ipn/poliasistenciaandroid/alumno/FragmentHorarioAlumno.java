@@ -49,7 +49,6 @@ public class FragmentHorarioAlumno extends Fragment {
     private String mParam1;
     private String mParam2;
     TextView[][]txtH=new TextView[14][5];
-    String[][] HoH = new String[14][5];
     ListView listaProfesores;
 
     private OnFragmentInteractionListener mListener;
