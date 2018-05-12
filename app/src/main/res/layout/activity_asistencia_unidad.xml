@@ -50,7 +50,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/contenedor_grafica_unidad"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/linechart_asistencia_unidad"
@@ -70,7 +70,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="Nombre unidad"
+                        android:text="Nombre unidad unidad unidad unidad"
                         android:textColor="@color/azul"
                         android:textSize="28sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -208,11 +208,12 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:onClick="abrirAsistenciaUnidadDia"
                         android:text="Asistencia por dia"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tablelayout_datos_unidad" />
 
