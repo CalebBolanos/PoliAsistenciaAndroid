@@ -15,7 +15,7 @@ public class Sesion {
     public static final int ALUMNO = 2;
     public static final int PROFESOR = 3;
     public static final int JEFE_ACADEMIA = 4;
-    public static final int PREFECTO = 6;
+    public static final int PREFECTO = 5;
 
     public Sesion(Context contexto) {
         datosSesion = PreferenceManager.getDefaultSharedPreferences(contexto);
