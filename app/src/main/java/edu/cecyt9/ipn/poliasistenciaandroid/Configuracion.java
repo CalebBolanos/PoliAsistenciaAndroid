@@ -206,7 +206,7 @@ public class Configuracion extends AppCompatActivity {
                     bitMap = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     nombreArchivo = imageReturnedIntent.getDataString();
                     cambiarimagen cambImg = new cambiarimagen();
-                    cambImg.execute();
+                    //cambImg.execute();
                     imagen.setImageURI(selectedImage);
                 }
 

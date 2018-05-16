@@ -46,7 +46,7 @@ public class InicioSesion extends AppCompatActivity {
     ConstraintLayout constraintLayout;
     String resultado = "";
     ProgressDialog proceso;
-    public static final String IP = "192.168.100.20";
+    public static final String IP = "192.168.43.154";
     public static final String PUERTO = "8080";
 
     @Override
