@@ -188,7 +188,8 @@ public class FragmentNotificacionesProfesor extends Fragment {
                                 notificaciones.getJSONObject(i).getString("descripcion"),
                                 notificaciones.getJSONObject(i).getString("imagen"),
                                 notificaciones.getJSONObject(i).getString("url"),
-                                false);
+                                false,
+                                notificaciones.getJSONObject(i).getInt("idNoti"));
                         noti.add(notificacionx);
                         notificacionx = null;
                     }

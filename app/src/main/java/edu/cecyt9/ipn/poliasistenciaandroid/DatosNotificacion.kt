@@ -12,8 +12,9 @@ class DatosNotificacion {
     var imagen: String = ""
     var url: String = ""
     var borrar: Boolean = false
+    var idNoti : Int = 0
 
-    constructor(tipoNotificacion: Int, usuario: String, imagenUsuario: String, titulo: String, descripcion: String, imagen: String, url: String, borrar: Boolean) {
+    constructor(tipoNotificacion: Int, usuario: String, imagenUsuario: String, titulo: String, descripcion: String, imagen: String, url: String, borrar: Boolean, idNoti : Int) {
         this.tipoNotificacion = tipoNotificacion
         this.usuario = usuario
         this.imagenUsuario = imagenUsuario
@@ -22,6 +23,7 @@ class DatosNotificacion {
         this.imagen = imagen
         this.url = url
         this.borrar = borrar
+        this.idNoti = idNoti
     }
 
 
