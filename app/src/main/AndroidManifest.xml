@@ -3,6 +3,10 @@
     package="edu.cecyt9.ipn.poliasistenciaandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+
 
     <application
         android:allowBackup="true"
@@ -46,6 +50,7 @@
             android:name=".ServiceNotificaciones"
             android:enabled="true"
             android:exported="true"></service>
+
     </application>
 
 </manifest>

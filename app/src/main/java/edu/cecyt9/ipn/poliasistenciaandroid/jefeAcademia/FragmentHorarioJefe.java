@@ -152,6 +152,12 @@ public class FragmentHorarioJefe extends Fragment {
         return vista;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ohp.cancel(true);
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -260,6 +266,11 @@ public class FragmentHorarioJefe extends Fragment {
                     Log.println(Log.DEBUG, "Error: ", hor[i][j]);
                 }
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
         }
     }
 }
