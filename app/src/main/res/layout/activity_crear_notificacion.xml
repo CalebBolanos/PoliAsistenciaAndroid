@@ -53,9 +53,8 @@
         android:layout_marginTop="8dp"
         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_url">
+        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_titulo">
 
         <EditText
             android:id="@+id/txt_informacion"
@@ -76,9 +75,8 @@
         android:layout_marginTop="8dp"
         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_titulo">
+        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_info">
 
         <EditText
             android:id="@+id/txt_url"
@@ -90,14 +88,16 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/checkBox_enviar_correo"
+    <Button
+        android:id="@+id/btn_subir_notificacion"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:visibility="invisible"
+        android:onClick="subirNotificacion"
+        android:text="Subir Notificacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_subir_imagen" />
@@ -111,22 +111,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="obtenerImagen"
+        android:text="Selecciona una imagen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_info" />
-
-    <Button
-        android:id="@+id/btn_subir_notificacion"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="subirNonificaciones"
-        android:text="Subir Notificacion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_enviar_correo" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInputLayout_url" />
 
 </android.support.constraint.ConstraintLayout>

@@ -215,7 +215,8 @@ public class Configuracion extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = imageReturnedIntent.getExtras();
                     imagenBitmap = (Bitmap) extras.get("data");
-                    new subirFoto().execute();
+                    subirFoto subir = new subirFoto();
+                    subir.execute();
                     //imagen.setImageBitmap(imagenBitmap);
                 }
 
@@ -228,7 +229,8 @@ public class Configuracion extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    new subirFoto().execute();
+                    subirFoto subir = new subirFoto();
+                    subir.execute();
                     //imagen.setImageURI(imagenSeleccionada);
                 }
                 break;
@@ -265,8 +267,8 @@ public class Configuracion extends AppCompatActivity {
 
             String NAMESPACE = "http://servicios/";
             String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/usuario?WSDL";
-            String METHOD_NAME = "pruebaFotos";
-            String SOAP_ACTION = "http://servicios/pruebaFotos";
+            String METHOD_NAME = "subirFotoPerfilAndroid";
+            String SOAP_ACTION = "http://servicios/subirFotoPerfilAndroid";
 
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
