@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -246,7 +247,8 @@ public class Configuracion extends AppCompatActivity {
         }
     }
 
-    public class subirFoto  extends AsyncTask<String, String, Boolean> {
+    @SuppressLint("StaticFieldLeak")
+    public class subirFoto extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
 
@@ -319,8 +321,7 @@ public class Configuracion extends AppCompatActivity {
             }
             else{
                 proceso.dismiss();
-                Toast.makeText(getApplicationContext(), "Lo sentimos, ocurrio un error D:", Toast.LENGTH_SHORT).show();
-                Snackbar.make(coordinator, "", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinator, "Error al subir foto, no se puede conectar al servidor", Snackbar.LENGTH_LONG).show();
             }
         }
 

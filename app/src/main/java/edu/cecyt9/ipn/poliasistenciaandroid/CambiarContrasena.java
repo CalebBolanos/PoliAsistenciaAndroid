@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -91,13 +92,13 @@ public class CambiarContrasena extends AppCompatActivity {
         stringActual = actual.getText().toString().trim();
         stringNueva = nueva.getText().toString().trim();
         stringNueva2 = nueva2.getText().toString().trim();
+        View vista = this.getCurrentFocus();
+        if (vista != null) {
+            InputMethodManager teclado = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            teclado.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         if(!stringActual.equals("") && !stringNueva.equals("") && !stringNueva2.equals("")){
             if(stringNueva.equals(stringNueva2)){
-                View vista = this.getCurrentFocus();
-                if (vista != null) {
-                    InputMethodManager teclado = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    teclado.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
                 proceso = new ProgressDialog(CambiarContrasena.this);
                 proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 proceso.setMessage("Cambiando contraseña...");
@@ -117,7 +118,8 @@ public class CambiarContrasena extends AppCompatActivity {
 
     }
 
-    public class cambioContrasenaAndroid  extends AsyncTask<String, String, Boolean> {
+    @SuppressLint("StaticFieldLeak")
+    public class cambioContrasenaAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
 
@@ -135,7 +137,6 @@ public class CambiarContrasena extends AppCompatActivity {
             catch (Exception e){
                 return false;
             }
-
 
             String NAMESPACE = "http://servicios/";
             String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/usuario?WSDL";
@@ -177,10 +178,13 @@ public class CambiarContrasena extends AppCompatActivity {
             if(success){
                 proceso.dismiss();
                 Snackbar.make(constraintLayout, resultado, Snackbar.LENGTH_LONG).show();
+                actual.setText("");
+                nueva.setText("");
+                nueva2.setText("");
             }
             else{
                 proceso.dismiss();
-                Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(constraintLayout, "Error al cambiar contraseña, no se puede conectar al servidor", Snackbar.LENGTH_LONG).show();
             }
         }
 

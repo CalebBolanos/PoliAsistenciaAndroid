@@ -1,5 +1,7 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,12 +10,15 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +45,8 @@ public class CrearNotificacion extends AppCompatActivity {
     String titulo, urlTit, info, resultado;
     Bitmap imagenBitmap;
     Sesion sesion;
+    ProgressDialog proceso;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +57,10 @@ public class CrearNotificacion extends AppCompatActivity {
         txtTitulo = findViewById(R.id.txt_titulo);
         txtUrl = findViewById(R.id.txt_url);
         txtInfo = findViewById(R.id.txt_informacion);
+        constraintLayout = findViewById(R.id.constraint);
         Toolbar toolbar = findViewById(R.id.toolbar_notificacion);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
-
         if (getSupportActionBar() != null){
             getSupportActionBar().setTitle("Crear Notificacion");
             final Drawable flechaAtras = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
@@ -97,8 +104,24 @@ public class CrearNotificacion extends AppCompatActivity {
         titulo = txtTitulo.getText().toString();
         urlTit = txtUrl.getText().toString();
         info = txtInfo.getText().toString();
-        subirNotificaciones subir = new subirNotificaciones();
-        subir.execute();
+        View vista = this.getCurrentFocus();
+        if (vista != null) {
+            InputMethodManager teclado = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            teclado.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        if(!titulo.equals("") && !urlTit.equals("") && !info.equals("")){
+            proceso = new ProgressDialog(CrearNotificacion.this);
+            proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            proceso.setMessage("Subiendo notificación...");
+            proceso.setCancelable(false);
+            proceso.show();
+            subirNotificaciones subir = new subirNotificaciones();
+            subir.execute();
+        }
+        else{
+            Snackbar.make(constraintLayout, "No dejes espacios vacios", Snackbar.LENGTH_LONG).show();
+        }
+
     }
 
     public class subirNotificaciones  extends AsyncTask<String, String, Boolean> {
@@ -170,16 +193,19 @@ public class CrearNotificacion extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success){
-                Toast.makeText(getApplicationContext(), "se subio", Toast.LENGTH_SHORT).show();
+                proceso.dismiss();
+                Snackbar.make(constraintLayout, "Notificación publicada", Snackbar.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                proceso.dismiss();
+                Snackbar.make(constraintLayout, "Error al subir notificación, no se puede conectar al servidor", Snackbar.LENGTH_LONG).show();
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            proceso.dismiss();
         }
     }
 }

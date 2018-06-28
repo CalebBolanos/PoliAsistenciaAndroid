@@ -267,15 +267,15 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         protected void onPostExecute(final Boolean success) {
             if(success){
                 if(resultado.equals("ok")){
-                    Toast.makeText(context, "Se borrro", Toast.LENGTH_SHORT).show();
+
                 }
                 else{
-                    Toast.makeText(context, "no", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No se pudo borrar la notificacion", Toast.LENGTH_SHORT).show();
                 }
 
             }
             else{
-                Toast.makeText(context, "no", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al borrar notificacion, no se puede conectar al servidor", Toast.LENGTH_SHORT).show();
             }
         }
 
