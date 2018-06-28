@@ -102,13 +102,18 @@ public class InicioSesion extends AppCompatActivity {
     }
 
     public void iniciarSesion(View view) {
-        new obtenerDatos().execute(usuario.getText().toString().trim(), contrasena.getText().toString().trim());
+        if(!usuario.getText().toString().trim().equals("") && !contrasena.getText().toString().equals("")){
+            new obtenerDatos().execute(usuario.getText().toString().trim(), contrasena.getText().toString());
 
-        proceso = new ProgressDialog(InicioSesion.this);
-        proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        proceso.setMessage("Iniciando Sesión");
-        proceso.setCancelable(false);
-        proceso.show();
+            proceso = new ProgressDialog(InicioSesion.this);
+            proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            proceso.setMessage("Iniciando Sesión");
+            proceso.setCancelable(false);
+            proceso.show();
+        }
+        else{
+            Snackbar.make(constraintLayout, "No dejes espacios vacios", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     public void abrirPrefecto(View view) {

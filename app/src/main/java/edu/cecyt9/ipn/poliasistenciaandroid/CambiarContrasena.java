@@ -1,5 +1,7 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ public class CambiarContrasena extends AppCompatActivity {
     EditText actual, nueva, nueva2;
     String stringActual, stringNueva, stringNueva2, resultado;
     ConstraintLayout constraintLayout;
+    ProgressDialog proceso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +91,29 @@ public class CambiarContrasena extends AppCompatActivity {
         stringActual = actual.getText().toString().trim();
         stringNueva = nueva.getText().toString().trim();
         stringNueva2 = nueva2.getText().toString().trim();
-        if(stringNueva.equals(stringNueva2)){
-            new cambioContrasenaAndroid().execute(stringActual, stringNueva);
+        if(!stringActual.equals("") && !stringNueva.equals("") && !stringNueva2.equals("")){
+            if(stringNueva.equals(stringNueva2)){
+                View vista = this.getCurrentFocus();
+                if (vista != null) {
+                    InputMethodManager teclado = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    teclado.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                proceso = new ProgressDialog(CambiarContrasena.this);
+                proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                proceso.setMessage("Cambiando contraseña...");
+                proceso.setCancelable(false);
+                proceso.show();
+                cambioContrasenaAndroid cambiar = new cambioContrasenaAndroid();
+                cambiar.execute(stringActual, stringNueva);
+            }
+            else{
+                Snackbar.make(constraintLayout, "Las nuevas contraseñas no coinciden", Snackbar.LENGTH_LONG).show();
+            }
         }
         else{
-            Snackbar.make(constraintLayout, "Las nuevas contraseñas no coinciden", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(constraintLayout, "No dejes espacios vacios", Snackbar.LENGTH_LONG).show();
         }
+
 
     }
 
@@ -154,9 +175,11 @@ public class CambiarContrasena extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success){
+                proceso.dismiss();
                 Snackbar.make(constraintLayout, resultado, Snackbar.LENGTH_LONG).show();
             }
             else{
+                proceso.dismiss();
                 Snackbar.make(constraintLayout, "Usuario o contraseña incorrecta", Snackbar.LENGTH_LONG).show();
             }
         }
@@ -164,6 +187,7 @@ public class CambiarContrasena extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            proceso.dismiss();
         }
     }
 }

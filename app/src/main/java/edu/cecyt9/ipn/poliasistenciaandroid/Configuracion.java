@@ -1,6 +1,7 @@
 package edu.cecyt9.ipn.poliasistenciaandroid;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -64,11 +67,12 @@ public class Configuracion extends AppCompatActivity {
 
     ListView lista;
     Sesion sesion;
-    TextView nombre, boleta, nacimiento;
+    TextView nombre;
     CircleImageView imagen;
-    LinearLayout datosGenerales;
     Bitmap imagenBitmap;
     String resultado;
+    ProgressDialog proceso;
+    CoordinatorLayout coordinator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +87,7 @@ public class Configuracion extends AppCompatActivity {
             return;
         }
 
-
+        coordinator = findViewById(R.id.coordinator_configuracion);
         Toolbar toolbar = findViewById(R.id.toolbar_configuracion);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
@@ -101,12 +105,7 @@ public class Configuracion extends AppCompatActivity {
         String nombreString = sesion.getNombre() + " " + sesion.getPaterno() + " " + sesion.getMaterno();
         nombre.setText(nombreString);
         imagen = findViewById(R.id.imageView);
-        datosGenerales = findViewById(R.id.linear_datos);
         Picasso.with(this).load("http://" + InicioSesion.IP + ":" + InicioSesion.PUERTO + "/poliAsistenciaWeb/" + sesion.getUrlImagen()).into(imagen);
-        boleta = findViewById(R.id.boletaDatos);
-        boleta.setText(sesion.getNum());
-        nacimiento = findViewById(R.id.nacimiento);
-        nacimiento.setText(sesion.getNacimiento());
 
         lista = findViewById(R.id.listview_info);
         setListViewHeightBasedOnChildren(lista);
@@ -215,6 +214,11 @@ public class Configuracion extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = imageReturnedIntent.getExtras();
                     imagenBitmap = (Bitmap) extras.get("data");
+                    proceso = new ProgressDialog(Configuracion.this);
+                    proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    proceso.setMessage("Subiendo Imagen...");
+                    proceso.setCancelable(false);
+                    proceso.show();
                     subirFoto subir = new subirFoto();
                     subir.execute();
                     //imagen.setImageBitmap(imagenBitmap);
@@ -229,6 +233,11 @@ public class Configuracion extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    proceso = new ProgressDialog(Configuracion.this);
+                    proceso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    proceso.setMessage("Subiendo Imagen...");
+                    proceso.setCancelable(false);
+                    proceso.show();
                     subirFoto subir = new subirFoto();
                     subir.execute();
                     //imagen.setImageURI(imagenSeleccionada);
@@ -303,16 +312,22 @@ public class Configuracion extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success){
-                Toast.makeText(getApplicationContext(), "se subio", Toast.LENGTH_SHORT).show();
+                proceso.dismiss();
+                Snackbar.make(coordinator, "Foto de perfil actualizada", Snackbar.LENGTH_LONG).show();
+                sesion.setUrlImagen(resultado);
+                Picasso.with(getApplicationContext()).load("http://" + InicioSesion.IP + ":" + InicioSesion.PUERTO + "/poliAsistenciaWeb/" + sesion.getUrlImagen()).into(imagen);
             }
             else{
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                proceso.dismiss();
+                Toast.makeText(getApplicationContext(), "Lo sentimos, ocurrio un error D:", Toast.LENGTH_SHORT).show();
+                Snackbar.make(coordinator, "", Snackbar.LENGTH_LONG).show();
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            proceso.dismiss();
         }
     }
 
