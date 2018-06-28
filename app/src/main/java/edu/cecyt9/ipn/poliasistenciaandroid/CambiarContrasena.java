@@ -58,7 +58,7 @@ public class CambiarContrasena extends AppCompatActivity {
         nueva = findViewById(R.id.txt_contrasena_nueva);
         nueva2 = findViewById(R.id.txt_contrasena_nueva_validar);
         constraintLayout = findViewById(R.id.constraintt);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cambiar_contrasena);
+        Toolbar toolbar = findViewById(R.id.toolbar_cambiar_contrasena);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
 

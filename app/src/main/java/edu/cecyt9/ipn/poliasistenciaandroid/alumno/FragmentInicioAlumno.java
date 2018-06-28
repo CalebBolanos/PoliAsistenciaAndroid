@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -48,7 +49,7 @@ import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 
 
-public class FragmentInicioAlumno extends Fragment {
+public class FragmentInicioAlumno extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,6 +67,8 @@ public class FragmentInicioAlumno extends Fragment {
     graficaGeneralAndroid graficaAsync;
     obtenerHorarioDiaAndroid horarioAsync;
     ArrayList<DatosHorarioAlumno> datos;
+    View vistaInicio;
+    SwipeRefreshLayout refrescar;
     //HolaSoyCaleb
     public FragmentInicioAlumno() {
         // Required empty public constructor
@@ -95,7 +98,16 @@ public class FragmentInicioAlumno extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vistaInicio = inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
+        if(vistaInicio != null){
+            if((ViewGroup)vistaInicio.getParent()!=null){
+                ((ViewGroup)vistaInicio.getParent()).removeView(vistaInicio);
+            }
+            return vistaInicio;
+        }
+        vistaInicio = inflater.inflate(R.layout.fragment_inicio_alumno, container, false);
+        refrescar = vistaInicio.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
         grafica = vistaInicio.findViewById(R.id.grafica_linechart_asistencia_inicio);
         listaHorario = vistaInicio.findViewById(R.id.listview_horario_dia);
         txtdiasAsistidos = vistaInicio.findViewById(R.id.txt_descripcion_estadistica);
@@ -148,7 +160,7 @@ public class FragmentInicioAlumno extends Fragment {
         sesion = new Sesion(getContext());
         graficaAsync = new graficaGeneralAndroid();
         graficaAsync.execute();
-        horarioAsync =new obtenerHorarioDiaAndroid();
+        horarioAsync = new obtenerHorarioDiaAndroid();
         horarioAsync.execute();
         return vistaInicio;
 
@@ -184,10 +196,19 @@ public class FragmentInicioAlumno extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+        horarioAsync = new obtenerHorarioDiaAndroid();
+        horarioAsync.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -289,18 +310,22 @@ public class FragmentInicioAlumno extends Fragment {
                 grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
                 grafica.setTouchEnabled(false);
                 grafica.getDescription().setText("");
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class obtenerHorarioDiaAndroid  extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {

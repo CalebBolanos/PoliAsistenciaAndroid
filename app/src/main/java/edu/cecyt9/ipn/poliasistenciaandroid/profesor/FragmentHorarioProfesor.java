@@ -1,10 +1,12 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.Sesion;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-public class FragmentHorarioProfesor extends Fragment {
+public class FragmentHorarioProfesor extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -39,6 +41,8 @@ public class FragmentHorarioProfesor extends Fragment {
     ListView listaGrupos;
     TextView txtHP[][] = new TextView[14][5];
     ObtenerHorarioProfesor ohp;
+    View vista;
+    SwipeRefreshLayout refrescar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -68,7 +72,16 @@ public class FragmentHorarioProfesor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vista = inflater.inflate(R.layout.fragment_horario_profesor, container, false);
+        if(vista != null){
+            if((ViewGroup)vista.getParent()!=null){
+                ((ViewGroup)vista.getParent()).removeView(vista);
+            }
+            return vista;
+        }
+        vista = inflater.inflate(R.layout.fragment_horario_profesor, container, false);
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
         txtHP[0][0] = vista.findViewById(R.id.txt_horario_profesor_l7);
         txtHP[0][1] = vista.findViewById(R.id.txt_horario_profesor_m7);
         txtHP[0][2] = vista.findViewById(R.id.txt_horario_profesor_mi7);
@@ -149,7 +162,6 @@ public class FragmentHorarioProfesor extends Fragment {
         listaGrupos.setAdapter(adaptador);
         listaGrupos.setFocusable(false);
         setListViewHeightBasedOnChildren(listaGrupos);
-
         return vista;
     }
 
@@ -182,6 +194,12 @@ public class FragmentHorarioProfesor extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        ohp = new ObtenerHorarioProfesor();
+        ohp.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -207,6 +225,7 @@ public class FragmentHorarioProfesor extends Fragment {
         listView.setLayoutParams(params);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class ObtenerHorarioProfesor extends AsyncTask<String, String, Boolean> {
         private String resultado;
         private String hor[][] = new String[14][5];
@@ -264,9 +283,16 @@ public class FragmentHorarioProfesor extends Fragment {
             for(int i = 0; i<hor.length; i++){
                 for(int j = 0; j<hor[i].length; j++){
                     txtHP[i][j].setText(hor[i][j]);
-                    Log.println(Log.DEBUG, "Error: ", hor[i][j]);
+                    //Log.println(Log.DEBUG, "Error: ", hor[i][j]);
                 }
             }
+            refrescar.setRefreshing(false);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 }

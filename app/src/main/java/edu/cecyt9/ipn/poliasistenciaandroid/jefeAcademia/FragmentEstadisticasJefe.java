@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.profesor.FragmentEstadisticasProfeso
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-public class FragmentEstadisticasJefe extends Fragment {
+public class FragmentEstadisticasJefe extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -65,6 +67,8 @@ public class FragmentEstadisticasJefe extends Fragment {
     graficaGeneralAndroid graficaAsync;
     unidadesAndroid unidadesAsync;
     private OnFragmentInteractionListener mListener;
+    View vistaEstadisticas;
+    SwipeRefreshLayout refrescar;
 
     public FragmentEstadisticasJefe() {
         // Required empty public constructor
@@ -91,8 +95,17 @@ public class FragmentEstadisticasJefe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_jefe, container, false);
+        if(vistaEstadisticas != null){
+            if((ViewGroup)vistaEstadisticas.getParent()!=null){
+                ((ViewGroup)vistaEstadisticas.getParent()).removeView(vistaEstadisticas);
+            }
+            return vistaEstadisticas;
+        }
+        vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_jefe, container, false);
         sesion = new Sesion(getContext());
+        refrescar = vistaEstadisticas.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
         listaGrupo = vistaEstadisticas.findViewById(R.id.listview_grupos);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
         botonJefe = vistaEstadisticas.findViewById(R.id.boton_jefe);
@@ -140,6 +153,14 @@ public class FragmentEstadisticasJefe extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+        unidadesAsync = new unidadesAndroid();
+        unidadesAsync.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -165,6 +186,7 @@ public class FragmentEstadisticasJefe extends Fragment {
         listView.setLayoutParams(params);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -261,18 +283,22 @@ public class FragmentEstadisticasJefe extends Fragment {
                 graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
                 graficaGeneral.setTouchEnabled(false);
                 graficaGeneral.getDescription().setText("");
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class unidadesAndroid extends  AsyncTask<String, String, Boolean>{
 
         @Override

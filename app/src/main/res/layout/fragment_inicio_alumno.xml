@@ -6,7 +6,11 @@
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentInicioAlumno">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_inicio_alumno"
         android:layout_width="match_parent"
@@ -354,5 +358,7 @@
 
 
     </android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

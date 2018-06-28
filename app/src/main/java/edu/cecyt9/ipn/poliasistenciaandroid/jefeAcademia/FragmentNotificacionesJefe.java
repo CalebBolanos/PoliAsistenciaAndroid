@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.jefeAcademia;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -38,7 +39,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.profesor.FragmentNotificacionesProfe
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-public class FragmentNotificacionesJefe extends Fragment {
+public class FragmentNotificacionesJefe extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -49,6 +50,8 @@ public class FragmentNotificacionesJefe extends Fragment {
     NotificacionesAdapter adaptador;
     SwipeRefreshLayout refrescar;
     String resultado;
+    View vista;
+    obtenerNotificacionesAndroid obtener;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,7 +80,13 @@ public class FragmentNotificacionesJefe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_notificaciones_jefe, container, false);
+        if(vista != null){
+            if((ViewGroup)vista.getParent()!=null){
+                ((ViewGroup)vista.getParent()).removeView(vista);
+            }
+            return vista;
+        }
+        vista = inflater.inflate(R.layout.fragment_notificaciones_jefe, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         FloatingActionButton fab = vista.findViewById(R.id.fab);
@@ -89,7 +98,10 @@ public class FragmentNotificacionesJefe extends Fragment {
             }
         });
         refrescar = vista.findViewById(R.id.swipeRefreshLayout);
-        new obtenerNotificacionesAndroid().execute();
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
 
         return vista;
     }
@@ -117,10 +129,23 @@ public class FragmentNotificacionesJefe extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        obtener.cancel(true);
+    }
+
+    @Override
+    public void onRefresh() {
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class obtenerNotificacionesAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -184,24 +209,18 @@ public class FragmentNotificacionesJefe extends Fragment {
                 adaptador = new NotificacionesAdapter(getContext(), noti);
                 recyclerNotificaciones.setAdapter(adaptador);
                 adaptador.notifyDataSetChanged();
-                refrescar.setColorSchemeResources(R.color.colorPrimary);
-                refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refrescar.setRefreshing(true);
-                        adaptador.notifyDataSetChanged();
-                        refrescar.setRefreshing(false);
-                    }
-                });
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 }

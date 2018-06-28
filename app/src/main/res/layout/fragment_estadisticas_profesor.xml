@@ -5,7 +5,11 @@
     android:layout_height="match_parent"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.profesor.FragmentEstadisticasProfesor">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ScrollView
         android:id="@+id/scroll_estadisticas_profesor"
         android:layout_width="match_parent"
@@ -110,5 +114,7 @@
 
 
     </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -50,7 +51,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.profesor.HorarioGrupoAdapter;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-public class FragementInicioJefeAcademia extends Fragment {
+public class FragementInicioJefeAcademia extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -66,6 +67,8 @@ public class FragementInicioJefeAcademia extends Fragment {
     ArrayList<HorarioGrupo> datos;
     graficaGeneralAndroid graficaAsync;
     obtenerHorarioDiaAndroid horarioAsync;
+    View vista;
+    SwipeRefreshLayout refrescar;
 
     public FragementInicioJefeAcademia() {
         // Required empty public constructor
@@ -92,8 +95,17 @@ public class FragementInicioJefeAcademia extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(vista != null){
+            if((ViewGroup)vista.getParent()!=null){
+                ((ViewGroup)vista.getParent()).removeView(vista);
+            }
+            return vista;
+        }
         sesion = new Sesion(getContext());
-        View vista = inflater.inflate(R.layout.fragment_inicio_jefe_academia, container, false);
+        vista = inflater.inflate(R.layout.fragment_inicio_jefe_academia, container, false);
+        refrescar = vista.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
         txtdiasAsistidos = vista.findViewById(R.id.txt_descripcion_estadistica);
         grafica = vista.findViewById(R.id.grafica_linechart_asistencia_inicio);
         botonEstadisticas = vista.findViewById(R.id.boton_estadisticas);
@@ -178,6 +190,14 @@ public class FragementInicioJefeAcademia extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRefresh() {
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+        horarioAsync = new obtenerHorarioDiaAndroid();
+        horarioAsync.execute();
     }
 
     public interface OnFragmentInteractionListener {
@@ -287,15 +307,18 @@ public class FragementInicioJefeAcademia extends Fragment {
                 grafica.animateY(1500, Easing.EasingOption.EaseInOutExpo);
                 grafica.setTouchEnabled(false);
                 grafica.getDescription().setText("");
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 

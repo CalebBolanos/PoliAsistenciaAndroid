@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,13 +48,15 @@ import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 
 
-public class FragmentEstadisticasAlumno extends Fragment {
+public class FragmentEstadisticasAlumno extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ListView listaMeses;
     LineChart graficaGeneral;
     Sesion sesion;
     String resultado;
+    View vistaEstadisticas;
+    SwipeRefreshLayout refrescar;
 
     private String mParam1;
     private String mParam2;
@@ -88,8 +92,17 @@ public class FragmentEstadisticasAlumno extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if(vistaEstadisticas != null){
+            if((ViewGroup)vistaEstadisticas.getParent()!=null){
+                ((ViewGroup)vistaEstadisticas.getParent()).removeView(vistaEstadisticas);
+            }
+            return vistaEstadisticas;
+        }
         sesion = new Sesion(getContext());
-        View vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
+        vistaEstadisticas = inflater.inflate(R.layout.fragment_estadisticas_alumno, container, false);
+        refrescar = vistaEstadisticas.findViewById(R.id.swipeRefreshLayout);
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
         listaMeses = vistaEstadisticas.findViewById(R.id.listview_meses);
         graficaGeneral = vistaEstadisticas.findViewById(R.id.grafica_linechart_asistencia_individual);
         graficaAsync = new graficaGeneralAndroid();
@@ -127,6 +140,12 @@ public class FragmentEstadisticasAlumno extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        graficaAsync = new graficaGeneralAndroid();
+        graficaAsync.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -152,6 +171,7 @@ public class FragmentEstadisticasAlumno extends Fragment {
         listView.setLayoutParams(params);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -278,15 +298,18 @@ public class FragmentEstadisticasAlumno extends Fragment {
                 graficaGeneral.animateY(1500, Easing.EasingOption.EaseInOutExpo);
                 graficaGeneral.setTouchEnabled(false);
                 graficaGeneral.getDescription().setText("");
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 

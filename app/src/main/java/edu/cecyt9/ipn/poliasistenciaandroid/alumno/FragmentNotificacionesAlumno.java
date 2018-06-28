@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.alumno;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,7 +42,7 @@ import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
 
-public class FragmentNotificacionesAlumno extends Fragment {
+public class FragmentNotificacionesAlumno extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -55,7 +56,8 @@ public class FragmentNotificacionesAlumno extends Fragment {
     NotificacionesAdapter adaptador;
     SwipeRefreshLayout refrescar;
     String resultado;
-    obtenerNotificacionesAndroid notificacionesAndroid;
+    obtenerNotificacionesAndroid obtener;
+    View vista;
 
     public FragmentNotificacionesAlumno() {
         // Required empty public constructor
@@ -82,13 +84,27 @@ public class FragmentNotificacionesAlumno extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View vista = inflater.inflate(R.layout.fragment_notificaciones_alumno, container, false);
+        if(vista != null){
+            if((ViewGroup)vista.getParent()!=null){
+                ((ViewGroup)vista.getParent()).removeView(vista);
+            }
+            return vista;
+        }
+        vista = inflater.inflate(R.layout.fragment_notificaciones_alumno, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         refrescar = vista.findViewById(R.id.swipeRefreshLayout);
-        new obtenerNotificacionesAndroid().execute();
+        refrescar.setColorSchemeResources(R.color.colorPrimary);
+        refrescar.setOnRefreshListener(this);
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
         return vista;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        obtener.cancel(true);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -114,10 +130,17 @@ public class FragmentNotificacionesAlumno extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class obtenerNotificacionesAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -177,28 +200,21 @@ public class FragmentNotificacionesAlumno extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 adaptador = new NotificacionesAdapter(getContext(), noti);
                 recyclerNotificaciones.setAdapter(adaptador);
                 adaptador.notifyDataSetChanged();
-                refrescar.setColorSchemeResources(R.color.colorPrimary);
-                refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refrescar.setRefreshing(true);
-                        adaptador.notifyDataSetChanged();
-                        refrescar.setRefreshing(false);
-                    }
-                });
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            refrescar.setRefreshing(false);
         }
     }
 

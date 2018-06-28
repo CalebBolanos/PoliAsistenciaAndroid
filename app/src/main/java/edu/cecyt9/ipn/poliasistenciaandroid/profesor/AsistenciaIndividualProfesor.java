@@ -72,7 +72,6 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
         }
         listaMeses = findViewById(R.id.listview_meses_profesor);
         graficaGeneral = findViewById(R.id.grafica_linechart_asistencia_individual_profesor);
-
         new graficaGeneralAndroid().execute();
 
     }

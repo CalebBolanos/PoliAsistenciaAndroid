@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -46,7 +47,7 @@ import edu.cecyt9.ipn.poliasistenciaandroid.WebViewNotificaciones;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.IP;
 import static edu.cecyt9.ipn.poliasistenciaandroid.InicioSesion.PUERTO;
 
-public class FragmentNotificacionesProfesor extends Fragment {
+public class FragmentNotificacionesProfesor extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -58,6 +59,8 @@ public class FragmentNotificacionesProfesor extends Fragment {
     NotificacionesAdapter adaptador;
     SwipeRefreshLayout refrescar;
     String resultado;
+    View vista;
+    obtenerNotificacionesAndroid obtener;
 
     public FragmentNotificacionesProfesor() {
         // Required empty public constructor
@@ -84,30 +87,20 @@ public class FragmentNotificacionesProfesor extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
+        if(vista != null){
+            if((ViewGroup)vista.getParent()!=null){
+                ((ViewGroup)vista.getParent()).removeView(vista);
+            }
+            return vista;
+        }
+        vista = inflater.inflate(R.layout.fragment_notificaciones_profesor, container, false);
         recyclerNotificaciones = vista.findViewById(R.id.recycler_notificaciones);
         recyclerNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         refrescar = vista.findViewById(R.id.swipeRefreshLayout);
-        new obtenerNotificacionesAndroid().execute();
-        /*final RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
-            @Override protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
-            }
-        };
         refrescar.setColorSchemeResources(R.color.colorPrimary);
-        refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refrescar.setRefreshing(true);
-                notificaciones.add(0, new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", "", "Notificacion", "notificacion Agregada con SwipeRefreshLayout", "", "sin imagen", true));
-                adaptador.notifyItemInserted(0);
-                smoothScroller.setTargetPosition(0);
-                recyclerNotificaciones.getLayoutManager().startSmoothScroll(smoothScroller);
-                //notificaciones.add(new DatosNotificacion(NotificacionesAdapter.NOTIFICACION_URL, "Jefe", R.drawable.sanic, "Notificacion", "notificacion Agregada con SwipeRefreshLayout", 0, "sin imagen", true));
-                //adaptador.notifyItemInserted(notificaciones.size() - 1);
-                refrescar.setRefreshing(false);
-            }
-        });*/
+        refrescar.setOnRefreshListener(this);
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
         return vista;
     }
 
@@ -134,10 +127,23 @@ public class FragmentNotificacionesProfesor extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        obtener.cancel(true);
+    }
+
+    @Override
+    public void onRefresh() {
+        obtener = new obtenerNotificacionesAndroid();
+        obtener.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class obtenerNotificacionesAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -201,18 +207,11 @@ public class FragmentNotificacionesProfesor extends Fragment {
                 adaptador = new NotificacionesAdapter(getContext(), noti);
                 recyclerNotificaciones.setAdapter(adaptador);
                 adaptador.notifyDataSetChanged();
-                refrescar.setColorSchemeResources(R.color.colorPrimary);
-                refrescar.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refrescar.setRefreshing(true);
-                        adaptador.notifyDataSetChanged();
-                        refrescar.setRefreshing(false);
-                    }
-                });
+                refrescar.setRefreshing(false);
             }
             else{
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                refrescar.setRefreshing(false);
             }
         }
 
