@@ -313,7 +313,7 @@ public class FragmentInicioAlumno extends Fragment implements SwipeRefreshLayout
                 refrescar.setRefreshing(false);
             }
             else{
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error al obtener información, no se puede conectar al servidor", Toast.LENGTH_LONG).show();
                 refrescar.setRefreshing(false);
             }
         }
@@ -378,7 +378,7 @@ public class FragmentInicioAlumno extends Fragment implements SwipeRefreshLayout
                 }
             }
             else{
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
             }
         }
 

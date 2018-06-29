@@ -212,7 +212,7 @@ public class FragmentNotificacionesJefe extends Fragment implements SwipeRefresh
                 refrescar.setRefreshing(false);
             }
             else{
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error al obtener información, no se puede conectar al servidor", Toast.LENGTH_LONG).show();
                 refrescar.setRefreshing(false);
             }
         }

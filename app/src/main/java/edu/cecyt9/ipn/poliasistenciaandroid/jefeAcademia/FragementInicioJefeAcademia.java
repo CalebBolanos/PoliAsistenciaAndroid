@@ -310,7 +310,7 @@ public class FragementInicioJefeAcademia extends Fragment implements SwipeRefres
                 refrescar.setRefreshing(false);
             }
             else{
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error al obtener información, no se puede conectar al servidor", Toast.LENGTH_LONG).show();
                 refrescar.setRefreshing(false);
             }
         }
@@ -397,7 +397,7 @@ public class FragementInicioJefeAcademia extends Fragment implements SwipeRefres
                 }
             }
             else{
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
             }
         }
 
