@@ -1,5 +1,6 @@
 package edu.cecyt9.ipn.poliasistenciaandroid.profesor;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -105,6 +106,7 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class graficaGeneralAndroid extends AsyncTask<String, String, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
@@ -229,7 +231,7 @@ public class AsistenciaIndividualProfesor extends AppCompatActivity {
                 graficaGeneral.getDescription().setText("");
             }
             else{
-                Toast.makeText(AsistenciaIndividualProfesor.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(AsistenciaIndividualProfesor.this, "Error al obtener información, no se puede conectar al servidor", Toast.LENGTH_LONG).show();
             }
         }
 

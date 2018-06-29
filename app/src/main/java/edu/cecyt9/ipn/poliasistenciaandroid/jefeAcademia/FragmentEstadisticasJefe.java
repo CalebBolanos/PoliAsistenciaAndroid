@@ -192,7 +192,7 @@ public class FragmentEstadisticasJefe extends Fragment implements SwipeRefreshLa
         protected Boolean doInBackground(String... params) {
 
             String NAMESPACE = "http://servicios/";
-            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/profesor?WSDL";
             String METHOD_NAME = "graficaGeneralAndroid";
             String SOAP_ACTION = "http://servicios/graficaGeneralAndroid";
 

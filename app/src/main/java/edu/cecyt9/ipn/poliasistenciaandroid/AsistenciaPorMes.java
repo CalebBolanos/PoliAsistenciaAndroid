@@ -48,6 +48,7 @@ public class AsistenciaPorMes extends AppCompatActivity {
     int id;
     String resultado = "";
     String resultado2 = "";
+    Sesion sesion;
 
     asistenciaIndividualAndroid asistenciaIndividualAsync;
     infoAsistenciaIndividualAndroid infoAsistenciaAsync;
@@ -61,7 +62,7 @@ public class AsistenciaPorMes extends AppCompatActivity {
         mesString = intent.getStringExtra("mes");
         id = intent.getIntExtra("id", 0);
         mes = numeroMes(mesString);
-
+        sesion = new Sesion(this);
         Toolbar toolbar = findViewById(R.id.toolbar_asistencia_mes_alumno);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
@@ -124,9 +125,15 @@ public class AsistenciaPorMes extends AppCompatActivity {
     public class infoAsistenciaIndividualAndroid extends AsyncTask<Void, String, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
-
+            String usuario = "";
+            if(sesion.getIdTipo() == Sesion.ALUMNO){
+                usuario = "alumno";
+            }
+            else{
+                usuario = "profesor";
+            }
             String NAMESPACE = "http://servicios/";
-            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/"+ usuario +"?WSDL";
             String METHOD_NAME = "infoAsistenciaIndividualAndroid";
             String SOAP_ACTION = "http://servicios/infoAsistenciaIndividualAndroid";
 
@@ -202,22 +209,28 @@ public class AsistenciaPorMes extends AppCompatActivity {
 
             }
             else{
-                Toast.makeText(AsistenciaPorMes.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(AsistenciaPorMes.this, "Error al obtener información, no se puede conectar al servidor", Toast.LENGTH_LONG).show();
             }
         }
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(AsistenciaPorMes.this, "Cancelado", Toast.LENGTH_LONG).show();
+            //Toast.makeText(AsistenciaPorMes.this, "Cancelado", Toast.LENGTH_LONG).show();
         }
     }
 
     public class asistenciaIndividualAndroid extends AsyncTask<Void, String, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
-
+            String usuario = "";
+            if(sesion.getIdTipo() == Sesion.ALUMNO){
+                usuario = "alumno";
+            }
+            else{
+                usuario = "profesor";
+            }
             String NAMESPACE = "http://servicios/";
-            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/alumno?WSDL";
+            String URL = "http://"+IP+":"+PUERTO+"/serviciosWebPoliAsistencia/"+ usuario +"?WSDL";
             String METHOD_NAME = "asistenciaIndividualAndroid";
             String SOAP_ACTION = "http://servicios/asistenciaIndividualAndroid";
 
@@ -298,13 +311,13 @@ public class AsistenciaPorMes extends AppCompatActivity {
                 graficaBarra.getLegend().setEnabled(false);
             }
             else{
-                Toast.makeText(AsistenciaPorMes.this, "Error", Toast.LENGTH_LONG).show();
+                //Toast.makeText(AsistenciaPorMes.this, "Error", Toast.LENGTH_LONG).show();
             }
         }
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(AsistenciaPorMes.this, "Cancelado", Toast.LENGTH_LONG).show();
+            //Toast.makeText(AsistenciaPorMes.this, "Cancelado", Toast.LENGTH_LONG).show();
         }
     }
 
