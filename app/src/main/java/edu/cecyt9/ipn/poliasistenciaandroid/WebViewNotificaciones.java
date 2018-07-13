@@ -18,14 +18,13 @@ import android.widget.Toast;
 public class WebViewNotificaciones extends AppCompatActivity {
 
     WebView navegador;
-    String url = "http://www.google.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview_notificaciones);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_webview);
+        Toolbar toolbar = findViewById(R.id.toolbar_webview);
         toolbar.setTitleTextColor((Color.parseColor("#000000")));
         toolbar.setBackgroundColor((Color.parseColor("#ffffff")));
         setSupportActionBar(toolbar);
@@ -44,11 +43,10 @@ public class WebViewNotificaciones extends AppCompatActivity {
         }
         Intent nav = getIntent();
         String urlx = nav.getStringExtra("Url");
-        Toast.makeText(this, urlx, Toast.LENGTH_SHORT).show();
         navegador = findViewById(R.id.webview_notificacion);
         navegador.setWebViewClient(new WebViewClient());
         navegador.getSettings().setJavaScriptEnabled(true);
-        navegador.loadUrl(url);
+        navegador.loadUrl(urlx);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -84,7 +84,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:padding="5dp"
-                        android:text="Dias asistidos en total:1"
+                        android:text="Dias asistidos en total:"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -196,9 +196,9 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:padding="5dp"
-                        android:text="Descripcion xd"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txt_tit_horario" />
 
