@@ -249,7 +249,7 @@ public class FragmentEstadisticasProfesor extends Fragment implements SwipeRefre
                     dias.add(new Entry(0f, 0f));
                     if(ciclo == 1){
                         int x = 1;
-                        for (int i = 7; i <=mesActual; i++) {
+                        for (int i = 8; i <=mesActual; i++) {
                             infoMes = "mes " + i;
                             meses.put(x, nombreMes(i));
                             dias.add(new Entry(x, Integer.parseInt(info.getString(infoMes))));
@@ -368,7 +368,7 @@ public class FragmentEstadisticasProfesor extends Fragment implements SwipeRefre
 
                                     break;
                                 default:
-                                    Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
                                     Intent graficas = new Intent(getActivity(), AsistenciaUnidad.class);
                                     graficas.putExtra("id", id);
                                     graficas.putExtra("grupo", unidadesAdapter.obtenerGrupo(i));

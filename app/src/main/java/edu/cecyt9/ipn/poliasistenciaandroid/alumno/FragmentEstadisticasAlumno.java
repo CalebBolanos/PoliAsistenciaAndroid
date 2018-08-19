@@ -230,7 +230,7 @@ public class FragmentEstadisticasAlumno extends Fragment implements SwipeRefresh
                     dias.add(new Entry(0f, 0f));
                     if(ciclo == 1){
                         int x = 1;
-                        for (int i = 7; i <=mesActual; i++) {
+                        for (int i = 8; i <=mesActual; i++) {
                             infoMes = "mes " + i;
                             arrayMeses.add(nombreMes(i));
                             meses.put(x, nombreMes(i));

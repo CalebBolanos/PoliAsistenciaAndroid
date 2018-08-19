@@ -187,31 +187,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txt_horario" />
 
-                    <TextView
-                        android:id="@+id/txt_descripcion_horario"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:drawablePadding="5dp"
-                        android:gravity="center_vertical"
-                        android:padding="5dp"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_tit_horario" />
-
                     <LinearLayout
                         android:id="@+id/contenedor_listview"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_marginEnd="8dp"
-                        android:orientation="vertical"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_descripcion_horario">
+                        app:layout_constraintTop_toBottomOf="@+id/txt_tit_horario">
 
                         <ListView
                             android:id="@+id/listview_horario_dia"

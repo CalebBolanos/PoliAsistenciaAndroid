@@ -275,8 +275,8 @@ public class AsistenciaUnidadMes extends AppCompatActivity {
                 txtImpartido.setText(clasesString);
                 String asistString = ""+asistido;
                 String faltString = ""+faltado;
-                txtAsistido.setText(asistString);
-                txtFaltado.setText(faltString);
+                txtAsistido.setText(asistString+"%");
+                txtFaltado.setText(faltString+"%");
                 List<BarEntry> valoresAsistencia = new ArrayList<>();
                 valoresAsistencia.add(new BarEntry(0f, asistido, "Asistido"));
                 valoresAsistencia.add(new BarEntry(1f, faltado, "Faltado"));

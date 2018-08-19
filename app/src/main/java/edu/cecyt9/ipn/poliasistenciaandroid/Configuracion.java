@@ -74,6 +74,7 @@ public class Configuracion extends AppCompatActivity {
     String resultado;
     ProgressDialog proceso;
     CoordinatorLayout coordinator;
+    TextView usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,21 @@ public class Configuracion extends AppCompatActivity {
             finish();
             return;
         }
-
+        usuario = findViewById(R.id.textView3);
+        switch (sesion.getIdTipo()){
+            case ALUMNO:
+                usuario.setText("Alumno");
+                break;
+            case PROFESOR:
+                usuario.setText("Profesor");
+                break;
+            case JEFE_ACADEMIA:
+                usuario.setText("Jefe de Academia");
+                break;
+            case PREFECTO:
+                usuario.setText("Prefecto");
+                break;
+        }
         coordinator = findViewById(R.id.coordinator_configuracion);
         Toolbar toolbar = findViewById(R.id.toolbar_configuracion);
         toolbar.setTitleTextColor((Color.parseColor("#ffffff")));

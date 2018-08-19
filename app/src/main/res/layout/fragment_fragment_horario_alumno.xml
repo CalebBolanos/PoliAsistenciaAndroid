@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
     tools:context="edu.cecyt9.ipn.poliasistenciaandroid.alumno.FragmentHorarioAlumno">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -1165,6 +1166,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
+                android:visibility="gone"
                 app:cardCornerRadius="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -1173,9 +1175,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/tablelayout_horario_alumno">
 
                 <LinearLayout
+                    android:id="@+id/contenedor_profesores"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/contenedor_profesores">
+                    android:layout_height="match_parent">
 
                     <ListView
                         android:id="@+id/listview_estatus_profesores"
